@@ -69,10 +69,8 @@
     .table {
       font-size: 12px;
       padding: 8px 12px;
-
       border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 50px;
-
       background: rgba(0, 0, 0, 0.2);
     }
 
@@ -82,18 +80,15 @@
 
     .eyebrow {
       margin-bottom: 14px;
-
       color: #e8894e;
       text-transform: uppercase;
       letter-spacing: 3px;
-
       font-size: 12px;
       font-weight: bold;
     }
 
     h1 {
       margin: 0 0 18px;
-
       font-family: Georgia, "Times New Roman", serif;
       font-size: 64px;
       font-weight: normal;
@@ -103,7 +98,6 @@
     .description {
       max-width: 360px;
       margin: 0 0 34px;
-
       color: #e0e0e0;
       line-height: 1.6;
       font-size: 16px;
@@ -113,12 +107,9 @@
       display: block;
       width: 100%;
       padding: 18px;
-
       border-radius: 12px;
-
       background: #d46b32;
       color: #ffffff;
-
       font-size: 16px;
       font-weight: bold;
       text-align: center;
@@ -127,7 +118,6 @@
 
     .footer {
       padding-top: 24px;
-
       text-align: center;
       font-size: 10px;
       letter-spacing: 2px;
@@ -144,7 +134,6 @@
 
     .menu-label {
       margin-bottom: 8px;
-
       color: #d46b32;
       font-size: 11px;
       font-weight: bold;
@@ -154,7 +143,6 @@
 
     .menu-title {
       margin: 0 0 8px;
-
       font-family: Georgia, "Times New Roman", serif;
       font-size: 42px;
       font-weight: normal;
@@ -162,7 +150,6 @@
 
     .menu-intro {
       margin: 0 0 30px;
-
       color: #999999;
       font-size: 14px;
       line-height: 1.6;
@@ -171,23 +158,20 @@
     .categories {
       display: flex;
       gap: 10px;
-
       margin-bottom: 38px;
       padding-bottom: 5px;
-
       overflow-x: auto;
     }
 
     .category {
       flex: 0 0 auto;
-
       padding: 10px 16px;
-
       border: 1px solid #333333;
       border-radius: 30px;
-
+      background: transparent;
       color: #bbbbbb;
       font-size: 13px;
+      cursor: pointer;
     }
 
     .category.active {
@@ -198,7 +182,6 @@
 
     .section-title {
       margin: 0 0 22px;
-
       font-family: Georgia, "Times New Roman", serif;
       font-size: 25px;
       font-weight: normal;
@@ -207,7 +190,6 @@
     .dish {
       padding: 0 0 22px;
       margin-bottom: 22px;
-
       border-bottom: 1px solid #2b2b2b;
     }
 
@@ -219,14 +201,12 @@
 
     .dish-name {
       margin: 0 0 8px;
-
       font-size: 17px;
       font-weight: bold;
     }
 
     .dish-price {
       flex-shrink: 0;
-
       color: #e8894e;
       font-size: 15px;
       font-weight: bold;
@@ -234,7 +214,6 @@
 
     .dish-description {
       margin: 0;
-
       color: #999999;
       font-size: 13px;
       line-height: 1.6;
@@ -242,7 +221,6 @@
 
     .menu-footer {
       padding-top: 30px;
-
       text-align: center;
       color: #666666;
       font-size: 10px;
@@ -289,7 +267,6 @@
 
     </section>
 
-
     <!-- MENÚ -->
 
     <section class="menu" id="menu">
@@ -307,69 +284,42 @@
       </p>
 
       <div class="categories">
-        <div class="category active">De la brasa</div>
-        <div class="category">Entradas</div>
-        <div class="category">Fuertes</div>
-        <div class="category">Bebidas</div>
+
+        <button
+          class="category active"
+          onclick="showCategory('brasa', this)"
+        >
+          De la brasa
+        </button>
+
+        <button
+          class="category"
+          onclick="showCategory('entradas', this)"
+        >
+          Entradas
+        </button>
+
+        <button
+          class="category"
+          onclick="showCategory('fuertes', this)"
+        >
+          Fuertes
+        </button>
+
+        <button
+          class="category"
+          onclick="showCategory('bebidas', this)"
+        >
+          Bebidas
+        </button>
+
       </div>
 
-      <h3 class="section-title">
+      <h3 class="section-title" id="category-title">
         De la brasa
       </h3>
 
-      <article class="dish">
-
-        <div class="dish-top">
-          <h4 class="dish-name">
-            Punta de anca
-          </h4>
-
-          <div class="dish-price">
-            $48.000
-          </div>
-        </div>
-
-        <p class="dish-description">
-          Corte a la parrilla acompañado de papas rústicas y vegetales al fuego.
-        </p>
-
-      </article>
-
-      <article class="dish">
-
-        <div class="dish-top">
-          <h4 class="dish-name">
-            Costillas BRASA
-          </h4>
-
-          <div class="dish-price">
-            $52.000
-          </div>
-        </div>
-
-        <p class="dish-description">
-          Costillas cocinadas lentamente y terminadas sobre las brasas.
-        </p>
-
-      </article>
-
-      <article class="dish">
-
-        <div class="dish-top">
-          <h4 class="dish-name">
-            Pollo al fuego
-          </h4>
-
-          <div class="dish-price">
-            $39.000
-          </div>
-        </div>
-
-        <p class="dish-description">
-          Pollo marinado con hierbas, limón y especias, asado al carbón.
-        </p>
-
-      </article>
+      <div id="products"></div>
 
       <div class="menu-footer">
         BRASA · POWERED BY MESSA
@@ -378,6 +328,168 @@
     </section>
 
   </main>
+
+  <script>
+
+    const menu = {
+
+      brasa: {
+        title: "De la brasa",
+        products: [
+          {
+            name: "Punta de anca",
+            price: "$48.000",
+            description:
+              "Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."
+          },
+          {
+            name: "Costillas BRASA",
+            price: "$52.000",
+            description:
+              "Costillas cocinadas lentamente y terminadas sobre las brasas."
+          },
+          {
+            name: "Pollo al fuego",
+            price: "$39.000",
+            description:
+              "Pollo marinado con hierbas, limón y especias, asado al carbón."
+          }
+        ]
+      },
+
+      entradas: {
+        title: "Entradas",
+        products: [
+          {
+            name: "Chorizo artesanal",
+            price: "$22.000",
+            description:
+              "Chorizo a la parrilla acompañado de chimichurri de la casa."
+          },
+          {
+            name: "Provoleta al fuego",
+            price: "$27.000",
+            description:
+              "Queso provolone fundido al carbón con tomates asados y orégano."
+          },
+          {
+            name: "Papas BRASA",
+            price: "$18.000",
+            description:
+              "Papas rústicas doradas con sal ahumada y salsa de la casa."
+          }
+        ]
+      },
+
+      fuertes: {
+        title: "Fuertes",
+        products: [
+          {
+            name: "Salmón a la parrilla",
+            price: "$49.000",
+            description:
+              "Salmón al fuego acompañado de vegetales asados y limón."
+          },
+          {
+            name: "Arroz de la casa",
+            price: "$38.000",
+            description:
+              "Arroz preparado al wok con vegetales, proteína y sabores ahumados."
+          },
+          {
+            name: "Pasta al fuego",
+            price: "$36.000",
+            description:
+              "Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."
+          }
+        ]
+      },
+
+      bebidas: {
+        title: "Bebidas",
+        products: [
+          {
+            name: "Limonada de hierbabuena",
+            price: "$12.000",
+            description:
+              "Limón fresco, hierbabuena y hielo."
+          },
+          {
+            name: "Soda de frutos rojos",
+            price: "$14.000",
+            description:
+              "Soda artesanal con frutos rojos y cítricos."
+          },
+          {
+            name: "Agua mineral",
+            price: "$8.000",
+            description:
+              "Agua mineral fría."
+          }
+        ]
+      }
+
+    };
+
+    function renderProducts(category) {
+
+      const data = menu[category];
+
+      document.getElementById("category-title").textContent =
+        data.title;
+
+      const productsContainer =
+        document.getElementById("products");
+
+      productsContainer.innerHTML = "";
+
+      data.products.forEach(product => {
+
+        const dish = document.createElement("article");
+
+        dish.className = "dish";
+
+        dish.innerHTML = `
+          <div class="dish-top">
+
+            <h4 class="dish-name">
+              ${product.name}
+            </h4>
+
+            <div class="dish-price">
+              ${product.price}
+            </div>
+
+          </div>
+
+          <p class="dish-description">
+            ${product.description}
+          </p>
+        `;
+
+        productsContainer.appendChild(dish);
+
+      });
+
+    }
+
+    function showCategory(category, button) {
+
+      document
+        .querySelectorAll(".category")
+        .forEach(item => {
+          item.classList.remove("active");
+        });
+
+      button.classList.add("active");
+
+      renderProducts(category);
+
+    }
+
+    renderProducts("brasa");
+
+  </script>
 
 </body>
 </html>
