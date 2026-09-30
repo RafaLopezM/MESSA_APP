@@ -11,14 +11,12 @@
       box-sizing: border-box;
     }
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
+      margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: #111111;
       color: #ffffff;
@@ -32,10 +30,10 @@
       background: #151515;
     }
 
-    .hero {
-      width: 100%;
-      min-height: 100vh;
+    /* PORTADA */
 
+    .hero {
+      min-height: 100vh;
       padding: 32px 24px;
 
       display: flex;
@@ -52,7 +50,7 @@
         url("/brasa-hero.jpg");
 
       background-size: cover;
-      background-position: center center;
+      background-position: center;
       background-repeat: no-repeat;
     }
 
@@ -75,11 +73,10 @@
       border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 50px;
 
-      color: #ffffff;
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.2);
     }
 
-    .content {
+    .hero-content {
       padding-bottom: 45px;
     }
 
@@ -87,7 +84,6 @@
       margin-bottom: 14px;
 
       color: #e8894e;
-
       text-transform: uppercase;
       letter-spacing: 3px;
 
@@ -109,18 +105,15 @@
       margin: 0 0 34px;
 
       color: #e0e0e0;
-
       line-height: 1.6;
       font-size: 16px;
     }
 
     .button {
       display: block;
-
       width: 100%;
       padding: 18px;
 
-      border: none;
       border-radius: 12px;
 
       background: #d46b32;
@@ -128,26 +121,132 @@
 
       font-size: 16px;
       font-weight: bold;
-
       text-align: center;
       text-decoration: none;
-
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background: #e27a3c;
     }
 
     .footer {
       padding-top: 24px;
 
       text-align: center;
-
       font-size: 10px;
       letter-spacing: 2px;
+      color: #999999;
+    }
+
+    /* MENÚ */
+
+    .menu {
+      min-height: 100vh;
+      padding: 42px 24px 70px;
+      background: #151515;
+    }
+
+    .menu-label {
+      margin-bottom: 8px;
+
+      color: #d46b32;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .menu-title {
+      margin: 0 0 8px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      font-weight: normal;
+    }
+
+    .menu-intro {
+      margin: 0 0 30px;
 
       color: #999999;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+
+      margin-bottom: 38px;
+      padding-bottom: 5px;
+
+      overflow-x: auto;
+    }
+
+    .category {
+      flex: 0 0 auto;
+
+      padding: 10px 16px;
+
+      border: 1px solid #333333;
+      border-radius: 30px;
+
+      color: #bbbbbb;
+      font-size: 13px;
+    }
+
+    .category.active {
+      border-color: #d46b32;
+      background: #d46b32;
+      color: #ffffff;
+    }
+
+    .section-title {
+      margin: 0 0 22px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: normal;
+    }
+
+    .dish {
+      padding: 0 0 22px;
+      margin-bottom: 22px;
+
+      border-bottom: 1px solid #2b2b2b;
+    }
+
+    .dish-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .dish-name {
+      margin: 0 0 8px;
+
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .dish-price {
+      flex-shrink: 0;
+
+      color: #e8894e;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .dish-description {
+      margin: 0;
+
+      color: #999999;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .menu-footer {
+      padding-top: 30px;
+
+      text-align: center;
+      color: #666666;
+      font-size: 10px;
+      letter-spacing: 2px;
     }
   </style>
 </head>
@@ -156,6 +255,8 @@
 
   <main class="app">
 
+    <!-- PORTADA -->
+
     <section class="hero">
 
       <div class="top">
@@ -163,7 +264,7 @@
         <div class="table">MESA 08</div>
       </div>
 
-      <div class="content">
+      <div class="hero-content">
 
         <div class="eyebrow">
           Fuego · Cocina · Experiencia
@@ -176,14 +277,102 @@
           Descubre nuestra experiencia desde tu mesa.
         </p>
 
-        <button class="button">
+        <a class="button" href="#menu">
           Ver menú
-        </button>
+        </a>
 
         <div class="footer">
           POWERED BY MESSA · BY XPANDE
         </div>
 
+      </div>
+
+    </section>
+
+
+    <!-- MENÚ -->
+
+    <section class="menu" id="menu">
+
+      <div class="menu-label">
+        Nuestra carta
+      </div>
+
+      <h2 class="menu-title">
+        Menú
+      </h2>
+
+      <p class="menu-intro">
+        Sabores preparados al fuego para disfrutar desde la mesa.
+      </p>
+
+      <div class="categories">
+        <div class="category active">De la brasa</div>
+        <div class="category">Entradas</div>
+        <div class="category">Fuertes</div>
+        <div class="category">Bebidas</div>
+      </div>
+
+      <h3 class="section-title">
+        De la brasa
+      </h3>
+
+      <article class="dish">
+
+        <div class="dish-top">
+          <h4 class="dish-name">
+            Punta de anca
+          </h4>
+
+          <div class="dish-price">
+            $48.000
+          </div>
+        </div>
+
+        <p class="dish-description">
+          Corte a la parrilla acompañado de papas rústicas y vegetales al fuego.
+        </p>
+
+      </article>
+
+      <article class="dish">
+
+        <div class="dish-top">
+          <h4 class="dish-name">
+            Costillas BRASA
+          </h4>
+
+          <div class="dish-price">
+            $52.000
+          </div>
+        </div>
+
+        <p class="dish-description">
+          Costillas cocinadas lentamente y terminadas sobre las brasas.
+        </p>
+
+      </article>
+
+      <article class="dish">
+
+        <div class="dish-top">
+          <h4 class="dish-name">
+            Pollo al fuego
+          </h4>
+
+          <div class="dish-price">
+            $39.000
+          </div>
+        </div>
+
+        <p class="dish-description">
+          Pollo marinado con hierbas, limón y especias, asado al carbón.
+        </p>
+
+      </article>
+
+      <div class="menu-footer">
+        BRASA · POWERED BY MESSA
       </div>
 
     </section>
