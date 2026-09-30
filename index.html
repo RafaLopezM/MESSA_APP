@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>BRASA | MESSA</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+  </script>
 
-    html {
-      scroll-behavior: smooth;
-    }
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -22,9 +22,7 @@
       color: #ffffff;
     }
 
-    body.modal-open {
-      overflow: hidden;
-    }
+    body.modal-open { overflow: hidden; }
 
     .app {
       width: 100%;
@@ -34,24 +32,20 @@
       background: #151515;
     }
 
-    /* PORTADA */
-
     .hero {
       min-height: 100vh;
       padding: 32px 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-
       background-image:
         linear-gradient(
           180deg,
-          rgba(0, 0, 0, 0.18) 0%,
-          rgba(0, 0, 0, 0.35) 45%,
-          rgba(0, 0, 0, 0.92) 100%
+          rgba(0,0,0,.18) 0%,
+          rgba(0,0,0,.35) 45%,
+          rgba(0,0,0,.92) 100%
         ),
         url("/brasa-hero.jpg");
-
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -66,20 +60,18 @@
     .messa {
       font-size: 12px;
       letter-spacing: 3px;
-      color: #dddddd;
+      color: #ddd;
     }
 
     .table {
       font-size: 12px;
       padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(255,255,255,.35);
       border-radius: 50px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0,0,0,.2);
     }
 
-    .hero-content {
-      padding-bottom: 45px;
-    }
+    .hero-content { padding-bottom: 45px; }
 
     .eyebrow {
       margin-bottom: 14px;
@@ -112,7 +104,7 @@
       padding: 18px;
       border-radius: 12px;
       background: #d46b32;
-      color: #ffffff;
+      color: #fff;
       font-size: 16px;
       font-weight: bold;
       text-align: center;
@@ -124,10 +116,8 @@
       text-align: center;
       font-size: 10px;
       letter-spacing: 2px;
-      color: #999999;
+      color: #999;
     }
-
-    /* MENÚ */
 
     .menu {
       min-height: 100vh;
@@ -153,7 +143,7 @@
 
     .menu-intro {
       margin: 0 0 30px;
-      color: #999999;
+      color: #999;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -169,10 +159,10 @@
     .category {
       flex: 0 0 auto;
       padding: 10px 16px;
-      border: 1px solid #333333;
+      border: 1px solid #333;
       border-radius: 30px;
       background: transparent;
-      color: #bbbbbb;
+      color: #bbb;
       font-size: 13px;
       cursor: pointer;
     }
@@ -180,7 +170,7 @@
     .category.active {
       border-color: #d46b32;
       background: #d46b32;
-      color: #ffffff;
+      color: #fff;
     }
 
     .section-title {
@@ -197,9 +187,7 @@
       cursor: pointer;
     }
 
-    .dish:active {
-      opacity: 0.7;
-    }
+    .dish:active { opacity: .7; }
 
     .dish-top {
       display: flex;
@@ -222,7 +210,7 @@
 
     .dish-description {
       margin: 0;
-      color: #999999;
+      color: #999;
       font-size: 13px;
       line-height: 1.6;
     }
@@ -238,52 +226,129 @@
     .menu-footer {
       padding-top: 30px;
       text-align: center;
-      color: #666666;
+      color: #666;
       font-size: 10px;
       letter-spacing: 2px;
     }
 
-    /* DETALLE DEL PRODUCTO */
+    /* MODAL */
 
     .modal {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0,0,0,.82);
       align-items: flex-end;
       justify-content: center;
     }
 
-    .modal.active {
-      display: flex;
-    }
+    .modal.active { display: flex; }
 
     .modal-content {
       width: 100%;
       max-width: 480px;
-      padding: 26px 24px 30px;
+      max-height: 94vh;
+      overflow-y: auto;
       background: #1d1d1d;
       border-radius: 24px 24px 0 0;
     }
 
-    .modal-handle {
-      width: 42px;
-      height: 4px;
-      margin: 0 auto 28px;
-      border-radius: 20px;
-      background: #444444;
+    /* VISOR 3D */
+
+    .viewer-area {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      overflow: hidden;
+      border-radius: 24px 24px 0 0;
+      background:
+        radial-gradient(
+          circle at center,
+          #333 0%,
+          #202020 55%,
+          #171717 100%
+        );
     }
 
-    .modal-top {
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      --poster-color: transparent;
+    }
+
+    .viewer-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 4;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 30px;
+      background: rgba(0,0,0,.45);
+      color: #fff;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 5;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50%;
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .ar-button {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      z-index: 5;
+      transform: translateX(-50%);
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
+      align-items: center;
+      gap: 9px;
+      white-space: nowrap;
+      padding: 13px 18px;
+      border: none;
+      border-radius: 30px;
+      background: #ffffff;
+      color: #171717;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+
+    .camera-icon { font-size: 17px; }
+
+    .viewer-help {
+      position: absolute;
+      right: 16px;
+      bottom: 20px;
+      z-index: 3;
+      color: rgba(255,255,255,.55);
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    /* INFORMACIÓN DEL PLATO */
+
+    .product-info {
+      padding: 25px 24px 30px;
     }
 
     .modal-label {
-      margin-bottom: 10px;
+      margin-bottom: 9px;
       color: #d46b32;
       font-size: 10px;
       font-weight: bold;
@@ -298,27 +363,15 @@
       font-weight: normal;
     }
 
-    .close-button {
-      width: 36px;
-      height: 36px;
-      flex-shrink: 0;
-      border: 1px solid #444444;
-      border-radius: 50%;
-      background: transparent;
-      color: #ffffff;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
     .modal-description {
-      margin: 18px 0 26px;
-      color: #aaaaaa;
+      margin: 15px 0 20px;
+      color: #aaa;
       font-size: 14px;
       line-height: 1.7;
     }
 
     .modal-price {
-      margin-bottom: 28px;
+      margin-bottom: 25px;
       color: #e8894e;
       font-size: 22px;
       font-weight: bold;
@@ -330,7 +383,7 @@
       align-items: center;
       margin-bottom: 22px;
       padding-top: 20px;
-      border-top: 1px solid #333333;
+      border-top: 1px solid #333;
     }
 
     .quantity-label {
@@ -347,10 +400,10 @@
     .quantity-button {
       width: 38px;
       height: 38px;
-      border: 1px solid #444444;
+      border: 1px solid #444;
       border-radius: 50%;
       background: transparent;
-      color: #ffffff;
+      color: #fff;
       font-size: 20px;
       cursor: pointer;
     }
@@ -368,7 +421,7 @@
       border: none;
       border-radius: 12px;
       background: #d46b32;
-      color: #ffffff;
+      color: #fff;
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
@@ -382,17 +435,13 @@
       font-size: 13px;
     }
 
-    .added-message.active {
-      display: block;
-    }
+    .added-message.active { display: block; }
   </style>
 </head>
 
 <body>
 
   <main class="app">
-
-    <!-- PORTADA -->
 
     <section class="hero">
 
@@ -410,8 +459,8 @@
         <h1>BRASA</h1>
 
         <p class="description">
-          Cocina al fuego, ingredientes seleccionados y sabores que nacen de la brasa.
-          Descubre nuestra experiencia desde tu mesa.
+          Cocina al fuego, ingredientes seleccionados y sabores que nacen
+          de la brasa. Descubre nuestra experiencia desde tu mesa.
         </p>
 
         <a class="button" href="#menu">
@@ -426,17 +475,11 @@
 
     </section>
 
-    <!-- MENÚ -->
-
     <section class="menu" id="menu">
 
-      <div class="menu-label">
-        Nuestra carta
-      </div>
+      <div class="menu-label">Nuestra carta</div>
 
-      <h2 class="menu-title">
-        Menú
-      </h2>
+      <h2 class="menu-title">Menú</h2>
 
       <p class="menu-intro">
         Sabores preparados al fuego para disfrutar desde la mesa.
@@ -444,22 +487,26 @@
 
       <div class="categories">
 
-        <button class="category active"
+        <button
+          class="category active"
           onclick="showCategory('brasa', this)">
           De la brasa
         </button>
 
-        <button class="category"
+        <button
+          class="category"
           onclick="showCategory('entradas', this)">
           Entradas
         </button>
 
-        <button class="category"
+        <button
+          class="category"
           onclick="showCategory('fuertes', this)">
           Fuertes
         </button>
 
-        <button class="category"
+        <button
+          class="category"
           onclick="showCategory('bebidas', this)">
           Bebidas
         </button>
@@ -482,62 +529,113 @@
 
   <!-- DETALLE DEL PRODUCTO -->
 
-  <div class="modal" id="product-modal" onclick="closeModalOutside(event)">
+  <div
+    class="modal"
+    id="product-modal"
+    onclick="closeModalOutside(event)">
 
     <div class="modal-content">
 
-      <div class="modal-handle"></div>
+      <div class="viewer-area">
 
-      <div class="modal-top">
-
-        <div>
-          <div class="modal-label">
-            Detalle del plato
-          </div>
-
-          <h2 class="modal-title" id="modal-name"></h2>
+        <div class="viewer-badge">
+          VISTA 3D
         </div>
 
-        <button class="close-button" onclick="closeModal()">
+        <button
+          class="close-button"
+          onclick="closeModal()">
           ×
         </button>
 
-      </div>
+        <model-viewer
+          id="dish-model"
+          src="/plato-demo.glb"
+          alt="Vista 3D del plato"
+          camera-controls
+          touch-action="pan-y"
+          auto-rotate
+          shadow-intensity="1"
+          shadow-softness="1"
+          exposure="1"
+          ar
+          ar-modes="webxr scene-viewer quick-look">
 
-      <p class="modal-description" id="modal-description"></p>
-
-      <div class="modal-price" id="modal-price"></div>
-
-      <div class="quantity-row">
-
-        <div class="quantity-label">
-          Cantidad
-        </div>
-
-        <div class="quantity-control">
-
-          <button class="quantity-button" onclick="changeQuantity(-1)">
-            −
+          <button
+            slot="ar-button"
+            class="ar-button">
+            <span class="camera-icon">◉</span>
+            Ver en tu mesa
           </button>
 
-          <div class="quantity-number" id="quantity">
-            1
+        </model-viewer>
+
+        <div class="viewer-help">
+          ARRASTRA PARA GIRAR
+        </div>
+
+      </div>
+
+      <div class="product-info">
+
+        <div class="modal-label">
+          Detalle del plato
+        </div>
+
+        <h2 class="modal-title" id="modal-name"></h2>
+
+        <p
+          class="modal-description"
+          id="modal-description">
+        </p>
+
+        <div
+          class="modal-price"
+          id="modal-price">
+        </div>
+
+        <div class="quantity-row">
+
+          <div class="quantity-label">
+            Cantidad
           </div>
 
-          <button class="quantity-button" onclick="changeQuantity(1)">
-            +
-          </button>
+          <div class="quantity-control">
+
+            <button
+              class="quantity-button"
+              onclick="changeQuantity(-1)">
+              −
+            </button>
+
+            <div
+              class="quantity-number"
+              id="quantity">
+              1
+            </div>
+
+            <button
+              class="quantity-button"
+              onclick="changeQuantity(1)">
+              +
+            </button>
+
+          </div>
 
         </div>
 
-      </div>
+        <button
+          class="add-button"
+          onclick="addToOrder()">
+          Agregar al pedido
+        </button>
 
-      <button class="add-button" onclick="addToOrder()">
-        Agregar al pedido
-      </button>
+        <div
+          class="added-message"
+          id="added-message">
+          ✓ Agregado al pedido
+        </div>
 
-      <div class="added-message" id="added-message">
-        ✓ Agregado al pedido
       </div>
 
     </div>
@@ -664,21 +762,15 @@
 
       data.products.forEach(product => {
 
-        const dish = document.createElement("article");
+        const dish =
+          document.createElement("article");
 
         dish.className = "dish";
 
         dish.innerHTML = `
           <div class="dish-top">
-
-            <h4 class="dish-name">
-              ${product.name}
-            </h4>
-
-            <div class="dish-price">
-              ${product.price}
-            </div>
-
+            <h4 class="dish-name">${product.name}</h4>
+            <div class="dish-price">${product.price}</div>
           </div>
 
           <p class="dish-description">
@@ -686,13 +778,16 @@
           </p>
 
           <div class="dish-hint">
-            VER DETALLE +
+            VER EN 3D +
           </div>
         `;
 
-        dish.addEventListener("click", function() {
-          openProduct(product);
-        });
+        dish.addEventListener(
+          "click",
+          function () {
+            openProduct(product);
+          }
+        );
 
         productsContainer.appendChild(dish);
 
@@ -788,7 +883,7 @@
         .getElementById("added-message")
         .classList.add("active");
 
-      setTimeout(function() {
+      setTimeout(function () {
         closeModal();
       }, 700);
 
