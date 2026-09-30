@@ -11,9 +11,13 @@
   </script>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -22,7 +26,13 @@
       color: #ffffff;
     }
 
-    body.modal-open { overflow: hidden; }
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    button {
+      font-family: inherit;
+    }
 
     .app {
       width: 100%;
@@ -31,6 +41,8 @@
       margin: 0 auto;
       background: #151515;
     }
+
+    /* HERO */
 
     .hero {
       min-height: 100vh;
@@ -64,14 +76,16 @@
     }
 
     .table {
-      font-size: 12px;
       padding: 8px 12px;
       border: 1px solid rgba(255,255,255,.35);
       border-radius: 50px;
       background: rgba(0,0,0,.2);
+      font-size: 12px;
     }
 
-    .hero-content { padding-bottom: 45px; }
+    .hero-content {
+      padding-bottom: 45px;
+    }
 
     .eyebrow {
       margin-bottom: 14px;
@@ -105,23 +119,25 @@
       border-radius: 12px;
       background: #d46b32;
       color: #fff;
-      font-size: 16px;
-      font-weight: bold;
       text-align: center;
       text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
     }
 
     .footer {
       padding-top: 24px;
       text-align: center;
+      color: #999;
       font-size: 10px;
       letter-spacing: 2px;
-      color: #999;
     }
+
+    /* MENÚ */
 
     .menu {
       min-height: 100vh;
-      padding: 42px 24px 70px;
+      padding: 42px 24px 130px;
       background: #151515;
     }
 
@@ -187,7 +203,9 @@
       cursor: pointer;
     }
 
-    .dish:active { opacity: .7; }
+    .dish:active {
+      opacity: .7;
+    }
 
     .dish-top {
       display: flex;
@@ -231,7 +249,7 @@
       letter-spacing: 2px;
     }
 
-    /* MODAL */
+    /* MODALES */
 
     .modal {
       display: none;
@@ -243,7 +261,9 @@
       justify-content: center;
     }
 
-    .modal.active { display: flex; }
+    .modal.active {
+      display: flex;
+    }
 
     .modal-content {
       width: 100%;
@@ -329,7 +349,9 @@
       box-shadow: 0 8px 24px rgba(0,0,0,.3);
     }
 
-    .camera-icon { font-size: 17px; }
+    .camera-icon {
+      font-size: 17px;
+    }
 
     .viewer-help {
       position: absolute;
@@ -341,7 +363,7 @@
       letter-spacing: 1px;
     }
 
-    /* INFORMACIÓN DEL PLATO */
+    /* INFORMACIÓN PRODUCTO */
 
     .product-info {
       padding: 25px 24px 30px;
@@ -435,7 +457,262 @@
       font-size: 13px;
     }
 
-    .added-message.active { display: block; }
+    .added-message.active {
+      display: block;
+    }
+
+    /* BARRA DEL CARRITO */
+
+    .cart-bar {
+      display: none;
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      z-index: 900;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 448px;
+      padding: 15px 18px;
+      border: none;
+      border-radius: 16px;
+      background: #d46b32;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 12px 35px rgba(0,0,0,.45);
+    }
+
+    .cart-bar.active {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-bar-left {
+      text-align: left;
+    }
+
+    .cart-bar-title {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .cart-bar-count {
+      color: rgba(255,255,255,.8);
+      font-size: 11px;
+    }
+
+    .cart-bar-total {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    /* CARRITO */
+
+    .cart-content {
+      padding: 26px 24px 30px;
+    }
+
+    .cart-handle {
+      width: 42px;
+      height: 4px;
+      margin: 0 auto 28px;
+      border-radius: 20px;
+      background: #444;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+
+    .cart-close {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border: 1px solid #444;
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    .cart-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 32px;
+      font-weight: normal;
+    }
+
+    .cart-table {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 7px 11px;
+      border: 1px solid #3a3a3a;
+      border-radius: 30px;
+      color: #aaa;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .cart-items {
+      margin-top: 30px;
+    }
+
+    .cart-item {
+      padding: 0 0 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333;
+    }
+
+    .cart-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 14px;
+    }
+
+    .cart-item-name {
+      margin: 0;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .cart-item-price {
+      flex-shrink: 0;
+      color: #e8894e;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .cart-item-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-quantity {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .cart-quantity button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #444;
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .cart-quantity span {
+      min-width: 15px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .remove-button {
+      border: none;
+      background: transparent;
+      color: #777;
+      font-size: 11px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .cart-summary {
+      padding-top: 5px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .summary-total {
+      padding-top: 16px;
+      margin-top: 16px;
+      border-top: 1px solid #333;
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .summary-total strong {
+      color: #e8894e;
+      font-size: 20px;
+    }
+
+    .confirm-button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #d46b32;
+      color: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .empty-cart {
+      padding: 40px 0;
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* CONFIRMACIÓN DEMO */
+
+    .confirmation {
+      display: none;
+      padding: 35px 10px 10px;
+      text-align: center;
+    }
+
+    .confirmation.active {
+      display: block;
+    }
+
+    .confirmation-icon {
+      width: 66px;
+      height: 66px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #d46b32;
+      font-size: 28px;
+    }
+
+    .confirmation h3 {
+      margin: 0 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      font-weight: normal;
+    }
+
+    .confirmation p {
+      margin: 0;
+      color: #999;
+      font-size: 13px;
+      line-height: 1.6;
+    }
   </style>
 </head>
 
@@ -459,8 +736,9 @@
         <h1>BRASA</h1>
 
         <p class="description">
-          Cocina al fuego, ingredientes seleccionados y sabores que nacen
-          de la brasa. Descubre nuestra experiencia desde tu mesa.
+          Cocina al fuego, ingredientes seleccionados y sabores
+          que nacen de la brasa. Descubre nuestra experiencia
+          desde tu mesa.
         </p>
 
         <a class="button" href="#menu">
@@ -477,9 +755,13 @@
 
     <section class="menu" id="menu">
 
-      <div class="menu-label">Nuestra carta</div>
+      <div class="menu-label">
+        Nuestra carta
+      </div>
 
-      <h2 class="menu-title">Menú</h2>
+      <h2 class="menu-title">
+        Menú
+      </h2>
 
       <p class="menu-intro">
         Sabores preparados al fuego para disfrutar desde la mesa.
@@ -527,12 +809,13 @@
 
   </main>
 
-  <!-- DETALLE DEL PRODUCTO -->
+
+  <!-- DETALLE DEL PLATO -->
 
   <div
     class="modal"
     id="product-modal"
-    onclick="closeModalOutside(event)">
+    onclick="closeProductOutside(event)">
 
     <div class="modal-content">
 
@@ -544,12 +827,11 @@
 
         <button
           class="close-button"
-          onclick="closeModal()">
+          onclick="closeProduct()">
           ×
         </button>
 
         <model-viewer
-          id="dish-model"
           src="/plato-demo.glb"
           alt="Vista 3D del plato"
           camera-controls
@@ -564,8 +846,10 @@
           <button
             slot="ar-button"
             class="ar-button">
+
             <span class="camera-icon">◉</span>
             Ver en tu mesa
+
           </button>
 
         </model-viewer>
@@ -582,7 +866,10 @@
           Detalle del plato
         </div>
 
-        <h2 class="modal-title" id="modal-name"></h2>
+        <h2
+          class="modal-title"
+          id="modal-name">
+        </h2>
 
         <p
           class="modal-description"
@@ -604,7 +891,7 @@
 
             <button
               class="quantity-button"
-              onclick="changeQuantity(-1)">
+              onclick="changeProductQuantity(-1)">
               −
             </button>
 
@@ -616,7 +903,7 @@
 
             <button
               class="quantity-button"
-              onclick="changeQuantity(1)">
+              onclick="changeProductQuantity(1)">
               +
             </button>
 
@@ -642,6 +929,133 @@
 
   </div>
 
+
+  <!-- BARRA INFERIOR DEL PEDIDO -->
+
+  <button
+    class="cart-bar"
+    id="cart-bar"
+    onclick="openCart()">
+
+    <div class="cart-bar-left">
+
+      <span class="cart-bar-title">
+        Ver pedido
+      </span>
+
+      <span
+        class="cart-bar-count"
+        id="cart-count">
+      </span>
+
+    </div>
+
+    <div
+      class="cart-bar-total"
+      id="cart-bar-total">
+    </div>
+
+  </button>
+
+
+  <!-- MODAL DEL CARRITO -->
+
+  <div
+    class="modal"
+    id="cart-modal"
+    onclick="closeCartOutside(event)">
+
+    <div class="modal-content">
+
+      <div class="cart-content">
+
+        <div class="cart-handle"></div>
+
+        <div class="cart-header">
+
+          <div>
+
+            <div class="modal-label">
+              Tu selección
+            </div>
+
+            <h2 class="cart-title">
+              Tu pedido
+            </h2>
+
+            <div class="cart-table">
+              MESA 08
+            </div>
+
+          </div>
+
+          <button
+            class="cart-close"
+            onclick="closeCart()">
+            ×
+          </button>
+
+        </div>
+
+
+        <div id="cart-view">
+
+          <div
+            class="cart-items"
+            id="cart-items">
+          </div>
+
+          <div
+            class="cart-summary"
+            id="cart-summary">
+
+            <div class="summary-row">
+              <span>Productos</span>
+              <span id="summary-count"></span>
+            </div>
+
+            <div class="summary-row summary-total">
+              <span>Total</span>
+              <strong id="summary-total"></strong>
+            </div>
+
+            <button
+              class="confirm-button"
+              onclick="confirmOrder()">
+              Enviar pedido · Mesa 08
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="confirmation"
+          id="confirmation">
+
+          <div class="confirmation-icon">
+            ✓
+          </div>
+
+          <h3>
+            Pedido enviado
+          </h3>
+
+          <p>
+            Tu pedido de demostración fue enviado
+            correctamente desde la Mesa 08.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <script>
 
     const menu = {
@@ -650,20 +1064,23 @@
         title: "De la brasa",
         products: [
           {
+            id: "punta-anca",
             name: "Punta de anca",
-            price: "$48.000",
+            price: 48000,
             description:
               "Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."
           },
           {
+            id: "costillas",
             name: "Costillas BRASA",
-            price: "$52.000",
+            price: 52000,
             description:
               "Costillas cocinadas lentamente y terminadas sobre las brasas."
           },
           {
+            id: "pollo",
             name: "Pollo al fuego",
-            price: "$39.000",
+            price: 39000,
             description:
               "Pollo marinado con hierbas, limón y especias, asado al carbón."
           }
@@ -674,20 +1091,23 @@
         title: "Entradas",
         products: [
           {
+            id: "chorizo",
             name: "Chorizo artesanal",
-            price: "$22.000",
+            price: 22000,
             description:
               "Chorizo a la parrilla acompañado de chimichurri de la casa."
           },
           {
+            id: "provoleta",
             name: "Provoleta al fuego",
-            price: "$27.000",
+            price: 27000,
             description:
               "Queso provolone fundido al carbón con tomates asados y orégano."
           },
           {
+            id: "papas",
             name: "Papas BRASA",
-            price: "$18.000",
+            price: 18000,
             description:
               "Papas rústicas doradas con sal ahumada y salsa de la casa."
           }
@@ -698,20 +1118,23 @@
         title: "Fuertes",
         products: [
           {
+            id: "salmon",
             name: "Salmón a la parrilla",
-            price: "$49.000",
+            price: 49000,
             description:
               "Salmón al fuego acompañado de vegetales asados y limón."
           },
           {
+            id: "arroz",
             name: "Arroz de la casa",
-            price: "$38.000",
+            price: 38000,
             description:
               "Arroz preparado al wok con vegetales, proteína y sabores ahumados."
           },
           {
+            id: "pasta",
             name: "Pasta al fuego",
-            price: "$36.000",
+            price: 36000,
             description:
               "Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."
           }
@@ -722,20 +1145,23 @@
         title: "Bebidas",
         products: [
           {
+            id: "limonada",
             name: "Limonada de hierbabuena",
-            price: "$12.000",
+            price: 12000,
             description:
               "Limón fresco, hierbabuena y hielo."
           },
           {
+            id: "soda",
             name: "Soda de frutos rojos",
-            price: "$14.000",
+            price: 14000,
             description:
               "Soda artesanal con frutos rojos y cítricos."
           },
           {
+            id: "agua",
             name: "Agua mineral",
-            price: "$8.000",
+            price: 8000,
             description:
               "Agua mineral fría."
           }
@@ -744,9 +1170,18 @@
 
     };
 
+
     let currentQuantity = 1;
     let selectedProduct = null;
     let order = [];
+
+
+    function formatPrice(value) {
+
+      return "$" + value.toLocaleString("es-CO");
+
+    }
+
 
     function renderProducts(category) {
 
@@ -760,6 +1195,7 @@
 
       productsContainer.innerHTML = "";
 
+
       data.products.forEach(product => {
 
         const dish =
@@ -768,9 +1204,17 @@
         dish.className = "dish";
 
         dish.innerHTML = `
+
           <div class="dish-top">
-            <h4 class="dish-name">${product.name}</h4>
-            <div class="dish-price">${product.price}</div>
+
+            <h4 class="dish-name">
+              ${product.name}
+            </h4>
+
+            <div class="dish-price">
+              ${formatPrice(product.price)}
+            </div>
+
           </div>
 
           <p class="dish-description">
@@ -780,7 +1224,9 @@
           <div class="dish-hint">
             VER EN 3D +
           </div>
+
         `;
+
 
         dish.addEventListener(
           "click",
@@ -789,11 +1235,13 @@
           }
         );
 
+
         productsContainer.appendChild(dish);
 
       });
 
     }
+
 
     function showCategory(category, button) {
 
@@ -809,6 +1257,7 @@
 
     }
 
+
     function openProduct(product) {
 
       selectedProduct = product;
@@ -821,7 +1270,7 @@
         product.description;
 
       document.getElementById("modal-price").textContent =
-        product.price;
+        formatPrice(product.price);
 
       document.getElementById("quantity").textContent =
         currentQuantity;
@@ -838,7 +1287,8 @@
 
     }
 
-    function closeModal() {
+
+    function closeProduct() {
 
       document
         .getElementById("product-modal")
@@ -848,15 +1298,17 @@
 
     }
 
-    function closeModalOutside(event) {
+
+    function closeProductOutside(event) {
 
       if (event.target.id === "product-modal") {
-        closeModal();
+        closeProduct();
       }
 
     }
 
-    function changeQuantity(change) {
+
+    function changeProductQuantity(change) {
 
       currentQuantity += change;
 
@@ -869,25 +1321,309 @@
 
     }
 
+
     function addToOrder() {
 
       if (!selectedProduct) return;
 
-      order.push({
-        name: selectedProduct.name,
-        price: selectedProduct.price,
-        quantity: currentQuantity
-      });
+
+      const existingItem =
+        order.find(
+          item => item.id === selectedProduct.id
+        );
+
+
+      if (existingItem) {
+
+        existingItem.quantity += currentQuantity;
+
+      } else {
+
+        order.push({
+          id: selectedProduct.id,
+          name: selectedProduct.name,
+          price: selectedProduct.price,
+          quantity: currentQuantity
+        });
+
+      }
+
+
+      updateCartBar();
+
 
       document
         .getElementById("added-message")
         .classList.add("active");
 
+
       setTimeout(function () {
-        closeModal();
-      }, 700);
+
+        closeProduct();
+
+      }, 650);
 
     }
+
+
+    function getTotalItems() {
+
+      return order.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+
+    }
+
+
+    function getOrderTotal() {
+
+      return order.reduce(
+        (total, item) =>
+          total + (item.price * item.quantity),
+        0
+      );
+
+    }
+
+
+    function updateCartBar() {
+
+      const cartBar =
+        document.getElementById("cart-bar");
+
+      const totalItems =
+        getTotalItems();
+
+      const total =
+        getOrderTotal();
+
+
+      if (totalItems === 0) {
+
+        cartBar.classList.remove("active");
+        return;
+
+      }
+
+
+      cartBar.classList.add("active");
+
+
+      document.getElementById("cart-count").textContent =
+        totalItems === 1
+          ? "1 producto"
+          : totalItems + " productos";
+
+
+      document.getElementById("cart-bar-total").textContent =
+        formatPrice(total);
+
+    }
+
+
+    function openCart() {
+
+      renderCart();
+
+      document
+        .getElementById("confirmation")
+        .classList.remove("active");
+
+      document.getElementById("cart-view").style.display =
+        "block";
+
+      document
+        .getElementById("cart-modal")
+        .classList.add("active");
+
+      document.body.classList.add("modal-open");
+
+    }
+
+
+    function closeCart() {
+
+      document
+        .getElementById("cart-modal")
+        .classList.remove("active");
+
+      document.body.classList.remove("modal-open");
+
+    }
+
+
+    function closeCartOutside(event) {
+
+      if (event.target.id === "cart-modal") {
+        closeCart();
+      }
+
+    }
+
+
+    function renderCart() {
+
+      const container =
+        document.getElementById("cart-items");
+
+      const summary =
+        document.getElementById("cart-summary");
+
+
+      container.innerHTML = "";
+
+
+      if (order.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty-cart">
+            Todavía no has agregado productos.
+          </div>
+        `;
+
+        summary.style.display = "none";
+
+        return;
+
+      }
+
+
+      summary.style.display = "block";
+
+
+      order.forEach(item => {
+
+        const itemElement =
+          document.createElement("div");
+
+        itemElement.className = "cart-item";
+
+
+        itemElement.innerHTML = `
+
+          <div class="cart-item-top">
+
+            <h4 class="cart-item-name">
+              ${item.name}
+            </h4>
+
+            <div class="cart-item-price">
+              ${formatPrice(item.price * item.quantity)}
+            </div>
+
+          </div>
+
+
+          <div class="cart-item-bottom">
+
+            <div class="cart-quantity">
+
+              <button
+                onclick="changeCartQuantity('${item.id}', -1)">
+                −
+              </button>
+
+              <span>
+                ${item.quantity}
+              </span>
+
+              <button
+                onclick="changeCartQuantity('${item.id}', 1)">
+                +
+              </button>
+
+            </div>
+
+
+            <button
+              class="remove-button"
+              onclick="removeFromCart('${item.id}')">
+              Eliminar
+            </button>
+
+          </div>
+
+        `;
+
+
+        container.appendChild(itemElement);
+
+      });
+
+
+      const totalItems =
+        getTotalItems();
+
+
+      document.getElementById("summary-count").textContent =
+        totalItems === 1
+          ? "1 producto"
+          : totalItems + " productos";
+
+
+      document.getElementById("summary-total").textContent =
+        formatPrice(getOrderTotal());
+
+    }
+
+
+    function changeCartQuantity(id, change) {
+
+      const item =
+        order.find(item => item.id === id);
+
+
+      if (!item) return;
+
+
+      item.quantity += change;
+
+
+      if (item.quantity <= 0) {
+
+        order =
+          order.filter(item => item.id !== id);
+
+      }
+
+
+      updateCartBar();
+      renderCart();
+
+    }
+
+
+    function removeFromCart(id) {
+
+      order =
+        order.filter(item => item.id !== id);
+
+      updateCartBar();
+      renderCart();
+
+    }
+
+
+    function confirmOrder() {
+
+      if (order.length === 0) return;
+
+
+      document.getElementById("cart-view").style.display =
+        "none";
+
+      document
+        .getElementById("confirmation")
+        .classList.add("active");
+
+
+      order = [];
+
+      updateCartBar();
+
+    }
+
 
     renderProducts("brasa");
 
