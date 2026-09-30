@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>BRASA | MESSA</title>
 
   <style>
@@ -10,39 +11,49 @@
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
       font-family: Arial, Helvetica, sans-serif;
       background: #111111;
       color: #ffffff;
     }
 
     .app {
-      min-height: 100vh;
+      width: 100%;
       max-width: 480px;
+      min-height: 100vh;
       margin: 0 auto;
       background: #151515;
-      position: relative;
     }
 
     .hero {
+      width: 100%;
       min-height: 100vh;
+
       padding: 32px 24px;
+
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background:
-  linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0.45) 45%,
-    rgba(0, 0, 0, 0.92) 100%
-  ),
-  url('brasa-hero.jpg');
 
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.18) 0%,
+          rgba(0, 0, 0, 0.35) 45%,
+          rgba(0, 0, 0, 0.92) 100%
+        ),
+        url("/brasa-hero.jpg");
+
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
     .top {
@@ -54,15 +65,18 @@ background-repeat: no-repeat;
     .messa {
       font-size: 12px;
       letter-spacing: 3px;
-      color: #aaaaaa;
+      color: #dddddd;
     }
 
     .table {
       font-size: 12px;
       padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,0.25);
+
+      border: 1px solid rgba(255, 255, 255, 0.35);
       border-radius: 50px;
-      color: #dddddd;
+
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.15);
     }
 
     .content {
@@ -70,42 +84,54 @@ background-repeat: no-repeat;
     }
 
     .eyebrow {
-      color: #d77a43;
+      margin-bottom: 14px;
+
+      color: #e8894e;
+
       text-transform: uppercase;
       letter-spacing: 3px;
+
       font-size: 12px;
       font-weight: bold;
-      margin-bottom: 14px;
     }
 
     h1 {
-      font-family: Georgia, serif;
+      margin: 0 0 18px;
+
+      font-family: Georgia, "Times New Roman", serif;
       font-size: 64px;
       font-weight: normal;
       letter-spacing: 4px;
-      margin: 0 0 18px;
     }
 
     .description {
-      color: #c9c9c9;
+      max-width: 360px;
+      margin: 0 0 34px;
+
+      color: #e0e0e0;
+
       line-height: 1.6;
       font-size: 16px;
-      max-width: 360px;
-      margin-bottom: 34px;
     }
 
     .button {
       display: block;
+
       width: 100%;
       padding: 18px;
+
       border: none;
       border-radius: 12px;
+
       background: #d46b32;
-      color: white;
+      color: #ffffff;
+
       font-size: 16px;
       font-weight: bold;
+
       text-align: center;
       text-decoration: none;
+
       cursor: pointer;
     }
 
@@ -114,11 +140,14 @@ background-repeat: no-repeat;
     }
 
     .footer {
+      padding-top: 24px;
+
       text-align: center;
+
       font-size: 10px;
       letter-spacing: 2px;
-      color: #666666;
-      padding-top: 24px;
+
+      color: #999999;
     }
   </style>
 </head>
@@ -126,6 +155,7 @@ background-repeat: no-repeat;
 <body>
 
   <main class="app">
+
     <section class="hero">
 
       <div class="top">
@@ -134,7 +164,10 @@ background-repeat: no-repeat;
       </div>
 
       <div class="content">
-        <div class="eyebrow">Fuego · Cocina · Experiencia</div>
+
+        <div class="eyebrow">
+          Fuego · Cocina · Experiencia
+        </div>
 
         <h1>BRASA</h1>
 
@@ -150,9 +183,11 @@ background-repeat: no-repeat;
         <div class="footer">
           POWERED BY MESSA · BY XPANDE
         </div>
+
       </div>
 
     </section>
+
   </main>
 
 </body>
