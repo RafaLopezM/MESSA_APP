@@ -5,696 +5,1116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BRASA | MESSA</title>
 
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+<script type="module"
+src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+</script>
 
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#111;
-  color:#fff;
+* {
+  box-sizing: border-box;
 }
-body.modal-open{overflow:hidden}
-button,input{font-family:inherit}
-button{cursor:pointer}
 
-.app{
-  width:100%;
-  max-width:480px;
-  min-height:100vh;
-  margin:auto;
-  background:#151515;
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+button, input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: auto;
+  background: #151515;
+}
+
+/* IDENTIFICACIÓN */
+
+.guest-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #111;
+}
+
+.guest-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 24px;
+  border: 1px solid #333;
+  border-radius: 24px;
+  background: #1d1d1d;
+}
+
+.guest-card h2 {
+  margin: 10px 0;
+  font-family: Georgia, serif;
+  font-size: 36px;
+  font-weight: normal;
+}
+
+.guest-card p {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.guest-input {
+  width: 100%;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #151515;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.guest-input:focus {
+  border-color: #d46b32;
+}
+
+.error {
+  min-height: 18px;
+  margin-top: 10px;
+  color: #e8894e;
+  font-size: 12px;
 }
 
 /* HERO */
-.hero{
-  min-height:100vh;
-  padding:32px 24px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+
+.hero {
+  min-height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-image:
-    linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.35) 45%,rgba(0,0,0,.94)),
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.35) 45%,
+      rgba(0,0,0,.92)
+    ),
     url("/brasa-hero.jpg");
-  background-size:cover;
-  background-position:center;
-}
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.messa{
-  font-size:12px;
-  letter-spacing:3px;
-}
-.table{
-  padding:8px 12px;
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:50px;
-  font-size:12px;
-  background:rgba(0,0,0,.3);
-}
-.hero-content{padding-bottom:45px}
-.eyebrow,.modal-label{
-  color:#e8894e;
-  text-transform:uppercase;
-  letter-spacing:3px;
-  font-size:11px;
-  font-weight:bold;
-}
-.hero h1{
-  margin:14px 0 18px;
-  font-family:Georgia,serif;
-  font-size:64px;
-  font-weight:normal;
-  letter-spacing:4px;
-}
-.description{
-  max-width:360px;
-  color:#ddd;
-  line-height:1.6;
-}
-.main-button{
-  display:block;
-  width:100%;
-  margin-top:30px;
-  padding:18px;
-  border:0;
-  border-radius:12px;
-  background:#d46b32;
-  color:#fff;
-  text-align:center;
-  text-decoration:none;
-  font-weight:bold;
-}
-.footer{
-  margin-top:24px;
-  text-align:center;
-  color:#888;
-  font-size:10px;
-  letter-spacing:2px;
+  background-size: cover;
+  background-position: center;
 }
 
-/* MENU */
-.menu{
-  min-height:100vh;
-  padding:42px 24px 150px;
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.menu-title{
-  margin:8px 0;
-  font-family:Georgia,serif;
-  font-size:42px;
-  font-weight:normal;
+
+.messa {
+  font-size: 12px;
+  letter-spacing: 3px;
 }
-.menu-intro{
-  color:#999;
-  line-height:1.6;
-  font-size:14px;
-  margin-bottom:28px;
+
+.table {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 30px;
+  background: rgba(0,0,0,.2);
+  font-size: 12px;
 }
-.categories{
-  display:flex;
-  gap:9px;
-  overflow:auto;
-  margin-bottom:35px;
+
+.hero-content {
+  padding-bottom: 45px;
 }
-.category{
-  flex:0 0 auto;
-  padding:10px 16px;
-  border:1px solid #333;
-  border-radius:30px;
-  background:transparent;
-  color:#bbb;
+
+.eyebrow,
+.modal-label {
+  color: #e8894e;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
-.category.active{
-  background:#d46b32;
-  border-color:#d46b32;
-  color:white;
+
+.hero h1 {
+  margin: 14px 0 18px;
+  font-family: Georgia, serif;
+  font-size: 64px;
+  font-weight: normal;
+  letter-spacing: 4px;
 }
-.section-title{
-  font-family:Georgia,serif;
-  font-weight:normal;
-  font-size:25px;
+
+.description {
+  max-width: 360px;
+  color: #ddd;
+  line-height: 1.6;
 }
-.dish{
-  padding:0 0 22px;
-  margin-bottom:22px;
-  border-bottom:1px solid #2b2b2b;
+
+.primary {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  background: #d46b32;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
 }
-.dish-top{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
+
+.primary:disabled {
+  background: #444;
+  color: #999;
 }
-.dish-name{
-  margin:0 0 8px;
-  font-size:17px;
+
+.main-button {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+  text-decoration: none;
 }
-.dish-price{
-  color:#e8894e;
-  font-weight:bold;
-  white-space:nowrap;
+
+.footer {
+  margin-top: 24px;
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-align: center;
 }
-.dish-description{
-  margin:0;
-  color:#999;
-  font-size:13px;
-  line-height:1.6;
+
+/* MENÚ */
+
+.menu {
+  min-height: 100vh;
+  padding: 42px 24px 150px;
 }
-.dish-hint{
-  margin-top:12px;
-  color:#d46b32;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:1px;
+
+.menu-title {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  font-weight: normal;
+}
+
+.menu-intro {
+  margin-bottom: 28px;
+  color: #999;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.categories {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 35px;
+  overflow-x: auto;
+}
+
+.category {
+  flex: 0 0 auto;
+  padding: 10px 16px;
+  border: 1px solid #333;
+  border-radius: 30px;
+  background: transparent;
+  color: #bbb;
+}
+
+.category.active {
+  border-color: #d46b32;
+  background: #d46b32;
+  color: white;
+}
+
+.section-title {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.dish {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #2b2b2b;
+  cursor: pointer;
+}
+
+.dish-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.dish-name {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.dish-price {
+  color: #e8894e;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.dish-description {
+  margin: 0;
+  color: #999;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dish-hint {
+  margin-top: 12px;
+  color: #d46b32;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.guest-chip {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 9px 12px;
+  border: 1px solid #444;
+  border-radius: 30px;
+  color: #bbb;
+  font-size: 12px;
+}
+
+.secondary {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 /* MODALES */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:rgba(0,0,0,.82);
-  align-items:flex-end;
-  justify-content:center;
-}
-.modal.active{display:flex}
-.modal-content{
-  position:relative;
-  width:100%;
-  max-width:480px;
-  max-height:94vh;
-  overflow:auto;
-  background:#1d1d1d;
-  border-radius:24px 24px 0 0;
-}
-.close{
-  position:absolute;
-  right:18px;
-  top:18px;
-  z-index:10;
-  width:40px;
-  height:40px;
-  border:1px solid #444;
-  border-radius:50%;
-  background:rgba(0,0,0,.5);
-  color:white;
-  font-size:21px;
-}
-.modal-body{padding:30px 24px}
-.modal-title{
-  margin:8px 0 12px;
-  font-family:Georgia,serif;
-  font-size:30px;
-  font-weight:normal;
-}
-.muted{
-  color:#999;
-  font-size:13px;
-  line-height:1.6;
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0,0,0,.82);
 }
 
-/* 3D */
-.viewer-area{
-  height:340px;
-  position:relative;
-  background:radial-gradient(circle,#333,#171717 70%);
-  border-radius:24px 24px 0 0;
-  overflow:hidden;
-}
-model-viewer{
-  width:100%;
-  height:100%;
-  --poster-color:transparent;
-}
-.viewer-badge{
-  position:absolute;
-  left:18px;
-  top:18px;
-  z-index:5;
-  padding:8px 11px;
-  border-radius:30px;
-  background:rgba(0,0,0,.5);
-  font-size:10px;
-  letter-spacing:1px;
-}
-.ar-button{
-  position:absolute;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%);
-  padding:13px 18px;
-  border:0;
-  border-radius:30px;
-  background:white;
-  color:#111;
-  font-weight:bold;
-  white-space:nowrap;
-}
-.viewer-help{
-  position:absolute;
-  right:15px;
-  bottom:20px;
-  font-size:9px;
-  color:#999;
+.modal.active {
+  display: flex;
 }
 
-/* PRODUCTO */
-.product-info{padding:25px 24px 30px}
-.modal-description{
-  color:#aaa;
-  font-size:14px;
-  line-height:1.6;
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 94vh;
+  overflow-y: auto;
+  border-radius: 24px 24px 0 0;
+  background: #1d1d1d;
 }
-.modal-price{
-  margin:20px 0;
-  color:#e8894e;
-  font-size:22px;
-  font-weight:bold;
+
+.modal-body {
+  padding: 30px 24px;
 }
-.quantity-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-top:1px solid #333;
-  padding-top:20px;
-  margin-bottom:20px;
+
+.modal-title {
+  margin: 8px 0 12px;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  font-weight: normal;
 }
-.quantity-control{
-  display:flex;
-  align-items:center;
-  gap:18px;
+
+.muted {
+  color: #999;
+  font-size: 13px;
+  line-height: 1.6;
 }
-.circle-button{
-  width:38px;
-  height:38px;
-  border:1px solid #444;
-  border-radius:50%;
-  background:transparent;
-  color:white;
-  font-size:20px;
+
+.close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  color: white;
+  font-size: 22px;
 }
-.primary{
-  width:100%;
-  padding:18px;
-  border:0;
-  border-radius:12px;
-  background:#d46b32;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
+
+/* VISOR 3D */
+
+.viewer-area {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  background: radial-gradient(circle,#333,#171717 70%);
 }
-.added{
-  display:none;
-  margin-top:12px;
-  color:#e8894e;
-  text-align:center;
-  font-size:13px;
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
 }
-.added.active{display:block}
+
+.viewer-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: rgba(0,0,0,.5);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.ar-button {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 13px 18px;
+  border: none;
+  border-radius: 30px;
+  background: white;
+  color: #111;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.viewer-help {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+  color: #999;
+  font-size: 9px;
+}
+
+.product-info {
+  padding: 25px 24px 30px;
+}
+
+.modal-description {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.modal-price {
+  margin: 20px 0;
+  color: #e8894e;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.circle-button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+}
+
+.added {
+  display: none;
+  margin-top: 12px;
+  color: #e8894e;
+  text-align: center;
+  font-size: 13px;
+}
+
+.added.active {
+  display: block;
+}
 
 /* CARRITO */
-.cart-bar{
-  display:none;
-  position:fixed;
-  z-index:850;
-  left:50%;
-  bottom:18px;
-  transform:translateX(-50%);
-  width:calc(100% - 32px);
-  max-width:448px;
-  padding:15px 18px;
-  border:0;
-  border-radius:16px;
-  background:#d46b32;
-  color:white;
-  box-shadow:0 10px 30px #0008;
-}
-.cart-bar.active{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.cart-bar small{
-  display:block;
-  margin-top:3px;
-  opacity:.8;
-}
-.cart-item{
-  padding:18px 0;
-  border-bottom:1px solid #333;
-}
-.cart-item-top,.cart-item-bottom,.summary-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-.cart-item-price{
-  color:#e8894e;
-  font-weight:bold;
-}
-.cart-quantity{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.cart-quantity button{
-  width:32px;
-  height:32px;
-  border:1px solid #444;
-  border-radius:50%;
-  background:transparent;
-  color:white;
-}
-.remove{
-  border:0;
-  background:none;
-  color:#777;
-  text-decoration:underline;
-}
-.summary{
-  margin-top:25px;
-}
-.summary-row{
-  margin:12px 0;
-  color:#aaa;
-}
-.total{
-  padding-top:18px;
-  border-top:1px solid #333;
-  color:white;
-  font-size:18px;
-}
-.total strong{color:#e8894e}
 
-/* CONFIRMACION PEDIDO */
-.success{
-  display:none;
-  text-align:center;
-  padding:35px 0;
-}
-.success.active{display:block}
-.success-icon{
-  width:66px;
-  height:66px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 20px;
-  border-radius:50%;
-  background:#d46b32;
-  font-size:28px;
-}
-.order-number{
-  display:inline-block;
-  margin:8px 0 18px;
-  padding:8px 13px;
-  border:1px solid #444;
-  border-radius:30px;
-  color:#e8894e;
-  font-size:12px;
-  letter-spacing:1px;
+.cart-bar {
+  display: none;
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  z-index: 850;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 448px;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #d46b32;
+  color: white;
+  box-shadow: 0 10px 30px #0008;
 }
 
-/* SERVICIO FLOTANTE */
-.service-floating{
-  position:fixed;
-  z-index:900;
-  right:max(18px,calc((100vw - 480px)/2 + 18px));
-  bottom:22px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:10px;
-  transition:.2s;
+.cart-bar.active {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.service-floating.cart-visible{bottom:96px}
-.service-main{
-  width:60px;
-  height:60px;
-  border:0;
-  border-radius:50%;
-  background:#fff;
-  color:#151515;
-  box-shadow:0 8px 30px #0009;
-  font-size:25px;
+
+.cart-bar small {
+  display: block;
+  margin-top: 3px;
+  opacity: .8;
 }
-.service-menu{
-  display:none;
-  width:220px;
-  padding:8px;
-  border:1px solid #333;
-  border-radius:16px;
-  background:#222;
-  box-shadow:0 12px 35px #0009;
+
+.cart-item {
+  padding: 18px 0;
+  border-bottom: 1px solid #333;
 }
-.service-menu.active{display:block}
-.service-menu button{
-  width:100%;
-  padding:15px 12px;
-  border:0;
-  border-radius:10px;
-  background:transparent;
-  color:white;
-  text-align:left;
-  font-size:14px;
+
+.cart-item-top,
+.cart-item-bottom,
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
-.service-menu button:hover{background:#303030}
+
+.cart-item-price {
+  color: #e8894e;
+  font-weight: bold;
+}
+
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-quantity button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+}
+
+.remove {
+  border: none;
+  background: transparent;
+  color: #888;
+  text-decoration: underline;
+}
+
+.summary {
+  margin-top: 25px;
+}
+
+.summary-row {
+  margin: 12px 0;
+  color: #aaa;
+}
+
+.total {
+  padding-top: 18px;
+  border-top: 1px solid #333;
+  color: white;
+  font-size: 18px;
+}
+
+.total strong {
+  color: #e8894e;
+}
+
+/* CONFIRMACIÓN */
+
+.success {
+  display: none;
+  padding: 35px 0;
+  text-align: center;
+}
+
+.success.active {
+  display: block;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #d46b32;
+  font-size: 28px;
+}
+
+.order-number {
+  display: inline-block;
+  margin: 8px 0 18px;
+  padding: 8px 13px;
+  border: 1px solid #444;
+  border-radius: 30px;
+  color: #e8894e;
+  font-size: 12px;
+}
+
+/* BOTÓN FLOTANTE */
+
+.service-floating {
+  position: fixed;
+  right: max(18px,calc((100vw - 480px)/2 + 18px));
+  bottom: 22px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.service-floating.cart-visible {
+  bottom: 96px;
+}
+
+.service-main {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  color: #151515;
+  font-size: 25px;
+  box-shadow: 0 8px 30px #0009;
+}
+
+.service-menu {
+  display: none;
+  width: 230px;
+  padding: 8px;
+  border: 1px solid #333;
+  border-radius: 16px;
+  background: #222;
+  box-shadow: 0 12px 35px #0009;
+}
+
+.service-menu.active {
+  display: block;
+}
+
+.service-menu button {
+  width: 100%;
+  padding: 15px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* CONSUMO */
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.tab {
+  padding: 13px 8px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: transparent;
+  color: #aaa;
+  font-weight: bold;
+}
+
+.tab.active {
+  border-color: #d46b32;
+  background: #d46b32;
+  color: white;
+}
+
+.person-card {
+  padding: 18px 0;
+  border-bottom: 1px solid #333;
+}
+
+.person-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.person-head strong {
+  color: #e8894e;
+}
+
+.consumption-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 9px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #444;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.grand-total strong {
+  color: #e8894e;
+  font-size: 20px;
+}
+
+.consumption-card {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #d46b3255;
+  border-radius: 16px;
+  background: #d46b3218;
+}
+
+.consumption-card small {
+  display: block;
+  margin-bottom: 7px;
+  color: #aaa;
+}
+
+.consumption-card strong {
+  color: #e8894e;
+  font-size: 25px;
+}
+
+/* OPCIONES DE PAGO */
+
+.bill-options {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.bill-option {
+  padding: 16px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #171717;
+  color: white;
+  text-align: left;
+}
+
+.bill-option.selected {
+  border-color: #d46b32;
+  background: #d46b3220;
+}
+
+.bill-option strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.bill-option span {
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.split-result {
+  margin: 15px 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: #252525;
+  color: #ddd;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.split-result strong {
+  color: #e8894e;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.option {
+  padding: 22px 10px;
+  border: 1px solid #444;
+  border-radius: 14px;
+  background: #222;
+  color: white;
+  font-size: 24px;
+}
+
+.option span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.option.selected {
+  border-color: #d46b32;
+  background: #d46b3220;
+}
+
+.invoice {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.invoice-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0 20px;
+}
+
+.invoice-buttons button {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+}
+
+.invoice-buttons button.selected {
+  border-color: #d46b32;
+  background: #d46b32;
+}
+
+.invoice-fields {
+  display: none;
+}
+
+.invoice-fields.active {
+  display: block;
+}
+
+.invoice-fields input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: #151515;
+  color: white;
+}
 
 /* MESERO */
-.waiter-status{
-  margin:22px 0;
-  padding:15px;
-  border:1px solid #444;
-  border-radius:12px;
-  text-align:center;
-  font-size:12px;
-  font-weight:bold;
-  letter-spacing:1px;
-}
-.waiter-status.green{border-color:#4f9c68;color:#6fd08d}
-.waiter-status.yellow{border-color:#c99c38;color:#e6bb50}
-.waiter-status.red{border-color:#b74d4a;color:#ed6b68}
-.countdown{
-  margin-top:15px;
-  min-height:20px;
-  text-align:center;
-  color:#999;
-  font-size:12px;
-}
-.primary:disabled{
-  background:#444;
-  color:#888;
+
+.waiter-status {
+  margin: 22px 0;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-/* CUENTA */
-.payment-options{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin:22px 0 28px;
-}
-.option{
-  padding:22px 10px;
-  border:1px solid #3a3a3a;
-  border-radius:14px;
-  background:#222;
-  color:white;
-  font-size:24px;
-}
-.option span{
-  display:block;
-  margin-top:8px;
-  font-size:13px;
-}
-.option.selected{
-  border-color:#d46b32;
-  background:#d46b3220;
-}
-.invoice{
-  padding-top:20px;
-  border-top:1px solid #333;
-}
-.invoice-buttons{
-  display:flex;
-  gap:10px;
-  margin:15px 0 20px;
-}
-.invoice-buttons button{
-  flex:1;
-  padding:13px;
-  border:1px solid #444;
-  border-radius:10px;
-  background:transparent;
-  color:white;
-}
-.invoice-buttons button.selected{
-  background:#d46b32;
-  border-color:#d46b32;
-}
-.invoice-fields{display:none}
-.invoice-fields.active{display:block}
-.invoice-fields input{
-  width:100%;
-  margin-bottom:10px;
-  padding:14px;
-  border:1px solid #3b3b3b;
-  border-radius:10px;
-  background:#151515;
-  color:white;
-  outline:none;
+.waiter-status.green {
+  border-color: #4f9c68;
+  color: #6fd08d;
 }
 
-/* MIS PEDIDOS */
-.history-card{
-  margin:18px 0;
-  padding:18px;
-  border:1px solid #333;
-  border-radius:14px;
-  background:#202020;
+.waiter-status.yellow {
+  border-color: #c99c38;
+  color: #e6bb50;
 }
-.history-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
+
+.waiter-status.red {
+  border-color: #b74d4a;
+  color: #ed6b68;
 }
-.history-status{
-  color:#e8894e;
-  font-size:11px;
-  font-weight:bold;
-}
-.history-products{
-  color:#aaa;
-  font-size:13px;
-  line-height:1.7;
-}
-.history-total{
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid #333;
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-}
-.consumption-card{
-  margin:20px 0;
-  padding:20px;
-  border-radius:16px;
-  background:#d46b3218;
-  border:1px solid #d46b3255;
-}
-.consumption-card small{
-  display:block;
-  color:#aaa;
-  margin-bottom:7px;
-}
-.consumption-card strong{
-  color:#e8894e;
-  font-size:25px;
+
+.countdown {
+  min-height: 20px;
+  margin-top: 15px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
 }
 
 /* ESTADO */
-.timeline{
-  margin-top:28px;
+
+.timeline {
+  margin-top: 28px;
 }
-.timeline-step{
-  display:flex;
-  gap:14px;
-  position:relative;
-  padding-bottom:25px;
+
+.timeline-step {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 25px;
 }
-.timeline-dot{
-  width:15px;
-  height:15px;
-  flex:0 0 15px;
-  border-radius:50%;
-  background:#444;
-  margin-top:2px;
+
+.timeline-dot {
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: #444;
 }
+
 .timeline-step.done .timeline-dot,
-.timeline-step.active .timeline-dot{
-  background:#d46b32;
+.timeline-step.active .timeline-dot {
+  background: #d46b32;
 }
-.timeline-step:not(:last-child):after{
-  content:"";
-  position:absolute;
-  left:7px;
-  top:18px;
-  width:1px;
-  height:24px;
-  background:#444;
+
+.timeline-step strong {
+  display: block;
+  font-size: 14px;
 }
-.timeline-step strong{
-  display:block;
-  font-size:14px;
+
+.timeline-step small {
+  color: #777;
 }
-.timeline-step small{
-  color:#777;
+
+.history-card {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  background: #202020;
+}
+
+.history-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.history-status {
+  color: #e8894e;
+  font-size: 11px;
+}
+
+.history-products {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.history-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #333;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
+<!-- REGISTRO DEL COMENSAL -->
+
+<div class="guest-gate" id="guest-gate">
+  <div class="guest-card">
+
+    <div class="modal-label">
+      MESSA · MESA 08
+    </div>
+
+    <h2>¿Cómo te llamas?</h2>
+
+    <p>
+      Así podremos identificar tus pedidos y
+      llevar el control de tu consumo en la mesa.
+    </p>
+
+    <input
+      class="guest-input"
+      id="guest-name-input"
+      type="text"
+      maxlength="30"
+      placeholder="Escribe tu nombre"
+      autocomplete="name"
+    >
+
+    <button class="primary" style="margin-top:16px"
+      onclick="registerGuest()">
+      Continuar
+    </button>
+
+    <div class="error" id="guest-error"></div>
+
+  </div>
+</div>
+
+<!-- PÁGINA PRINCIPAL -->
+
 <main class="app">
 
 <section class="hero">
+
   <div class="top">
     <div class="messa">MESSA</div>
     <div class="table">MESA 08</div>
   </div>
 
   <div class="hero-content">
-    <div class="eyebrow">Fuego · Cocina · Experiencia</div>
+
+    <div class="eyebrow">
+      Fuego · Cocina · Experiencia
+    </div>
+
     <h1>BRASA</h1>
 
     <p class="description">
-      Cocina al fuego, ingredientes seleccionados y sabores que nacen de la brasa.
+      Cocina al fuego, ingredientes seleccionados
+      y sabores que nacen de la brasa.
       Descubre nuestra experiencia desde tu mesa.
     </p>
 
-    <a class="main-button" href="#menu">Ver menú</a>
+    <a class="primary main-button" href="#menu">
+      Ver menú
+    </a>
 
-    <div class="footer">POWERED BY MESSA · BY XPANDE</div>
+    <div class="footer">
+      POWERED BY MESSA · BY XPANDE
+    </div>
+
   </div>
+
 </section>
 
+<!-- MENÚ -->
+
 <section class="menu" id="menu">
-  <div class="modal-label">Nuestra carta</div>
-  <h2 class="menu-title">Menú</h2>
 
-  <p class="menu-intro">
-    Sabores preparados al fuego para disfrutar desde la mesa.
-  </p>
-
-  <div class="categories">
-    <button class="category active" onclick="showCategory('brasa',this)">De la brasa</button>
-    <button class="category" onclick="showCategory('entradas',this)">Entradas</button>
-    <button class="category" onclick="showCategory('fuertes',this)">Fuertes</button>
-    <button class="category" onclick="showCategory('bebidas',this)">Bebidas</button>
+  <div class="modal-label">
+    Nuestra carta
   </div>
 
-  <h3 class="section-title" id="category-title">De la brasa</h3>
+  <h2 class="menu-title">
+    Menú
+  </h2>
+
+  <p class="menu-intro">
+    Sabores preparados al fuego para disfrutar
+    desde la mesa.
+  </p>
+
+  <div class="guest-chip">
+    ● <span id="guest-display">Comensal</span>
+    · MESA 08
+  </div>
+
+  <div class="categories">
+
+    <button class="category active"
+      onclick="showCategory('brasa',this)">
+      De la brasa
+    </button>
+
+    <button class="category"
+      onclick="showCategory('entradas',this)">
+      Entradas
+    </button>
+
+    <button class="category"
+      onclick="showCategory('fuertes',this)">
+      Fuertes
+    </button>
+
+    <button class="category"
+      onclick="showCategory('bebidas',this)">
+      Bebidas
+    </button>
+
+  </div>
+
+  <h3 class="section-title" id="category-title">
+    De la brasa
+  </h3>
+
   <div id="products"></div>
 
-  <div class="footer">BRASA · POWERED BY MESSA</div>
+  <button class="secondary" onclick="openConsumption()">
+    Ver consumo de la mesa
+  </button>
+
+  <div class="footer">
+    BRASA · POWERED BY MESSA
+  </div>
+
 </section>
 
 </main>
 
-<!-- PRODUCTO / 3D -->
-<div class="modal" id="product-modal" onclick="outside(event,'product-modal')">
+<!-- DETALLE DEL PLATO -->
+
+<div class="modal" id="product-modal"
+  onclick="outside(event,'product-modal')">
+
   <div class="modal-content">
 
     <div class="viewer-area">
-      <div class="viewer-badge">VISTA 3D</div>
-      <button class="close" onclick="closeModal('product-modal')">×</button>
+
+      <div class="viewer-badge">
+        VISTA 3D
+      </div>
+
+      <button class="close"
+        onclick="closeModal('product-modal')">
+        ×
+      </button>
 
       <model-viewer
         id="dish-viewer"
@@ -710,758 +1130,2308 @@ model-viewer{
         ar-modes="webxr scene-viewer quick-look">
 
         <button slot="ar-button" class="ar-button">
-          📷 Ver en tu mesa
+          ◉ Ver en tu mesa
         </button>
+
       </model-viewer>
 
-      <div class="viewer-help">ARRASTRA PARA GIRAR</div>
+      <div class="viewer-help">
+        ARRASTRA PARA GIRAR
+      </div>
+
     </div>
 
     <div class="product-info">
-      <div class="modal-label">Detalle del plato</div>
+
+      <div class="modal-label">
+        Detalle del plato
+      </div>
+
       <h2 class="modal-title" id="modal-name"></h2>
-      <p class="modal-description" id="modal-description"></p>
+
+      <p class="modal-description"
+        id="modal-description"></p>
+
       <div class="modal-price" id="modal-price"></div>
 
       <div class="quantity-row">
+
         <strong>Cantidad</strong>
 
         <div class="quantity-control">
-          <button class="circle-button" onclick="changeProductQuantity(-1)">−</button>
+
+          <button class="circle-button"
+            onclick="changeProductQuantity(-1)">
+            −
+          </button>
+
           <strong id="quantity">1</strong>
-          <button class="circle-button" onclick="changeProductQuantity(1)">+</button>
+
+          <button class="circle-button"
+            onclick="changeProductQuantity(1)">
+            +
+          </button>
+
         </div>
+
       </div>
 
-      <button class="primary" onclick="addToOrder()">Agregar al pedido</button>
-      <div class="added" id="added-message">✓ Agregado al pedido</div>
+      <button class="primary" onclick="addToOrder()">
+        Agregar al pedido
+      </button>
+
+      <div class="added" id="added-message">
+        ✓ Agregado al pedido
+      </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- BARRA CARRITO -->
-<button class="cart-bar" id="cart-bar" onclick="openCart()">
+<!-- CARRITO FLOTANTE -->
+
+<button class="cart-bar" id="cart-bar"
+  onclick="openCart()">
+
   <div style="text-align:left">
+
     <strong>Ver pedido</strong>
+
     <small id="cart-count"></small>
+
   </div>
+
   <strong id="cart-bar-total"></strong>
+
 </button>
 
 <!-- CARRITO -->
-<div class="modal" id="cart-modal" onclick="outside(event,'cart-modal')">
+
+<div class="modal" id="cart-modal"
+  onclick="outside(event,'cart-modal')">
+
   <div class="modal-content">
-    <button class="close" onclick="closeModal('cart-modal')">×</button>
+
+    <button class="close"
+      onclick="closeModal('cart-modal')">
+      ×
+    </button>
 
     <div class="modal-body">
-      <div class="modal-label">Tu selección</div>
-      <h2 class="modal-title">Tu pedido</h2>
-      <div class="table" style="display:inline-block">MESA 08</div>
+
+      <div class="modal-label">
+        Tu selección
+      </div>
+
+      <h2 class="modal-title">
+        Tu pedido
+      </h2>
+
+      <div class="guest-chip">
+        <span id="cart-guest"></span>
+        · MESA 08
+      </div>
 
       <div id="cart-view">
+
         <div id="cart-items"></div>
 
         <div class="summary" id="cart-summary">
+
           <div class="summary-row">
+
             <span>Productos</span>
+
             <span id="summary-count"></span>
+
           </div>
 
           <div class="summary-row total">
+
             <span>Total</span>
+
             <strong id="summary-total"></strong>
+
           </div>
 
-          <button class="primary" style="margin-top:20px" onclick="confirmOrder()">
+          <button class="primary"
+            style="margin-top:20px"
+            onclick="confirmOrder()">
+
             Enviar pedido · Mesa 08
+
           </button>
+
         </div>
+
       </div>
 
       <div class="success" id="order-success">
+
         <div class="success-icon">✓</div>
-        <h2 class="modal-title">Pedido enviado</h2>
-        <div class="order-number" id="order-number"></div>
+
+        <h2 class="modal-title">
+          Pedido enviado
+        </h2>
+
+        <div class="order-number"
+          id="order-number"></div>
 
         <p class="muted">
-          Recibimos tu pedido. Puedes consultar su estado desde
-          <strong style="color:white">Mis pedidos</strong>.
+          Tu pedido quedó registrado a tu nombre.
         </p>
 
-        <button class="primary" onclick="openOrderStatus()">
+        <button class="primary"
+          onclick="openOrderStatus()">
+
           Ver estado del pedido
+
         </button>
+
+        <button class="secondary"
+          onclick="closeModal('cart-modal');openConsumption()">
+
+          Ver mi consumo
+
+        </button>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- SERVICIO FLOTANTE -->
-<div class="service-floating" id="service-floating">
+<!-- BOTÓN DE SERVICIO -->
+
+<div class="service-floating"
+  id="service-floating">
 
   <div class="service-menu" id="service-menu">
-    <button onclick="openWaiter()">🙋 &nbsp; Llamar al mesero</button>
-    <button onclick="openBill()">🧾 &nbsp; Pedir la cuenta</button>
-    <button onclick="openHistory()">🍽️ &nbsp; Mis pedidos</button>
+
+    <button onclick="openWaiter()">
+      🙋 &nbsp; Llamar al mesero
+    </button>
+
+    <button onclick="openBill()">
+      🧾 &nbsp; Pedir la cuenta
+    </button>
+
+    <button onclick="openConsumption()">
+      💰 &nbsp; Consumo de la mesa
+    </button>
+
+    <button onclick="openHistory()">
+      🍽️ &nbsp; Mis pedidos
+    </button>
+
   </div>
 
-  <button class="service-main" onclick="toggleServiceMenu()" aria-label="Servicio">
+  <button class="service-main"
+    onclick="toggleServiceMenu()"
+    aria-label="Servicio a la mesa">
+
     🔔
+
   </button>
+
+</div>
+
+<!-- CONSUMO -->
+
+<div class="modal" id="consumption-modal"
+  onclick="outside(event,'consumption-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('consumption-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div class="modal-label">
+        MESA 08
+      </div>
+
+      <h2 class="modal-title">
+        Consumo
+      </h2>
+
+      <div class="guest-chip"
+        id="consumption-guest"></div>
+
+      <div class="tabs">
+
+        <button class="tab active"
+          id="tab-mine"
+          onclick="setConsumptionView('mine')">
+
+          Mi consumo
+
+        </button>
+
+        <button class="tab"
+          id="tab-table"
+          onclick="setConsumptionView('table')">
+
+          Consumo total
+
+        </button>
+
+      </div>
+
+      <div id="consumption-list"></div>
+
+      <div id="consumption-total"></div>
+
+      <button class="primary"
+        style="margin-top:25px"
+        onclick="openBill()">
+
+        Pedir la cuenta
+
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
 <!-- MESERO -->
-<div class="modal" id="waiter-modal" onclick="outside(event,'waiter-modal')">
+
+<div class="modal" id="waiter-modal"
+  onclick="outside(event,'waiter-modal')">
+
   <div class="modal-content">
-    <button class="close" onclick="closeModal('waiter-modal')">×</button>
+
+    <button class="close"
+      onclick="closeModal('waiter-modal')">
+      ×
+    </button>
 
     <div class="modal-body">
-      <div class="modal-label">Servicio a la mesa</div>
-      <h2 class="modal-title">Llamar al mesero</h2>
 
-      <p class="muted" id="waiter-description">
-        ¿Necesitas ayuda? Envía un llamado al equipo de servicio.
+      <div class="modal-label">
+        Servicio a la mesa
+      </div>
+
+      <h2 class="modal-title">
+        Llamar al mesero
+      </h2>
+
+      <p class="muted"
+        id="waiter-description">
+
+        ¿Necesitas ayuda?
+        Envía un llamado al equipo de servicio.
+
       </p>
 
-      <div class="waiter-status" id="waiter-status">MESA 08</div>
+      <div class="waiter-status"
+        id="waiter-status">
 
-      <button class="primary" id="waiter-button" onclick="callWaiter()">
+        MESA 08
+
+      </div>
+
+      <button class="primary"
+        id="waiter-button"
+        onclick="callWaiter()">
+
         Llamar al mesero
+
       </button>
 
-      <div class="countdown" id="waiter-countdown"></div>
+      <div class="countdown"
+        id="waiter-countdown"></div>
+
     </div>
+
   </div>
+
 </div>
 
 <!-- CUENTA -->
-<div class="modal" id="bill-modal" onclick="outside(event,'bill-modal')">
+
+<div class="modal" id="bill-modal"
+  onclick="outside(event,'bill-modal')">
+
   <div class="modal-content">
-    <button class="close" onclick="closeModal('bill-modal')">×</button>
+
+    <button class="close"
+      onclick="closeModal('bill-modal')">
+      ×
+    </button>
 
     <div class="modal-body">
-      <div id="bill-form">
-        <div class="modal-label">Finalizar experiencia</div>
-        <h2 class="modal-title">Pedir la cuenta</h2>
 
-        <div class="consumption-card">
-          <small>Total consumido</small>
-          <strong id="bill-total">$0</strong>
+      <div id="bill-form">
+
+        <div class="modal-label">
+          Finalizar experiencia
         </div>
 
-        <p class="muted">¿Cómo vas a pagar?</p>
+        <h2 class="modal-title">
+          Pedir la cuenta
+        </h2>
+
+        <div class="consumption-card">
+
+          <small>
+            Consumo total de la mesa
+          </small>
+
+          <strong id="bill-total">$0</strong>
+
+        </div>
+
+        <p class="muted">
+          ¿Cómo desean dividir la cuenta?
+        </p>
+
+        <div class="bill-options">
+
+          <button class="bill-option"
+            id="split-individual"
+            onclick="selectSplit('individual')">
+
+            <strong>
+              Pagar según consumo
+            </strong>
+
+            <span>
+              Cada persona paga lo que pidió.
+            </span>
+
+          </button>
+
+          <button class="bill-option"
+            id="split-equal"
+            onclick="selectSplit('equal')">
+
+            <strong>
+              Dividir en partes iguales
+            </strong>
+
+            <span>
+              Todos pagan la misma cantidad.
+            </span>
+
+          </button>
+
+        </div>
+
+        <div id="split-result"></div>
+
+        <p class="muted"
+          style="margin-top:25px">
+
+          ¿Cómo van a pagar?
+
+        </p>
 
         <div class="payment-options">
-          <button class="option" id="payment-card" onclick="selectPayment('Datáfono')">
-            💳 <span>Datáfono</span>
+
+          <button class="option"
+            id="payment-card"
+            onclick="selectPayment('Datáfono')">
+
+            💳
+
+            <span>Datáfono</span>
+
           </button>
 
-          <button class="option" id="payment-cash" onclick="selectPayment('Efectivo')">
-            💵 <span>Efectivo</span>
+          <button class="option"
+            id="payment-cash"
+            onclick="selectPayment('Efectivo')">
+
+            💵
+
+            <span>Efectivo</span>
+
           </button>
+
         </div>
 
         <div class="invoice">
-          <strong>¿Necesitas factura electrónica?</strong>
+
+          <strong>
+            ¿Necesitas factura electrónica?
+          </strong>
 
           <div class="invoice-buttons">
-            <button id="invoice-yes" onclick="selectInvoice(true)">Sí</button>
-            <button id="invoice-no" onclick="selectInvoice(false)">No</button>
+
+            <button id="invoice-yes"
+              onclick="selectInvoice(true)">
+
+              Sí
+
+            </button>
+
+            <button id="invoice-no"
+              onclick="selectInvoice(false)">
+
+              No
+
+            </button>
+
           </div>
 
-          <div class="invoice-fields" id="invoice-fields">
-            <input id="invoice-name" placeholder="Nombre o razón social">
-            <input id="invoice-id" placeholder="Cédula o NIT">
-            <input id="invoice-email" type="email" placeholder="Correo electrónico">
+          <div class="invoice-fields"
+            id="invoice-fields">
+
+            <input id="invoice-name"
+              placeholder="Nombre o razón social">
+
+            <input id="invoice-id"
+              placeholder="Cédula o NIT">
+
+            <input id="invoice-email"
+              type="email"
+              placeholder="Correo electrónico">
+
           </div>
+
         </div>
 
-        <button class="primary" onclick="requestBill()">Solicitar cuenta</button>
+        <div class="error"
+          id="bill-error"></div>
+
+        <button class="primary"
+          onclick="requestBill()">
+
+          Solicitar cuenta
+
+        </button>
+
       </div>
 
-      <div class="success" id="bill-success">
+      <div class="success"
+        id="bill-success">
+
         <div class="success-icon">✓</div>
-        <h2 class="modal-title">Cuenta solicitada</h2>
-        <p class="muted" id="bill-message"></p>
+
+        <h2 class="modal-title">
+          Cuenta solicitada
+        </h2>
+
+        <p class="muted"
+          id="bill-message"></p>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- MIS PEDIDOS -->
-<div class="modal" id="history-modal" onclick="outside(event,'history-modal')">
+<!-- HISTORIAL -->
+
+<div class="modal" id="history-modal"
+  onclick="outside(event,'history-modal')">
+
   <div class="modal-content">
-    <button class="close" onclick="closeModal('history-modal')">×</button>
+
+    <button class="close"
+      onclick="closeModal('history-modal')">
+      ×
+    </button>
 
     <div class="modal-body">
-      <div class="modal-label">Mesa 08</div>
-      <h2 class="modal-title">Mis pedidos</h2>
+
+      <div class="modal-label">
+        MESA 08
+      </div>
+
+      <h2 class="modal-title">
+        Mis pedidos
+      </h2>
 
       <div class="consumption-card">
-        <small>Total consumido</small>
+
+        <small>
+          Mi consumo
+        </small>
+
         <strong id="history-total">$0</strong>
+
       </div>
 
       <div id="history-list"></div>
+
+      <button class="secondary"
+        onclick="closeModal('history-modal');openConsumption()">
+
+        Ver consumo de la mesa
+
+      </button>
+
     </div>
+
   </div>
+
 </div>
 
-<!-- ESTADO PEDIDO -->
-<div class="modal" id="status-modal" onclick="outside(event,'status-modal')">
+<!-- ESTADO DEL PEDIDO -->
+
+<div class="modal" id="status-modal"
+  onclick="outside(event,'status-modal')">
+
   <div class="modal-content">
-    <button class="close" onclick="closeModal('status-modal')">×</button>
+
+    <button class="close"
+      onclick="closeModal('status-modal')">
+      ×
+    </button>
 
     <div class="modal-body">
-      <div class="modal-label">Seguimiento</div>
-      <h2 class="modal-title">Estado del pedido</h2>
 
-      <div class="order-number" id="status-number"></div>
+      <div class="modal-label">
+        Seguimiento
+      </div>
+
+      <h2 class="modal-title">
+        Estado del pedido
+      </h2>
+
+      <div class="order-number"
+        id="status-number"></div>
 
       <div class="timeline">
+
         <div class="timeline-step done">
+
           <div class="timeline-dot"></div>
+
           <div>
             <strong>Pedido recibido</strong>
-            <small>Tu pedido llegó correctamente.</small>
+            <small>Tu pedido fue registrado.</small>
           </div>
+
         </div>
 
         <div class="timeline-step active">
+
           <div class="timeline-dot"></div>
+
           <div>
             <strong>En preparación</strong>
-            <small>La cocina está preparando tu pedido.</small>
+            <small>La cocina prepara tu pedido.</small>
           </div>
+
         </div>
 
         <div class="timeline-step">
+
           <div class="timeline-dot"></div>
+
           <div>
             <strong>Listo para servir</strong>
-            <small>Te avisaremos cuando esté listo.</small>
+            <small>Pronto llegará a tu mesa.</small>
           </div>
+
         </div>
 
         <div class="timeline-step">
+
           <div class="timeline-dot"></div>
+
           <div>
             <strong>Entregado</strong>
             <small>Pedido entregado en Mesa 08.</small>
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
 
 <script>
-const menu={
-  brasa:{
-    title:"De la brasa",
-    products:[
-      {id:"punta-anca",name:"Punta de anca",price:48000,description:"Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."},
-      {id:"costillas",name:"Costillas BRASA",price:52000,description:"Costillas cocinadas lentamente y terminadas sobre las brasas."},
-      {id:"pollo",name:"Pollo al fuego",price:39000,description:"Pollo marinado con hierbas, limón y especias, asado al carbón."}
+
+/* MENÚ */
+
+const menu = {
+
+  brasa: {
+    title: "De la brasa",
+    products: [
+      {
+        id: "punta-anca",
+        name: "Punta de anca",
+        price: 48000,
+        description:
+          "Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."
+      },
+      {
+        id: "costillas",
+        name: "Costillas BRASA",
+        price: 52000,
+        description:
+          "Costillas cocinadas lentamente y terminadas sobre las brasas."
+      },
+      {
+        id: "pollo",
+        name: "Pollo al fuego",
+        price: 39000,
+        description:
+          "Pollo marinado con hierbas, limón y especias, asado al carbón."
+      }
     ]
   },
 
-  entradas:{
-    title:"Entradas",
-    products:[
-      {id:"chorizo",name:"Chorizo artesanal",price:22000,description:"Chorizo a la parrilla acompañado de chimichurri de la casa."},
-      {id:"provoleta",name:"Provoleta al fuego",price:27000,description:"Queso provolone fundido al carbón con tomates asados y orégano."},
-      {id:"papas",name:"Papas BRASA",price:18000,description:"Papas rústicas doradas con sal ahumada y salsa de la casa."}
+  entradas: {
+    title: "Entradas",
+    products: [
+      {
+        id: "chorizo",
+        name: "Chorizo artesanal",
+        price: 22000,
+        description:
+          "Chorizo a la parrilla acompañado de chimichurri de la casa."
+      },
+      {
+        id: "provoleta",
+        name: "Provoleta al fuego",
+        price: 27000,
+        description:
+          "Queso provolone fundido al carbón con tomates asados y orégano."
+      },
+      {
+        id: "papas",
+        name: "Papas BRASA",
+        price: 18000,
+        description:
+          "Papas rústicas doradas con sal ahumada y salsa de la casa."
+      }
     ]
   },
 
-  fuertes:{
-    title:"Fuertes",
-    products:[
-      {id:"salmon",name:"Salmón a la parrilla",price:49000,description:"Salmón al fuego acompañado de vegetales asados y limón."},
-      {id:"arroz",name:"Arroz de la casa",price:38000,description:"Arroz preparado al wok con vegetales, proteína y sabores ahumados."},
-      {id:"pasta",name:"Pasta al fuego",price:36000,description:"Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."}
+  fuertes: {
+    title: "Fuertes",
+    products: [
+      {
+        id: "salmon",
+        name: "Salmón a la parrilla",
+        price: 49000,
+        description:
+          "Salmón al fuego acompañado de vegetales asados y limón."
+      },
+      {
+        id: "arroz",
+        name: "Arroz de la casa",
+        price: 38000,
+        description:
+          "Arroz preparado al wok con vegetales, proteína y sabores ahumados."
+      },
+      {
+        id: "pasta",
+        name: "Pasta al fuego",
+        price: 36000,
+        description:
+          "Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."
+      }
     ]
   },
 
-  bebidas:{
-    title:"Bebidas",
-    products:[
-      {id:"limonada",name:"Limonada de hierbabuena",price:12000,description:"Limón fresco, hierbabuena y hielo."},
-      {id:"soda",name:"Soda de frutos rojos",price:14000,description:"Soda artesanal con frutos rojos y cítricos."},
-      {id:"agua",name:"Agua mineral",price:8000,description:"Agua mineral fría."}
+  bebidas: {
+    title: "Bebidas",
+    products: [
+      {
+        id: "limonada",
+        name: "Limonada de hierbabuena",
+        price: 12000,
+        description:
+          "Limón fresco, hierbabuena y hielo."
+      },
+      {
+        id: "soda",
+        name: "Soda de frutos rojos",
+        price: 14000,
+        description:
+          "Soda artesanal con frutos rojos y cítricos."
+      },
+      {
+        id: "agua",
+        name: "Agua mineral",
+        price: 8000,
+        description:
+          "Agua mineral fría."
+      }
     ]
   }
+
 };
 
-let selectedProduct=null;
-let currentQuantity=1;
-let order=[];
-let orderHistory=[];
-let orderCounter=1;
-let latestOrderNumber="";
+/* ESTADO DE LA APLICACIÓN */
 
-let waiterLevel=0;
-let waiterTimer=null;
-let waiterRemaining=0;
+let currentGuest = "";
 
-let selectedPayment=null;
-let needsInvoice=null;
+let selectedProduct = null;
 
-function money(value){
-  return "$"+value.toLocaleString("es-CO");
+let currentQuantity = 1;
+
+let order = [];
+
+let orderHistory = [];
+
+let orderCounter = 1;
+
+let latestOrderNumber = "";
+
+let consumptionView = "mine";
+
+let selectedSplit = null;
+
+let selectedPayment = null;
+
+let needsInvoice = null;
+
+let billRequested = false;
+
+let waiterLevel = 0;
+
+let waiterTimer = null;
+
+let waiterDeadline = 0;
+
+/*
+  DATOS DE DEMOSTRACIÓN.
+
+  Estos consumos permiten visualizar una mesa
+  con varios comensales.
+
+  Cuando se conecte la base de datos,
+  se reemplazarán por los pedidos reales
+  enviados desde los distintos celulares.
+*/
+
+const demoTableOrders = [
+
+  {
+    guest: "Vale",
+    items: [
+      {
+        id: "salmon",
+        name: "Salmón a la parrilla",
+        price: 49000,
+        quantity: 1
+      },
+      {
+        id: "soda",
+        name: "Soda de frutos rojos",
+        price: 14000,
+        quantity: 1
+      }
+    ]
+  },
+
+  {
+    guest: "Juan",
+    items: [
+      {
+        id: "costillas",
+        name: "Costillas BRASA",
+        price: 52000,
+        quantity: 1
+      },
+      {
+        id: "agua",
+        name: "Agua mineral",
+        price: 8000,
+        quantity: 1
+      }
+    ]
+  }
+
+];
+
+/* UTILIDADES */
+
+function money(value) {
+  return "$" + value.toLocaleString("es-CO");
 }
 
-function openModal(id){
-  document.getElementById(id).classList.add("active");
+function escapeHTML(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function openModal(id) {
+
+  hideServiceMenu();
+
+  document
+    .querySelectorAll(".modal")
+    .forEach(modal => {
+      modal.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
   document.body.classList.add("modal-open");
+
 }
 
-function closeModal(id){
-  document.getElementById(id).classList.remove("active");
+function closeModal(id) {
+
+  document
+    .getElementById(id)
+    .classList.remove("active");
+
   document.body.classList.remove("modal-open");
+
 }
 
-function outside(event,id){
-  if(event.target.id===id) closeModal(id);
+function outside(event, id) {
+
+  if (event.target.id === id) {
+    closeModal(id);
+  }
+
 }
 
-function renderProducts(category){
-  const data=menu[category];
-  document.getElementById("category-title").textContent=data.title;
+/* REGISTRO */
 
-  const container=document.getElementById("products");
-  container.innerHTML="";
+function registerGuest() {
 
-  data.products.forEach(product=>{
-    const element=document.createElement("article");
-    element.className="dish";
+  const input = document.getElementById(
+    "guest-name-input"
+  );
 
-    element.innerHTML=`
+  const name = input.value.trim();
+
+  if (!name) {
+
+    document.getElementById(
+      "guest-error"
+    ).textContent = "Escribe tu nombre para continuar.";
+
+    return;
+
+  }
+
+  currentGuest = name;
+
+  sessionStorage.setItem(
+    "messaGuest",
+    name
+  );
+
+  document.getElementById(
+    "guest-display"
+  ).textContent = name;
+
+  document.getElementById(
+    "guest-gate"
+  ).style.display = "none";
+
+}
+
+function restoreGuest() {
+
+  const saved = sessionStorage.getItem(
+    "messaGuest"
+  );
+
+  if (saved) {
+
+    currentGuest = saved;
+
+    document.getElementById(
+      "guest-display"
+    ).textContent = saved;
+
+    document.getElementById(
+      "guest-gate"
+    ).style.display = "none";
+
+  }
+
+}
+
+document.getElementById(
+  "guest-name-input"
+).addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    registerGuest();
+  }
+
+});
+
+/* PRODUCTOS */
+
+function renderProducts(category) {
+
+  const data = menu[category];
+
+  document.getElementById(
+    "category-title"
+  ).textContent = data.title;
+
+  const container = document.getElementById(
+    "products"
+  );
+
+  container.innerHTML = "";
+
+  data.products.forEach(product => {
+
+    const element = document.createElement(
+      "article"
+    );
+
+    element.className = "dish";
+
+    element.innerHTML = `
+
       <div class="dish-top">
-        <h4 class="dish-name">${product.name}</h4>
-        <div class="dish-price">${money(product.price)}</div>
+
+        <h4 class="dish-name">
+          ${escapeHTML(product.name)}
+        </h4>
+
+        <div class="dish-price">
+          ${money(product.price)}
+        </div>
+
       </div>
 
-      <p class="dish-description">${product.description}</p>
-      <div class="dish-hint">VER EN 3D +</div>
+      <p class="dish-description">
+        ${escapeHTML(product.description)}
+      </p>
+
+      <div class="dish-hint">
+        VER EN 3D +
+      </div>
+
     `;
 
-    element.onclick=()=>openProduct(product);
+    element.onclick = () => openProduct(
+      product
+    );
+
     container.appendChild(element);
+
   });
+
 }
 
-function showCategory(category,button){
-  document.querySelectorAll(".category").forEach(x=>x.classList.remove("active"));
+function showCategory(category, button) {
+
+  document
+    .querySelectorAll(".category")
+    .forEach(item => {
+      item.classList.remove("active");
+    });
+
   button.classList.add("active");
+
   renderProducts(category);
+
 }
 
-function openProduct(product){
-  selectedProduct=product;
-  currentQuantity=1;
+function openProduct(product) {
 
-  document.getElementById("modal-name").textContent=product.name;
-  document.getElementById("modal-description").textContent=product.description;
-  document.getElementById("modal-price").textContent=money(product.price);
-  document.getElementById("quantity").textContent=1;
-  document.getElementById("added-message").classList.remove("active");
+  selectedProduct = product;
+
+  currentQuantity = 1;
+
+  document.getElementById(
+    "modal-name"
+  ).textContent = product.name;
+
+  document.getElementById(
+    "modal-description"
+  ).textContent = product.description;
+
+  document.getElementById(
+    "modal-price"
+  ).textContent = money(product.price);
+
+  document.getElementById(
+    "quantity"
+  ).textContent = 1;
+
+  document.getElementById(
+    "added-message"
+  ).classList.remove("active");
 
   openModal("product-modal");
+
 }
 
-function changeProductQuantity(change){
-  currentQuantity=Math.max(1,currentQuantity+change);
-  document.getElementById("quantity").textContent=currentQuantity;
+function changeProductQuantity(change) {
+
+  currentQuantity = Math.max(
+    1,
+    currentQuantity + change
+  );
+
+  document.getElementById(
+    "quantity"
+  ).textContent = currentQuantity;
+
 }
 
-function addToOrder(){
-  if(!selectedProduct)return;
+/* CARRITO */
 
-  const existing=order.find(x=>x.id===selectedProduct.id);
+function addToOrder() {
 
-  if(existing){
-    existing.quantity+=currentQuantity;
-  }else{
+  if (!selectedProduct) return;
+
+  const existing = order.find(
+    item => item.id === selectedProduct.id
+  );
+
+  if (existing) {
+
+    existing.quantity += currentQuantity;
+
+  } else {
+
     order.push({
-      id:selectedProduct.id,
-      name:selectedProduct.name,
-      price:selectedProduct.price,
-      quantity:currentQuantity
+
+      id: selectedProduct.id,
+
+      name: selectedProduct.name,
+
+      price: selectedProduct.price,
+
+      quantity: currentQuantity,
+
+      guest: currentGuest
+
     });
+
   }
 
   updateCartBar();
-  document.getElementById("added-message").classList.add("active");
 
-  setTimeout(()=>closeModal("product-modal"),600);
+  document.getElementById(
+    "added-message"
+  ).classList.add("active");
+
+  setTimeout(() => {
+
+    closeModal("product-modal");
+
+  }, 600);
+
 }
 
-function cartQuantity(){
-  return order.reduce((sum,x)=>sum+x.quantity,0);
+function cartQuantity() {
+
+  return order.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
 }
 
-function cartTotal(){
-  return order.reduce((sum,x)=>sum+x.price*x.quantity,0);
+function orderTotal(items) {
+
+  return items.reduce(
+    (sum, item) =>
+      sum + item.price * item.quantity,
+    0
+  );
+
 }
 
-function updateCartBar(){
-  const bar=document.getElementById("cart-bar");
-  const service=document.getElementById("service-floating");
+function cartTotal() {
 
-  if(!order.length){
+  return orderTotal(order);
+
+}
+
+function updateCartBar() {
+
+  const bar = document.getElementById(
+    "cart-bar"
+  );
+
+  const service = document.getElementById(
+    "service-floating"
+  );
+
+  if (!order.length) {
+
     bar.classList.remove("active");
-    service.classList.remove("cart-visible");
+
+    service.classList.remove(
+      "cart-visible"
+    );
+
     return;
+
   }
 
   bar.classList.add("active");
-  service.classList.add("cart-visible");
 
-  const count=cartQuantity();
-  document.getElementById("cart-count").textContent=
-    count===1?"1 producto":count+" productos";
+  service.classList.add(
+    "cart-visible"
+  );
 
-  document.getElementById("cart-bar-total").textContent=money(cartTotal());
+  const count = cartQuantity();
+
+  document.getElementById(
+    "cart-count"
+  ).textContent = count === 1
+    ? "1 producto"
+    : count + " productos";
+
+  document.getElementById(
+    "cart-bar-total"
+  ).textContent = money(cartTotal());
+
 }
 
-function openCart(){
+function openCart() {
+
   renderCart();
 
-  document.getElementById("cart-view").style.display="block";
-  document.getElementById("order-success").classList.remove("active");
+  document.getElementById(
+    "cart-guest"
+  ).textContent = currentGuest;
+
+  document.getElementById(
+    "cart-view"
+  ).style.display = "block";
+
+  document.getElementById(
+    "order-success"
+  ).classList.remove("active");
 
   openModal("cart-modal");
+
 }
 
-function renderCart(){
-  const container=document.getElementById("cart-items");
-  const summary=document.getElementById("cart-summary");
+function renderCart() {
 
-  container.innerHTML="";
+  const container = document.getElementById(
+    "cart-items"
+  );
 
-  if(!order.length){
-    container.innerHTML='<p class="muted">Todavía no has agregado productos.</p>';
-    summary.style.display="none";
-    return;
-  }
+  const summary = document.getElementById(
+    "cart-summary"
+  );
 
-  summary.style.display="block";
+  container.innerHTML = "";
 
-  order.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="cart-item";
+  if (!order.length) {
 
-    div.innerHTML=`
-      <div class="cart-item-top">
-        <strong>${item.name}</strong>
-        <span class="cart-item-price">${money(item.price*item.quantity)}</span>
-      </div>
-
-      <div class="cart-item-bottom">
-        <div class="cart-quantity">
-          <button onclick="changeCartQuantity('${item.id}',-1)">−</button>
-          <strong>${item.quantity}</strong>
-          <button onclick="changeCartQuantity('${item.id}',1)">+</button>
-        </div>
-
-        <button class="remove" onclick="removeItem('${item.id}')">Eliminar</button>
-      </div>
+    container.innerHTML = `
+      <p class="muted">
+        Todavía no has agregado productos.
+      </p>
     `;
 
+    summary.style.display = "none";
+
+    return;
+
+  }
+
+  summary.style.display = "block";
+
+  order.forEach(item => {
+
+    const div = document.createElement(
+      "div"
+    );
+
+    div.className = "cart-item";
+
+    const name = document.createElement(
+      "strong"
+    );
+
+    name.textContent = item.name;
+
+    const top = document.createElement(
+      "div"
+    );
+
+    top.className = "cart-item-top";
+
+    const price = document.createElement(
+      "span"
+    );
+
+    price.className = "cart-item-price";
+
+    price.textContent = money(
+      item.price * item.quantity
+    );
+
+    top.append(name, price);
+
+    const bottom = document.createElement(
+      "div"
+    );
+
+    bottom.className = "cart-item-bottom";
+
+    const quantity = document.createElement(
+      "div"
+    );
+
+    quantity.className = "cart-quantity";
+
+    const minus = document.createElement(
+      "button"
+    );
+
+    minus.textContent = "−";
+
+    minus.onclick = () => {
+      changeCartQuantity(item.id, -1);
+    };
+
+    const number = document.createElement(
+      "strong"
+    );
+
+    number.textContent = item.quantity;
+
+    const plus = document.createElement(
+      "button"
+    );
+
+    plus.textContent = "+";
+
+    plus.onclick = () => {
+      changeCartQuantity(item.id, 1);
+    };
+
+    quantity.append(
+      minus,
+      number,
+      plus
+    );
+
+    const remove = document.createElement(
+      "button"
+    );
+
+    remove.className = "remove";
+
+    remove.textContent = "Eliminar";
+
+    remove.onclick = () => {
+      removeItem(item.id);
+    };
+
+    bottom.append(
+      quantity,
+      remove
+    );
+
+    div.append(
+      top,
+      bottom
+    );
+
     container.appendChild(div);
+
   });
 
-  const count=cartQuantity();
+  const count = cartQuantity();
 
-  document.getElementById("summary-count").textContent=
-    count===1?"1 producto":count+" productos";
+  document.getElementById(
+    "summary-count"
+  ).textContent = count === 1
+    ? "1 producto"
+    : count + " productos";
 
-  document.getElementById("summary-total").textContent=money(cartTotal());
+  document.getElementById(
+    "summary-total"
+  ).textContent = money(cartTotal());
+
 }
 
-function changeCartQuantity(id,change){
-  const item=order.find(x=>x.id===id);
-  if(!item)return;
+function changeCartQuantity(id, change) {
 
-  item.quantity+=change;
+  const item = order.find(
+    item => item.id === id
+  );
 
-  if(item.quantity<=0){
-    order=order.filter(x=>x.id!==id);
+  if (!item) return;
+
+  item.quantity += change;
+
+  if (item.quantity <= 0) {
+
+    order = order.filter(
+      item => item.id !== id
+    );
+
   }
 
   updateCartBar();
+
   renderCart();
+
 }
 
-function removeItem(id){
-  order=order.filter(x=>x.id!==id);
+function removeItem(id) {
+
+  order = order.filter(
+    item => item.id !== id
+  );
+
   updateCartBar();
+
   renderCart();
+
 }
 
-function confirmOrder(){
-  if(!order.length)return;
+/* ENVÍO DEL PEDIDO */
 
-  latestOrderNumber="#BR-"+String(orderCounter).padStart(3,"0");
+function confirmOrder() {
 
-  const snapshot={
-    number:latestOrderNumber,
-    items:order.map(x=>({...x})),
-    total:cartTotal(),
-    status:"En preparación"
+  if (!order.length) return;
+
+  latestOrderNumber =
+    "#BR-" +
+    String(orderCounter).padStart(3, "0");
+
+  const snapshot = {
+
+    number: latestOrderNumber,
+
+    guest: currentGuest,
+
+    items: order.map(
+      item => ({ ...item })
+    ),
+
+    total: cartTotal(),
+
+    status: "En preparación"
+
   };
 
   orderHistory.push(snapshot);
+
   orderCounter++;
 
-  document.getElementById("order-number").textContent=
-    "PEDIDO "+latestOrderNumber;
+  document.getElementById(
+    "order-number"
+  ).textContent =
+    "PEDIDO " + latestOrderNumber;
 
-  document.getElementById("cart-view").style.display="none";
-  document.getElementById("order-success").classList.add("active");
+  document.getElementById(
+    "cart-view"
+  ).style.display = "none";
 
-  order=[];
+  document.getElementById(
+    "order-success"
+  ).classList.add("active");
+
+  order = [];
+
   updateCartBar();
+
 }
 
-function openOrderStatus(){
-  closeModal("cart-modal");
+function openOrderStatus() {
 
-  document.getElementById("status-number").textContent=
-    "PEDIDO "+latestOrderNumber+" · MESA 08";
+  document.getElementById(
+    "status-number"
+  ).textContent =
+    "PEDIDO " +
+    latestOrderNumber +
+    " · " +
+    currentGuest;
 
   openModal("status-modal");
+
 }
 
-/* SERVICIO */
-function toggleServiceMenu(){
-  document.getElementById("service-menu").classList.toggle("active");
+/* CONSUMO POR PERSONA */
+
+function allTableOrders() {
+
+  return [
+    ...orderHistory,
+    ...demoTableOrders
+  ];
+
 }
 
-function hideServiceMenu(){
-  document.getElementById("service-menu").classList.remove("active");
-}
+function aggregatePeople(groups) {
 
-function openWaiter(){
-  hideServiceMenu();
-  openModal("waiter-modal");
-}
+  const people = {};
 
-function callWaiter(){
-  const status=document.getElementById("waiter-status");
-  const description=document.getElementById("waiter-description");
+  groups.forEach(group => {
 
-  if(waiterLevel===0){
-    waiterLevel=1;
-
-    status.className="waiter-status green";
-    status.textContent="PRIMER LLAMADO · MESA 08";
-
-    description.textContent=
-      "Solicitud enviada. El equipo de servicio ya fue notificado.";
-
-    startWaiterCountdown(60,1);
-
-  }else if(waiterLevel===1){
-    waiterLevel=2;
-
-    status.className="waiter-status yellow";
-    status.textContent="SEGUNDO LLAMADO · MESA 08";
-
-    description.textContent=
-      "Volvimos a notificar al equipo de servicio.";
-
-    startWaiterCountdown(120,2);
-  }
-}
-
-function startWaiterCountdown(seconds,level){
-  clearInterval(waiterTimer);
-
-  waiterRemaining=seconds;
-
-  const button=document.getElementById("waiter-button");
-  button.disabled=true;
-
-  updateCountdown();
-
-  waiterTimer=setInterval(()=>{
-    waiterRemaining--;
-    updateCountdown();
-
-    if(waiterRemaining<=0){
-      clearInterval(waiterTimer);
-
-      if(level===1){
-        button.disabled=false;
-        button.textContent="Volver a llamar";
-
-        document.getElementById("waiter-countdown").textContent=
-          "Puedes enviar un segundo llamado.";
-
-      }else{
-        waiterLevel=3;
-
-        const status=document.getElementById("waiter-status");
-
-        status.className="waiter-status red";
-        status.textContent="ATENCIÓN PRIORITARIA · MESA 08";
-
-        document.getElementById("waiter-description").textContent=
-          "La Mesa 08 lleva varios minutos esperando. La solicitud fue marcada como prioritaria.";
-
-        button.disabled=true;
-        button.textContent="Llamado prioritario enviado";
-
-        document.getElementById("waiter-countdown").textContent=
-          "El equipo de servicio ha sido notificado nuevamente.";
-      }
+    if (!people[group.guest]) {
+      people[group.guest] = [];
     }
-  },1000);
+
+    group.items.forEach(item => {
+
+      const existing = people[
+        group.guest
+      ].find(
+        product => product.id === item.id
+      );
+
+      if (existing) {
+
+        existing.quantity += item.quantity;
+
+      } else {
+
+        people[group.guest].push({
+          ...item
+        });
+
+      }
+
+    });
+
+  });
+
+  return people;
+
 }
 
-function updateCountdown(){
-  const min=Math.floor(waiterRemaining/60);
-  const sec=waiterRemaining%60;
+function getPeople() {
 
-  document.getElementById("waiter-countdown").textContent=
-    "Podrás volver a llamar en "+min+":"+String(sec).padStart(2,"0");
+  const people = aggregatePeople(
+    allTableOrders()
+  );
+
+  if (!people[currentGuest]) {
+
+    people[currentGuest] = [];
+
+  }
+
+  return people;
+
+}
+
+function myTotal() {
+
+  const people = getPeople();
+
+  return orderTotal(
+    people[currentGuest] || []
+  );
+
+}
+
+function tableTotal() {
+
+  const people = getPeople();
+
+  return Object.values(
+    people
+  ).reduce(
+    (sum, items) =>
+      sum + orderTotal(items),
+    0
+  );
+
+}
+
+function openConsumption() {
+
+  document.getElementById(
+    "consumption-guest"
+  ).textContent = currentGuest;
+
+  consumptionView = "mine";
+
+  renderConsumption();
+
+  openModal("consumption-modal");
+
+}
+
+function setConsumptionView(view) {
+
+  consumptionView = view;
+
+  renderConsumption();
+
+}
+
+function renderConsumption() {
+
+  document.getElementById(
+    "tab-mine"
+  ).classList.toggle(
+    "active",
+    consumptionView === "mine"
+  );
+
+  document.getElementById(
+    "tab-table"
+  ).classList.toggle(
+    "active",
+    consumptionView === "table"
+  );
+
+  const people = getPeople();
+
+  const list = document.getElementById(
+    "consumption-list"
+  );
+
+  list.innerHTML = "";
+
+  const names =
+    consumptionView === "mine"
+      ? [currentGuest]
+      : Object.keys(people);
+
+  let grandTotal = 0;
+
+  names.forEach(name => {
+
+    const items = people[name] || [];
+
+    const total = orderTotal(items);
+
+    grandTotal += total;
+
+    const card = document.createElement(
+      "div"
+    );
+
+    card.className = "person-card";
+
+    const lines = items.length
+      ? items.map(item => `
+
+          <div class="consumption-line">
+
+            <span>
+              ${item.quantity} ×
+              ${escapeHTML(item.name)}
+            </span>
+
+            <span>
+              ${money(item.price * item.quantity)}
+            </span>
+
+          </div>
+
+        `).join("")
+      : `
+
+          <p class="muted">
+            Aún no tienes pedidos enviados.
+          </p>
+
+        `;
+
+    card.innerHTML = `
+
+      <div class="person-head">
+
+        <span>
+          ${escapeHTML(name)}
+          ${name === currentGuest ? "· Tú" : ""}
+        </span>
+
+        <strong>
+          ${money(total)}
+        </strong>
+
+      </div>
+
+      ${lines}
+
+    `;
+
+    list.appendChild(card);
+
+  });
+
+  document.getElementById(
+    "consumption-total"
+  ).innerHTML = `
+
+    <div class="grand-total">
+
+      <span>
+        ${
+          consumptionView === "mine"
+            ? "Mi total"
+            : "Total de la mesa"
+        }
+      </span>
+
+      <strong>
+        ${money(grandTotal)}
+      </strong>
+
+    </div>
+
+  `;
+
 }
 
 /* HISTORIAL */
-function consumedTotal(){
-  return orderHistory.reduce((sum,x)=>sum+x.total,0);
-}
 
-function openHistory(){
-  hideServiceMenu();
+function openHistory() {
 
-  document.getElementById("history-total").textContent=
-    money(consumedTotal());
+  document.getElementById(
+    "history-total"
+  ).textContent = money(myTotal());
 
-  const list=document.getElementById("history-list");
-  list.innerHTML="";
+  const list = document.getElementById(
+    "history-list"
+  );
 
-  if(!orderHistory.length){
-    list.innerHTML=
-      '<p class="muted">Aún no has enviado ningún pedido desde esta mesa.</p>';
-  }else{
-    [...orderHistory].reverse().forEach(pedido=>{
-      const products=pedido.items
-        .map(x=>x.quantity+" × "+x.name)
-        .join("<br>");
+  list.innerHTML = "";
 
-      const card=document.createElement("div");
-      card.className="history-card";
+  if (!orderHistory.length) {
 
-      card.innerHTML=`
-        <div class="history-head">
-          <strong>Pedido ${pedido.number}</strong>
-          <span class="history-status">${pedido.status}</span>
-        </div>
+    list.innerHTML = `
 
-        <div class="history-products">${products}</div>
+      <p class="muted">
+        Aún no has enviado ningún pedido.
+      </p>
 
-        <div class="history-total">
-          <span>Total</span>
-          <span>${money(pedido.total)}</span>
-        </div>
-      `;
+    `;
 
-      list.appendChild(card);
-    });
+  } else {
+
+    [...orderHistory]
+      .reverse()
+      .forEach(pedido => {
+
+        const card = document.createElement(
+          "div"
+        );
+
+        card.className = "history-card";
+
+        const products = pedido.items
+          .map(item => `
+            ${item.quantity} ×
+            ${escapeHTML(item.name)}
+          `)
+          .join("<br>");
+
+        card.innerHTML = `
+
+          <div class="history-head">
+
+            <strong>
+              Pedido ${pedido.number}
+            </strong>
+
+            <span class="history-status">
+              ${pedido.status}
+            </span>
+
+          </div>
+
+          <div class="history-products">
+            ${products}
+          </div>
+
+          <div class="history-total">
+
+            <span>Total</span>
+
+            <span>
+              ${money(pedido.total)}
+            </span>
+
+          </div>
+
+        `;
+
+        list.appendChild(card);
+
+      });
+
   }
 
   openModal("history-modal");
+
+}
+
+/* SERVICIO FLOTANTE */
+
+function toggleServiceMenu() {
+
+  document.getElementById(
+    "service-menu"
+  ).classList.toggle("active");
+
+}
+
+function hideServiceMenu() {
+
+  document.getElementById(
+    "service-menu"
+  ).classList.remove("active");
+
+}
+
+/* LLAMADO AL MESERO */
+
+function openWaiter() {
+
+  updateWaiterDisplay();
+
+  openModal("waiter-modal");
+
+}
+
+function callWaiter() {
+
+  if (waiterLevel === 0) {
+
+    waiterLevel = 1;
+
+    startWaiterCountdown(60);
+
+  } else if (
+    waiterLevel === 1 &&
+    Date.now() >= waiterDeadline
+  ) {
+
+    waiterLevel = 2;
+
+    startWaiterCountdown(120);
+
+  }
+
+  updateWaiterDisplay();
+
+}
+
+function startWaiterCountdown(seconds) {
+
+  clearInterval(waiterTimer);
+
+  waiterDeadline =
+    Date.now() + seconds * 1000;
+
+  waiterTimer = setInterval(() => {
+
+    updateWaiterDisplay();
+
+  }, 1000);
+
+}
+
+function updateWaiterDisplay() {
+
+  const status = document.getElementById(
+    "waiter-status"
+  );
+
+  const description = document.getElementById(
+    "waiter-description"
+  );
+
+  const button = document.getElementById(
+    "waiter-button"
+  );
+
+  const countdown = document.getElementById(
+    "waiter-countdown"
+  );
+
+  const remaining = Math.max(
+    0,
+    Math.ceil(
+      (waiterDeadline - Date.now()) / 1000
+    )
+  );
+
+  status.className = "waiter-status";
+
+  if (waiterLevel === 0) {
+
+    status.textContent = "MESA 08";
+
+    description.textContent =
+      "¿Necesitas ayuda? Envía un llamado al equipo de servicio.";
+
+    button.disabled = false;
+
+    button.textContent =
+      "Llamar al mesero";
+
+    countdown.textContent = "";
+
+    return;
+
+  }
+
+  if (waiterLevel === 1) {
+
+    status.classList.add("green");
+
+    status.textContent =
+      "PRIMER LLAMADO · MESA 08";
+
+    description.textContent =
+      "Tu solicitud fue registrada.";
+
+    if (remaining > 0) {
+
+      button.disabled = true;
+
+      button.textContent =
+        "Llamado enviado";
+
+    } else {
+
+      clearInterval(waiterTimer);
+
+      button.disabled = false;
+
+      button.textContent =
+        "Volver a llamar";
+
+    }
+
+  }
+
+  if (waiterLevel === 2) {
+
+    status.classList.add("yellow");
+
+    status.textContent =
+      "SEGUNDO LLAMADO · MESA 08";
+
+    description.textContent =
+      "Se registró un segundo llamado.";
+
+    button.disabled = true;
+
+    button.textContent =
+      "Segundo llamado enviado";
+
+    if (remaining === 0) {
+
+      clearInterval(waiterTimer);
+
+      waiterLevel = 3;
+
+      updateWaiterDisplay();
+
+      return;
+
+    }
+
+  }
+
+  if (waiterLevel === 3) {
+
+    status.classList.add("red");
+
+    status.textContent =
+      "ATENCIÓN PRIORITARIA · MESA 08";
+
+    description.textContent =
+      "Tu solicitud tiene prioridad.";
+
+    button.disabled = true;
+
+    button.textContent =
+      "Llamado prioritario";
+
+    countdown.textContent =
+      "El equipo de servicio ha sido notificado.";
+
+    return;
+
+  }
+
+  if (remaining > 0) {
+
+    const minutes = Math.floor(
+      remaining / 60
+    );
+
+    const seconds = remaining % 60;
+
+    countdown.textContent =
+      "Tiempo restante: " +
+      minutes +
+      ":" +
+      String(seconds).padStart(2, "0");
+
+  } else if (waiterLevel === 1) {
+
+    countdown.textContent =
+      "Puedes realizar un segundo llamado.";
+
+  }
+
 }
 
 /* CUENTA */
-function openBill(){
-  hideServiceMenu();
 
-  document.getElementById("bill-total").textContent=
-    money(consumedTotal());
+function openBill() {
 
-  document.getElementById("bill-form").style.display="block";
-  document.getElementById("bill-success").classList.remove("active");
+  selectedSplit = null;
+
+  selectedPayment = null;
+
+  needsInvoice = null;
+
+  document.getElementById(
+    "bill-total"
+  ).textContent = money(tableTotal());
+
+  document.getElementById(
+    "bill-error"
+  ).textContent = "";
+
+  document.getElementById(
+    "split-result"
+  ).innerHTML = "";
+
+  document.getElementById(
+    "bill-form"
+  ).style.display = billRequested
+    ? "none"
+    : "block";
+
+  document.getElementById(
+    "bill-success"
+  ).classList.toggle(
+    "active",
+    billRequested
+  );
+
+  document
+    .querySelectorAll(".bill-option")
+    .forEach(button => {
+      button.classList.remove("selected");
+    });
+
+  document
+    .querySelectorAll(".option")
+    .forEach(button => {
+      button.classList.remove("selected");
+    });
+
+  document.getElementById(
+    "invoice-yes"
+  ).classList.remove("selected");
+
+  document.getElementById(
+    "invoice-no"
+  ).classList.remove("selected");
+
+  document.getElementById(
+    "invoice-fields"
+  ).classList.remove("active");
 
   openModal("bill-modal");
+
 }
 
-function selectPayment(method){
-  selectedPayment=method;
+function selectSplit(type) {
 
-  document.querySelectorAll(".option")
-    .forEach(x=>x.classList.remove("selected"));
+  selectedSplit = type;
 
-  if(method==="Datáfono"){
-    document.getElementById("payment-card").classList.add("selected");
-  }else{
-    document.getElementById("payment-cash").classList.add("selected");
+  document.getElementById(
+    "split-individual"
+  ).classList.toggle(
+    "selected",
+    type === "individual"
+  );
+
+  document.getElementById(
+    "split-equal"
+  ).classList.toggle(
+    "selected",
+    type === "equal"
+  );
+
+  const people = getPeople();
+
+  const names = Object.keys(people);
+
+  const total = tableTotal();
+
+  const result = document.getElementById(
+    "split-result"
+  );
+
+  if (type === "individual") {
+
+    result.innerHTML = `
+
+      <div class="split-result">
+
+        ${names.map(name => `
+
+          <div class="consumption-line">
+
+            <span>
+              ${escapeHTML(name)}
+            </span>
+
+            <strong>
+              ${money(orderTotal(people[name]))}
+            </strong>
+
+          </div>
+
+        `).join("")}
+
+        <div class="grand-total">
+
+          <span>Total</span>
+
+          <strong>
+            ${money(total)}
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+  } else {
+
+    const count = names.length;
+
+    const base = Math.floor(
+      total / count
+    );
+
+    const remainder =
+      total % count;
+
+    result.innerHTML = `
+
+      <div class="split-result">
+
+        <strong>
+          ${money(base)}
+        </strong>
+
+        por persona
+
+        <br>
+
+        ${count} comensales
+
+        <br>
+
+        ${
+          remainder
+            ? `Para cuadrar el total, ${remainder} persona(s) aportan $1 adicional.`
+            : ""
+        }
+
+        <br>
+
+        Total de la mesa:
+        ${money(total)}
+
+      </div>
+
+    `;
+
   }
+
 }
 
-function selectInvoice(value){
-  needsInvoice=value;
+function selectPayment(method) {
 
-  document.getElementById("invoice-yes").classList.remove("selected");
-  document.getElementById("invoice-no").classList.remove("selected");
+  selectedPayment = method;
 
-  if(value){
-    document.getElementById("invoice-yes").classList.add("selected");
-    document.getElementById("invoice-fields").classList.add("active");
-  }else{
-    document.getElementById("invoice-no").classList.add("selected");
-    document.getElementById("invoice-fields").classList.remove("active");
-  }
+  document.getElementById(
+    "payment-card"
+  ).classList.toggle(
+    "selected",
+    method === "Datáfono"
+  );
+
+  document.getElementById(
+    "payment-cash"
+  ).classList.toggle(
+    "selected",
+    method === "Efectivo"
+  );
+
 }
 
-function requestBill(){
-  if(!selectedPayment){
-    alert("Selecciona si pagarás con datáfono o efectivo.");
+function selectInvoice(value) {
+
+  needsInvoice = value;
+
+  document.getElementById(
+    "invoice-yes"
+  ).classList.toggle(
+    "selected",
+    value === true
+  );
+
+  document.getElementById(
+    "invoice-no"
+  ).classList.toggle(
+    "selected",
+    value === false
+  );
+
+  document.getElementById(
+    "invoice-fields"
+  ).classList.toggle(
+    "active",
+    value === true
+  );
+
+}
+
+function requestBill() {
+
+  const error = document.getElementById(
+    "bill-error"
+  );
+
+  error.textContent = "";
+
+  if (!selectedSplit) {
+
+    error.textContent =
+      "Selecciona cómo deseas dividir la cuenta.";
+
     return;
+
   }
 
-  if(needsInvoice===null){
-    alert("Indica si necesitas factura electrónica.");
+  if (!selectedPayment) {
+
+    error.textContent =
+      "Selecciona datáfono o efectivo.";
+
     return;
+
   }
 
-  if(needsInvoice){
-    const name=document.getElementById("invoice-name").value.trim();
-    const id=document.getElementById("invoice-id").value.trim();
-    const email=document.getElementById("invoice-email").value.trim();
+  if (needsInvoice === null) {
 
-    if(!name||!id||!email){
-      alert("Completa los datos para la factura electrónica.");
+    error.textContent =
+      "Indica si necesitas factura electrónica.";
+
+    return;
+
+  }
+
+  if (needsInvoice) {
+
+    const name = document.getElementById(
+      "invoice-name"
+    ).value.trim();
+
+    const id = document.getElementById(
+      "invoice-id"
+    ).value.trim();
+
+    const email = document.getElementById(
+      "invoice-email"
+    ).value.trim();
+
+    if (!name || !id || !email) {
+
+      error.textContent =
+        "Completa los datos de facturación.";
+
       return;
+
     }
+
+    if (!document.getElementById(
+      "invoice-email"
+    ).checkValidity()) {
+
+      error.textContent =
+        "Ingresa un correo electrónico válido.";
+
+      return;
+
+    }
+
   }
 
-  let message="";
+  billRequested = true;
 
-  if(selectedPayment==="Datáfono"){
-    message=
-      "Solicitud enviada. El mesero llevará el datáfono a la Mesa 08.";
-  }else{
-    message=
-      "Solicitud enviada. El mesero sabe que realizarás el pago en efectivo.";
+  let message =
+    selectedSplit === "individual"
+      ? "La cuenta se solicitó según el consumo de cada persona. "
+      : "La cuenta se solicitó dividida en partes iguales. ";
+
+  if (selectedPayment === "Datáfono") {
+
+    message +=
+      "El mesero llevará el datáfono a la Mesa 08.";
+
+  } else {
+
+    message +=
+      "Se indicó que el pago será en efectivo.";
+
   }
 
-  if(needsInvoice){
-    message+=
-      " También recibimos tus datos para la factura electrónica.";
+  if (needsInvoice) {
+
+    message +=
+      " También se registraron los datos para la factura electrónica.";
+
   }
 
-  document.getElementById("bill-message").textContent=message;
-  document.getElementById("bill-form").style.display="none";
-  document.getElementById("bill-success").classList.add("active");
+  document.getElementById(
+    "bill-message"
+  ).textContent = message;
+
+  document.getElementById(
+    "bill-form"
+  ).style.display = "none";
+
+  document.getElementById(
+    "bill-success"
+  ).classList.add("active");
+
 }
 
 /* INICIO */
+
+restoreGuest();
+
 renderProducts("brasa");
+
 updateCartBar();
 
 </script>
