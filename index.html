@@ -1,936 +1,1302 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BRASA | MESSA</title>
-
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- MODEL VIEWER 3D / AR -->
-  <script
-    type="module"
-    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
-  </script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #111111;
-      color: #ffffff;
-    }
-
-    body.modal-open {
-      overflow: hidden;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      margin: 0 auto;
-      background: #151515;
-    }
-
-    /* HERO */
-
-    .hero {
-      min-height: 100vh;
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background-image:
-        linear-gradient(
-          180deg,
-          rgba(0,0,0,.18) 0%,
-          rgba(0,0,0,.35) 45%,
-          rgba(0,0,0,.92) 100%
-        ),
-        url("/brasa-hero.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .messa {
-      font-size: 12px;
-      letter-spacing: 3px;
-      color: #ddd;
-    }
-
-    .table {
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.35);
-      border-radius: 50px;
-      background: rgba(0,0,0,.2);
-      font-size: 12px;
-    }
-
-    .hero-content {
-      padding-bottom: 45px;
-    }
-
-    .eyebrow {
-      margin-bottom: 14px;
-      color: #e8894e;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 64px;
-      font-weight: normal;
-      letter-spacing: 4px;
-    }
-
-    .description {
-      max-width: 360px;
-      margin: 0 0 34px;
-      color: #e0e0e0;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-
-    .button {
-      display: block;
-      width: 100%;
-      padding: 18px;
-      border-radius: 12px;
-      background: #d46b32;
-      color: #fff;
-      text-align: center;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .footer {
-      padding-top: 24px;
-      text-align: center;
-      color: #999;
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    /* MENÚ */
-
-    .menu {
-      min-height: 100vh;
-      padding: 42px 24px 130px;
-      background: #151515;
-    }
-
-    .menu-label {
-      margin-bottom: 8px;
-      color: #d46b32;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .menu-title {
-      margin: 0 0 8px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 42px;
-      font-weight: normal;
-    }
-
-    .menu-intro {
-      margin: 0 0 30px;
-      color: #999;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .categories {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 38px;
-      padding-bottom: 5px;
-      overflow-x: auto;
-    }
-
-    .category {
-      flex: 0 0 auto;
-      padding: 10px 16px;
-      border: 1px solid #333;
-      border-radius: 30px;
-      background: transparent;
-      color: #bbb;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    .category.active {
-      border-color: #d46b32;
-      background: #d46b32;
-      color: #fff;
-    }
-
-    .section-title {
-      margin: 0 0 22px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 25px;
-      font-weight: normal;
-    }
-
-    .dish {
-      padding: 0 0 22px;
-      margin-bottom: 22px;
-      border-bottom: 1px solid #2b2b2b;
-      cursor: pointer;
-    }
-
-    .dish:active {
-      opacity: .7;
-    }
-
-    .dish-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .dish-name {
-      margin: 0 0 8px;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .dish-price {
-      flex-shrink: 0;
-      color: #e8894e;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    .dish-description {
-      margin: 0;
-      color: #999;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .dish-hint {
-      margin-top: 12px;
-      color: #d46b32;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-    .menu-footer {
-      padding-top: 30px;
-      text-align: center;
-      color: #666;
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    /* MODALES */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0,0,0,.82);
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      width: 100%;
-      max-width: 480px;
-      max-height: 94vh;
-      overflow-y: auto;
-      background: #1d1d1d;
-      border-radius: 24px 24px 0 0;
-    }
-
-    /* VISOR 3D */
-
-    .viewer-area {
-      position: relative;
-      width: 100%;
-      height: 340px;
-      overflow: hidden;
-      border-radius: 24px 24px 0 0;
-      background:
-        radial-gradient(
-          circle at center,
-          #333 0%,
-          #202020 55%,
-          #171717 100%
-        );
-    }
-
-    model-viewer {
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      --poster-color: transparent;
-    }
-
-    .viewer-badge {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 4;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 30px;
-      background: rgba(0,0,0,.45);
-      color: #fff;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-    }
-
-    .close-button {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 5;
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(255,255,255,.25);
-      border-radius: 50%;
-      background: rgba(0,0,0,.5);
-      color: #fff;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .ar-button {
-      position: absolute;
-      left: 50%;
-      bottom: 18px;
-      z-index: 5;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      white-space: nowrap;
-      padding: 13px 18px;
-      border: none;
-      border-radius: 30px;
-      background: #ffffff;
-      color: #171717;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0,0,0,.3);
-    }
-
-    .camera-icon {
-      font-size: 17px;
-    }
-
-    .viewer-help {
-      position: absolute;
-      right: 16px;
-      bottom: 20px;
-      z-index: 3;
-      color: rgba(255,255,255,.55);
-      font-size: 9px;
-      letter-spacing: 1px;
-    }
-
-    /* INFORMACIÓN PRODUCTO */
-
-    .product-info {
-      padding: 25px 24px 30px;
-    }
-
-    .modal-label {
-      margin-bottom: 9px;
-      color: #d46b32;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .modal-title {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 30px;
-      font-weight: normal;
-    }
-
-    .modal-description {
-      margin: 15px 0 20px;
-      color: #aaa;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .modal-price {
-      margin-bottom: 25px;
-      color: #e8894e;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .quantity-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-      padding-top: 20px;
-      border-top: 1px solid #333;
-    }
-
-    .quantity-label {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .quantity-button {
-      width: 38px;
-      height: 38px;
-      border: 1px solid #444;
-      border-radius: 50%;
-      background: transparent;
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .quantity-number {
-      min-width: 18px;
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .add-button {
-      width: 100%;
-      padding: 18px;
-      border: none;
-      border-radius: 12px;
-      background: #d46b32;
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .added-message {
-      display: none;
-      margin-top: 14px;
-      text-align: center;
-      color: #e8894e;
-      font-size: 13px;
-    }
-
-    .added-message.active {
-      display: block;
-    }
-
-    /* BARRA CARRITO */
-
-    .cart-bar {
-      display: none;
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      z-index: 900;
-      transform: translateX(-50%);
-      width: calc(100% - 32px);
-      max-width: 448px;
-      padding: 15px 18px;
-      border: none;
-      border-radius: 16px;
-      background: #d46b32;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 12px 35px rgba(0,0,0,.45);
-    }
-
-    .cart-bar.active {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cart-bar-left {
-      text-align: left;
-    }
-
-    .cart-bar-title {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .cart-bar-count {
-      color: rgba(255,255,255,.8);
-      font-size: 11px;
-    }
-
-    .cart-bar-total {
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    /* CARRITO */
-
-    .cart-content {
-      padding: 26px 24px 30px;
-    }
-
-    .cart-handle {
-      width: 42px;
-      height: 4px;
-      margin: 0 auto 28px;
-      border-radius: 20px;
-      background: #444;
-    }
-
-    .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 8px;
-    }
-
-    .cart-close {
-      width: 38px;
-      height: 38px;
-      flex-shrink: 0;
-      border: 1px solid #444;
-      border-radius: 50%;
-      background: transparent;
-      color: #fff;
-      font-size: 21px;
-      cursor: pointer;
-    }
-
-    .cart-title {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 32px;
-      font-weight: normal;
-    }
-
-    .cart-table {
-      display: inline-block;
-      margin-top: 9px;
-      padding: 7px 11px;
-      border: 1px solid #3a3a3a;
-      border-radius: 30px;
-      color: #aaa;
-      font-size: 11px;
-      letter-spacing: 1px;
-    }
-
-    .cart-items {
-      margin-top: 30px;
-    }
-
-    .cart-item {
-      padding: 0 0 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #333;
-    }
-
-    .cart-item-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 14px;
-    }
-
-    .cart-item-name {
-      margin: 0;
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    .cart-item-price {
-      flex-shrink: 0;
-      color: #e8894e;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .cart-item-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cart-quantity {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-    }
-
-    .cart-quantity button {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #444;
-      border-radius: 50%;
-      background: transparent;
-      color: #fff;
-      font-size: 17px;
-      cursor: pointer;
-    }
-
-    .cart-quantity span {
-      min-width: 15px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .remove-button {
-      border: none;
-      background: transparent;
-      color: #777;
-      font-size: 11px;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .cart-summary {
-      padding-top: 5px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    .summary-total {
-      padding-top: 16px;
-      margin-top: 16px;
-      border-top: 1px solid #333;
-      color: #fff;
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .summary-total strong {
-      color: #e8894e;
-      font-size: 20px;
-    }
-
-    .confirm-button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 18px;
-      border: none;
-      border-radius: 12px;
-      background: #d46b32;
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .confirm-button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .empty-cart {
-      padding: 40px 0;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
-    }
-
-    /* CONFIRMACIÓN */
-
-    .confirmation {
-      display: none;
-      padding: 35px 10px 10px;
-      text-align: center;
-    }
-
-    .confirmation.active {
-      display: block;
-    }
-
-    .confirmation-icon {
-      width: 66px;
-      height: 66px;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #d46b32;
-      font-size: 28px;
-    }
-
-    .confirmation h3 {
-      margin: 0 0 12px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 27px;
-      font-weight: normal;
-    }
-
-    .confirmation p {
-      margin: 0;
-      color: #999;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRASA | MESSA</title>
+
+<script type="module"
+src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js">
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+button, input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: auto;
+  background: #151515;
+}
+
+/* IDENTIFICACIÓN */
+
+.guest-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #111;
+}
+
+.guest-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 24px;
+  border: 1px solid #333;
+  border-radius: 24px;
+  background: #1d1d1d;
+}
+
+.guest-card h2 {
+  margin: 10px 0;
+  font-family: Georgia, serif;
+  font-size: 36px;
+  font-weight: normal;
+}
+
+.guest-card p {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.guest-input {
+  width: 100%;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #151515;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.guest-input:focus {
+  border-color: #d46b32;
+}
+
+.error {
+  min-height: 18px;
+  margin-top: 10px;
+  color: #e8894e;
+  font-size: 12px;
+}
+
+/* HERO */
+
+.hero {
+  min-height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.18),
+      rgba(0,0,0,.35) 45%,
+      rgba(0,0,0,.92)
+    ),
+    url("/brasa-hero.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.messa {
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.table {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 30px;
+  background: rgba(0,0,0,.2);
+  font-size: 12px;
+}
+
+.hero-content {
+  padding-bottom: 45px;
+}
+
+.eyebrow,
+.modal-label {
+  color: #e8894e;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 14px 0 18px;
+  font-family: Georgia, serif;
+  font-size: 64px;
+  font-weight: normal;
+  letter-spacing: 4px;
+}
+
+.description {
+  max-width: 360px;
+  color: #ddd;
+  line-height: 1.6;
+}
+
+.primary {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 12px;
+  background: #d46b32;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.primary:disabled {
+  background: #444;
+  color: #999;
+}
+
+.main-button {
+  display: block;
+  margin-top: 30px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.footer {
+  margin-top: 24px;
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+/* MENÚ */
+
+.menu {
+  min-height: 100vh;
+  padding: 42px 24px 150px;
+}
+
+.menu-title {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  font-weight: normal;
+}
+
+.menu-intro {
+  margin-bottom: 28px;
+  color: #999;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.categories {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 35px;
+  overflow-x: auto;
+}
+
+.category {
+  flex: 0 0 auto;
+  padding: 10px 16px;
+  border: 1px solid #333;
+  border-radius: 30px;
+  background: transparent;
+  color: #bbb;
+}
+
+.category.active {
+  border-color: #d46b32;
+  background: #d46b32;
+  color: white;
+}
+
+.section-title {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.dish {
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #2b2b2b;
+  cursor: pointer;
+}
+
+.dish-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.dish-name {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.dish-price {
+  color: #e8894e;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.dish-description {
+  margin: 0;
+  color: #999;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dish-hint {
+  margin-top: 12px;
+  color: #d46b32;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.guest-chip {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 9px 12px;
+  border: 1px solid #444;
+  border-radius: 30px;
+  color: #bbb;
+  font-size: 12px;
+}
+
+.secondary {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #222;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* MODALES */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0,0,0,.82);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 94vh;
+  overflow-y: auto;
+  border-radius: 24px 24px 0 0;
+  background: #1d1d1d;
+}
+
+.modal-body {
+  padding: 30px 24px;
+}
+
+.modal-title {
+  margin: 8px 0 12px;
+  font-family: Georgia, serif;
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.muted {
+  color: #999;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: rgba(0,0,0,.5);
+  color: white;
+  font-size: 22px;
+}
+
+/* VISOR 3D */
+
+.viewer-area {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  background: radial-gradient(circle,#333,#171717 70%);
+}
+
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+}
+
+.viewer-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: rgba(0,0,0,.5);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.ar-button {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 13px 18px;
+  border: none;
+  border-radius: 30px;
+  background: white;
+  color: #111;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.viewer-help {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+  color: #999;
+  font-size: 9px;
+}
+
+.product-info {
+  padding: 25px 24px 30px;
+}
+
+.modal-description {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.modal-price {
+  margin: 20px 0;
+  color: #e8894e;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.circle-button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+}
+
+.added {
+  display: none;
+  margin-top: 12px;
+  color: #e8894e;
+  text-align: center;
+  font-size: 13px;
+}
+
+.added.active {
+  display: block;
+}
+
+/* CARRITO */
+
+.cart-bar {
+  display: none;
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  z-index: 850;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 448px;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 16px;
+  background: #d46b32;
+  color: white;
+  box-shadow: 0 10px 30px #0008;
+}
+
+.cart-bar.active {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-bar small {
+  display: block;
+  margin-top: 3px;
+  opacity: .8;
+}
+
+.cart-item {
+  padding: 18px 0;
+  border-bottom: 1px solid #333;
+}
+
+.cart-item-top,
+.cart-item-bottom,
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.cart-item-price {
+  color: #e8894e;
+  font-weight: bold;
+}
+
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-quantity button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: transparent;
+  color: white;
+}
+
+.remove {
+  border: none;
+  background: transparent;
+  color: #888;
+  text-decoration: underline;
+}
+
+.summary {
+  margin-top: 25px;
+}
+
+.summary-row {
+  margin: 12px 0;
+  color: #aaa;
+}
+
+.total {
+  padding-top: 18px;
+  border-top: 1px solid #333;
+  color: white;
+  font-size: 18px;
+}
+
+.total strong {
+  color: #e8894e;
+}
+
+/* CONFIRMACIÓN */
+
+.success {
+  display: none;
+  padding: 35px 0;
+  text-align: center;
+}
+
+.success.active {
+  display: block;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #d46b32;
+  font-size: 28px;
+}
+
+.order-number {
+  display: inline-block;
+  margin: 8px 0 18px;
+  padding: 8px 13px;
+  border: 1px solid #444;
+  border-radius: 30px;
+  color: #e8894e;
+  font-size: 12px;
+}
+
+/* BOTÓN FLOTANTE */
+
+.service-floating {
+  position: fixed;
+  right: max(18px,calc((100vw - 480px)/2 + 18px));
+  bottom: 22px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.service-floating.cart-visible {
+  bottom: 96px;
+}
+
+.service-main {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  color: #151515;
+  font-size: 25px;
+  box-shadow: 0 8px 30px #0009;
+}
+
+.service-menu {
+  display: none;
+  width: 230px;
+  padding: 8px;
+  border: 1px solid #333;
+  border-radius: 16px;
+  background: #222;
+  box-shadow: 0 12px 35px #0009;
+}
+
+.service-menu.active {
+  display: block;
+}
+
+.service-menu button {
+  width: 100%;
+  padding: 15px 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* CONSUMO */
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 22px 0;
+}
+
+.tab {
+  padding: 13px 8px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: transparent;
+  color: #aaa;
+  font-weight: bold;
+}
+
+.tab.active {
+  border-color: #d46b32;
+  background: #d46b32;
+  color: white;
+}
+
+.person-card {
+  padding: 18px 0;
+  border-bottom: 1px solid #333;
+}
+
+.person-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.person-head strong {
+  color: #e8894e;
+}
+
+.consumption-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 9px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #444;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.grand-total strong {
+  color: #e8894e;
+  font-size: 20px;
+}
+
+.consumption-card {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #d46b3255;
+  border-radius: 16px;
+  background: #d46b3218;
+}
+
+.consumption-card small {
+  display: block;
+  margin-bottom: 7px;
+  color: #aaa;
+}
+
+.consumption-card strong {
+  color: #e8894e;
+  font-size: 25px;
+}
+
+/* OPCIONES DE PAGO */
+
+.bill-options {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.bill-option {
+  padding: 16px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #171717;
+  color: white;
+  text-align: left;
+}
+
+.bill-option.selected {
+  border-color: #d46b32;
+  background: #d46b3220;
+}
+
+.bill-option strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.bill-option span {
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.split-result {
+  margin: 15px 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: #252525;
+  color: #ddd;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.split-result strong {
+  color: #e8894e;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.option {
+  padding: 22px 10px;
+  border: 1px solid #444;
+  border-radius: 14px;
+  background: #222;
+  color: white;
+  font-size: 24px;
+}
+
+.option span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.option.selected {
+  border-color: #d46b32;
+  background: #d46b3220;
+}
+
+.invoice {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.invoice-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0 20px;
+}
+
+.invoice-buttons button {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+}
+
+.invoice-buttons button.selected {
+  border-color: #d46b32;
+  background: #d46b32;
+}
+
+.invoice-fields {
+  display: none;
+}
+
+.invoice-fields.active {
+  display: block;
+}
+
+.invoice-fields input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: #151515;
+  color: white;
+}
+
+/* MESERO */
+
+.waiter-status {
+  margin: 22px 0;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.waiter-status.green {
+  border-color: #4f9c68;
+  color: #6fd08d;
+}
+
+.waiter-status.yellow {
+  border-color: #c99c38;
+  color: #e6bb50;
+}
+
+.waiter-status.red {
+  border-color: #b74d4a;
+  color: #ed6b68;
+}
+
+.countdown {
+  min-height: 20px;
+  margin-top: 15px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ESTADO */
+
+.timeline {
+  margin-top: 28px;
+}
+
+.timeline-step {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 25px;
+}
+
+.timeline-dot {
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: #444;
+}
+
+.timeline-step.done .timeline-dot,
+.timeline-step.active .timeline-dot {
+  background: #d46b32;
+}
+
+.timeline-step strong {
+  display: block;
+  font-size: 14px;
+}
+
+.timeline-step small {
+  color: #777;
+}
+
+.history-card {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  background: #202020;
+}
+
+.history-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.history-status {
+  color: #e8894e;
+  font-size: 11px;
+}
+
+.history-products {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.history-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #333;
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
-  <main class="app">
+<!-- REGISTRO DEL COMENSAL -->
 
-    <section class="hero">
+<div class="guest-gate" id="guest-gate">
+  <div class="guest-card">
 
-      <div class="top">
-        <div class="messa">MESSA</div>
-        <div class="table">MESA 08</div>
+    <div class="modal-label">
+      MESSA · MESA 08
+    </div>
+
+    <h2>¿Cómo te llamas?</h2>
+
+    <p>
+      Así podremos identificar tus pedidos y
+      llevar el control de tu consumo en la mesa.
+    </p>
+
+    <input
+      class="guest-input"
+      id="guest-name-input"
+      type="text"
+      maxlength="30"
+      placeholder="Escribe tu nombre"
+      autocomplete="name"
+    >
+
+    <button class="primary" style="margin-top:16px"
+      onclick="registerGuest()">
+      Continuar
+    </button>
+
+    <div class="error" id="guest-error"></div>
+
+  </div>
+</div>
+
+<!-- PÁGINA PRINCIPAL -->
+
+<main class="app">
+
+<section class="hero">
+
+  <div class="top">
+    <div class="messa">MESSA</div>
+    <div class="table">MESA 08</div>
+  </div>
+
+  <div class="hero-content">
+
+    <div class="eyebrow">
+      Fuego · Cocina · Experiencia
+    </div>
+
+    <h1>BRASA</h1>
+
+    <p class="description">
+      Cocina al fuego, ingredientes seleccionados
+      y sabores que nacen de la brasa.
+      Descubre nuestra experiencia desde tu mesa.
+    </p>
+
+    <a class="primary main-button" href="#menu">
+      Ver menú
+    </a>
+
+    <div class="footer">
+      POWERED BY MESSA · BY XPANDE
+    </div>
+
+  </div>
+
+</section>
+
+<!-- MENÚ -->
+
+<section class="menu" id="menu">
+
+  <div class="modal-label">
+    Nuestra carta
+  </div>
+
+  <h2 class="menu-title">
+    Menú
+  </h2>
+
+  <p class="menu-intro">
+    Sabores preparados al fuego para disfrutar
+    desde la mesa.
+  </p>
+
+  <div class="guest-chip">
+    ● <span id="guest-display">Comensal</span>
+    · MESA 08
+  </div>
+
+  <div class="categories">
+
+    <button class="category active"
+      onclick="showCategory('brasa',this)">
+      De la brasa
+    </button>
+
+    <button class="category"
+      onclick="showCategory('entradas',this)">
+      Entradas
+    </button>
+
+    <button class="category"
+      onclick="showCategory('fuertes',this)">
+      Fuertes
+    </button>
+
+    <button class="category"
+      onclick="showCategory('bebidas',this)">
+      Bebidas
+    </button>
+
+  </div>
+
+  <h3 class="section-title" id="category-title">
+    De la brasa
+  </h3>
+
+  <div id="products"></div>
+
+  <button class="secondary" onclick="openConsumption()">
+    Ver consumo de la mesa
+  </button>
+
+  <div class="footer">
+    BRASA · POWERED BY MESSA
+  </div>
+
+</section>
+
+</main>
+
+<!-- DETALLE DEL PLATO -->
+
+<div class="modal" id="product-modal"
+  onclick="outside(event,'product-modal')">
+
+  <div class="modal-content">
+
+    <div class="viewer-area">
+
+      <div class="viewer-badge">
+        VISTA 3D
       </div>
 
-      <div class="hero-content">
+      <button class="close"
+        onclick="closeModal('product-modal')">
+        ×
+      </button>
 
-        <div class="eyebrow">
-          Fuego · Cocina · Experiencia
+      <model-viewer
+        id="dish-viewer"
+        src="/plato-demo.glb"
+        alt="Vista 3D del plato"
+        camera-controls
+        touch-action="pan-y"
+        auto-rotate
+        shadow-intensity="1"
+        shadow-softness="1"
+        exposure="1"
+        ar
+        ar-modes="webxr scene-viewer quick-look">
+
+        <button slot="ar-button" class="ar-button">
+          ◉ Ver en tu mesa
+        </button>
+
+      </model-viewer>
+
+      <div class="viewer-help">
+        ARRASTRA PARA GIRAR
+      </div>
+
+    </div>
+
+    <div class="product-info">
+
+      <div class="modal-label">
+        Detalle del plato
+      </div>
+
+      <h2 class="modal-title" id="modal-name"></h2>
+
+      <p class="modal-description"
+        id="modal-description"></p>
+
+      <div class="modal-price" id="modal-price"></div>
+
+      <div class="quantity-row">
+
+        <strong>Cantidad</strong>
+
+        <div class="quantity-control">
+
+          <button class="circle-button"
+            onclick="changeProductQuantity(-1)">
+            −
+          </button>
+
+          <strong id="quantity">1</strong>
+
+          <button class="circle-button"
+            onclick="changeProductQuantity(1)">
+            +
+          </button>
+
         </div>
 
-        <h1>BRASA</h1>
-
-        <p class="description">
-          Cocina al fuego, ingredientes seleccionados y sabores
-          que nacen de la brasa. Descubre nuestra experiencia
-          desde tu mesa.
-        </p>
-
-        <a class="button" href="#menu">
-          Ver menú
-        </a>
-
-        <div class="footer">
-          POWERED BY MESSA · BY XPANDE
-        </div>
-
       </div>
 
-    </section>
+      <button class="primary" onclick="addToOrder()">
+        Agregar al pedido
+      </button>
 
-    <section class="menu" id="menu">
-
-      <div class="menu-label">
-        Nuestra carta
+      <div class="added" id="added-message">
+        ✓ Agregado al pedido
       </div>
 
-      <h2 class="menu-title">
-        Menú
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CARRITO FLOTANTE -->
+
+<button class="cart-bar" id="cart-bar"
+  onclick="openCart()">
+
+  <div style="text-align:left">
+
+    <strong>Ver pedido</strong>
+
+    <small id="cart-count"></small>
+
+  </div>
+
+  <strong id="cart-bar-total"></strong>
+
+</button>
+
+<!-- CARRITO -->
+
+<div class="modal" id="cart-modal"
+  onclick="outside(event,'cart-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('cart-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div class="modal-label">
+        Tu selección
+      </div>
+
+      <h2 class="modal-title">
+        Tu pedido
       </h2>
 
-      <p class="menu-intro">
-        Sabores preparados al fuego para disfrutar desde la mesa.
-      </p>
-
-      <div class="categories">
-
-        <button
-          class="category active"
-          onclick="showCategory('brasa', this)">
-          De la brasa
-        </button>
-
-        <button
-          class="category"
-          onclick="showCategory('entradas', this)">
-          Entradas
-        </button>
-
-        <button
-          class="category"
-          onclick="showCategory('fuertes', this)">
-          Fuertes
-        </button>
-
-        <button
-          class="category"
-          onclick="showCategory('bebidas', this)">
-          Bebidas
-        </button>
-
+      <div class="guest-chip">
+        <span id="cart-guest"></span>
+        · MESA 08
       </div>
 
-      <h3 class="section-title" id="category-title">
-        De la brasa
-      </h3>
+      <div id="cart-view">
 
-      <div id="products"></div>
+        <div id="cart-items"></div>
 
-      <div class="menu-footer">
-        BRASA · POWERED BY MESSA
-      </div>
+        <div class="summary" id="cart-summary">
 
-    </section>
+          <div class="summary-row">
 
-  </main>
+            <span>Productos</span>
 
+            <span id="summary-count"></span>
 
-  <!-- DETALLE DEL PLATO -->
+          </div>
 
-  <div
-    class="modal"
-    id="product-modal"
-    onclick="closeProductOutside(event)">
+          <div class="summary-row total">
 
-    <div class="modal-content">
+            <span>Total</span>
 
-      <div class="viewer-area">
+            <strong id="summary-total"></strong>
 
-        <div class="viewer-badge">
-          VISTA 3D
-        </div>
+          </div>
 
-        <button
-          class="close-button"
-          onclick="closeProduct()">
-          ×
-        </button>
+          <button class="primary"
+            style="margin-top:20px"
+            onclick="confirmOrder()">
 
-        <model-viewer
-          src="/plato-demo.glb"
-          alt="Vista 3D del plato"
-          camera-controls
-          touch-action="pan-y"
-          auto-rotate
-          shadow-intensity="1"
-          shadow-softness="1"
-          exposure="1"
-          ar
-          ar-modes="webxr scene-viewer quick-look">
-
-          <button
-            slot="ar-button"
-            class="ar-button">
-
-            <span class="camera-icon">◉</span>
-            Ver en tu mesa
+            Enviar pedido · Mesa 08
 
           </button>
 
-        </model-viewer>
-
-        <div class="viewer-help">
-          ARRASTRA PARA GIRAR
         </div>
 
       </div>
 
-      <div class="product-info">
+      <div class="success" id="order-success">
 
-        <div class="modal-label">
-          Detalle del plato
-        </div>
+        <div class="success-icon">✓</div>
 
-        <h2
-          class="modal-title"
-          id="modal-name">
+        <h2 class="modal-title">
+          Pedido enviado
         </h2>
 
-        <p
-          class="modal-description"
-          id="modal-description">
+        <div class="order-number"
+          id="order-number"></div>
+
+        <p class="muted">
+          Tu pedido quedó registrado a tu nombre.
         </p>
 
-        <div
-          class="modal-price"
-          id="modal-price">
-        </div>
+        <button class="primary"
+          onclick="openOrderStatus()">
 
-        <div class="quantity-row">
+          Ver estado del pedido
 
-          <div class="quantity-label">
-            Cantidad
-          </div>
-
-          <div class="quantity-control">
-
-            <button
-              class="quantity-button"
-              onclick="changeProductQuantity(-1)">
-              −
-            </button>
-
-            <div
-              class="quantity-number"
-              id="quantity">
-              1
-            </div>
-
-            <button
-              class="quantity-button"
-              onclick="changeProductQuantity(1)">
-              +
-            </button>
-
-          </div>
-
-        </div>
-
-        <button
-          class="add-button"
-          onclick="addToOrder()">
-          Agregar al pedido
         </button>
 
-        <div
-          class="added-message"
-          id="added-message">
-          ✓ Agregado al pedido
-        </div>
+        <button class="secondary"
+          onclick="closeModal('cart-modal');openConsumption()">
+
+          Ver mi consumo
+
+        </button>
 
       </div>
 
@@ -938,123 +1304,451 @@
 
   </div>
 
+</div>
 
-  <!-- BARRA DEL PEDIDO -->
+<!-- BOTÓN DE SERVICIO -->
 
-  <button
-    class="cart-bar"
-    id="cart-bar"
-    onclick="openCart()">
+<div class="service-floating"
+  id="service-floating">
 
-    <div class="cart-bar-left">
+  <div class="service-menu" id="service-menu">
 
-      <span class="cart-bar-title">
-        Ver pedido
-      </span>
+    <button onclick="openWaiter()">
+      🙋 &nbsp; Llamar al mesero
+    </button>
 
-      <span
-        class="cart-bar-count"
-        id="cart-count">
-      </span>
+    <button onclick="openBill()">
+      🧾 &nbsp; Pedir la cuenta
+    </button>
 
-    </div>
+    <button onclick="openConsumption()">
+      💰 &nbsp; Consumo de la mesa
+    </button>
 
-    <div
-      class="cart-bar-total"
-      id="cart-bar-total">
-    </div>
+    <button onclick="openHistory()">
+      🍽️ &nbsp; Mis pedidos
+    </button>
+
+  </div>
+
+  <button class="service-main"
+    onclick="toggleServiceMenu()"
+    aria-label="Servicio a la mesa">
+
+    🔔
 
   </button>
 
+</div>
 
-  <!-- CARRITO -->
+<!-- CONSUMO -->
 
-  <div
-    class="modal"
-    id="cart-modal"
-    onclick="closeCartOutside(event)">
+<div class="modal" id="consumption-modal"
+  onclick="outside(event,'consumption-modal')">
 
-    <div class="modal-content">
+  <div class="modal-content">
 
-      <div class="cart-content">
+    <button class="close"
+      onclick="closeModal('consumption-modal')">
+      ×
+    </button>
 
-        <div class="cart-handle"></div>
+    <div class="modal-body">
 
-        <div class="cart-header">
+      <div class="modal-label">
+        MESA 08
+      </div>
 
-          <div>
+      <h2 class="modal-title">
+        Consumo
+      </h2>
 
-            <div class="modal-label">
-              Tu selección
-            </div>
+      <div class="guest-chip"
+        id="consumption-guest"></div>
 
-            <h2 class="cart-title">
-              Tu pedido
-            </h2>
+      <div class="tabs">
 
-            <div class="cart-table">
-              MESA 08
-            </div>
+        <button class="tab active"
+          id="tab-mine"
+          onclick="setConsumptionView('mine')">
 
-          </div>
+          Mi consumo
 
-          <button
-            class="cart-close"
-            onclick="closeCart()">
-            ×
+        </button>
+
+        <button class="tab"
+          id="tab-table"
+          onclick="setConsumptionView('table')">
+
+          Consumo total
+
+        </button>
+
+      </div>
+
+      <div id="consumption-list"></div>
+
+      <div id="consumption-total"></div>
+
+      <button class="primary"
+        style="margin-top:25px"
+        onclick="openBill()">
+
+        Pedir la cuenta
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MESERO -->
+
+<div class="modal" id="waiter-modal"
+  onclick="outside(event,'waiter-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('waiter-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div class="modal-label">
+        Servicio a la mesa
+      </div>
+
+      <h2 class="modal-title">
+        Llamar al mesero
+      </h2>
+
+      <p class="muted"
+        id="waiter-description">
+
+        ¿Necesitas ayuda?
+        Envía un llamado al equipo de servicio.
+
+      </p>
+
+      <div class="waiter-status"
+        id="waiter-status">
+
+        MESA 08
+
+      </div>
+
+      <button class="primary"
+        id="waiter-button"
+        onclick="callWaiter()">
+
+        Llamar al mesero
+
+      </button>
+
+      <div class="countdown"
+        id="waiter-countdown"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CUENTA -->
+
+<div class="modal" id="bill-modal"
+  onclick="outside(event,'bill-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('bill-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div id="bill-form">
+
+        <div class="modal-label">
+          Finalizar experiencia
+        </div>
+
+        <h2 class="modal-title">
+          Pedir la cuenta
+        </h2>
+
+        <div class="consumption-card">
+
+          <small>
+            Consumo total de la mesa
+          </small>
+
+          <strong id="bill-total">$0</strong>
+
+        </div>
+
+        <p class="muted">
+          ¿Cómo desean dividir la cuenta?
+        </p>
+
+        <div class="bill-options">
+
+          <button class="bill-option"
+            id="split-individual"
+            onclick="selectSplit('individual')">
+
+            <strong>
+              Pagar según consumo
+            </strong>
+
+            <span>
+              Cada persona paga lo que pidió.
+            </span>
+
+          </button>
+
+          <button class="bill-option"
+            id="split-equal"
+            onclick="selectSplit('equal')">
+
+            <strong>
+              Dividir en partes iguales
+            </strong>
+
+            <span>
+              Todos pagan la misma cantidad.
+            </span>
+
           </button>
 
         </div>
 
+        <div id="split-result"></div>
 
-        <div id="cart-view">
+        <p class="muted"
+          style="margin-top:25px">
 
-          <div
-            class="cart-items"
-            id="cart-items">
+          ¿Cómo van a pagar?
+
+        </p>
+
+        <div class="payment-options">
+
+          <button class="option"
+            id="payment-card"
+            onclick="selectPayment('Datáfono')">
+
+            💳
+
+            <span>Datáfono</span>
+
+          </button>
+
+          <button class="option"
+            id="payment-cash"
+            onclick="selectPayment('Efectivo')">
+
+            💵
+
+            <span>Efectivo</span>
+
+          </button>
+
+        </div>
+
+        <div class="invoice">
+
+          <strong>
+            ¿Necesitas factura electrónica?
+          </strong>
+
+          <div class="invoice-buttons">
+
+            <button id="invoice-yes"
+              onclick="selectInvoice(true)">
+
+              Sí
+
+            </button>
+
+            <button id="invoice-no"
+              onclick="selectInvoice(false)">
+
+              No
+
+            </button>
+
           </div>
 
-          <div
-            class="cart-summary"
-            id="cart-summary">
+          <div class="invoice-fields"
+            id="invoice-fields">
 
-            <div class="summary-row">
-              <span>Productos</span>
-              <span id="summary-count"></span>
-            </div>
+            <input id="invoice-name"
+              placeholder="Nombre o razón social">
 
-            <div class="summary-row summary-total">
-              <span>Total</span>
-              <strong id="summary-total"></strong>
-            </div>
+            <input id="invoice-id"
+              placeholder="Cédula o NIT">
 
-            <button
-              class="confirm-button"
-              onclick="confirmOrder()">
-              Enviar pedido · Mesa 08
-            </button>
+            <input id="invoice-email"
+              type="email"
+              placeholder="Correo electrónico">
 
           </div>
 
         </div>
 
+        <div class="error"
+          id="bill-error"></div>
 
-        <div
-          class="confirmation"
-          id="confirmation">
+        <button class="primary"
+          onclick="requestBill()">
 
-          <div class="confirmation-icon">
-            ✓
+          Solicitar cuenta
+
+        </button>
+
+      </div>
+
+      <div class="success"
+        id="bill-success">
+
+        <div class="success-icon">✓</div>
+
+        <h2 class="modal-title">
+          Cuenta solicitada
+        </h2>
+
+        <p class="muted"
+          id="bill-message"></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- HISTORIAL -->
+
+<div class="modal" id="history-modal"
+  onclick="outside(event,'history-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('history-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div class="modal-label">
+        MESA 08
+      </div>
+
+      <h2 class="modal-title">
+        Mis pedidos
+      </h2>
+
+      <div class="consumption-card">
+
+        <small>
+          Mi consumo
+        </small>
+
+        <strong id="history-total">$0</strong>
+
+      </div>
+
+      <div id="history-list"></div>
+
+      <button class="secondary"
+        onclick="closeModal('history-modal');openConsumption()">
+
+        Ver consumo de la mesa
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ESTADO DEL PEDIDO -->
+
+<div class="modal" id="status-modal"
+  onclick="outside(event,'status-modal')">
+
+  <div class="modal-content">
+
+    <button class="close"
+      onclick="closeModal('status-modal')">
+      ×
+    </button>
+
+    <div class="modal-body">
+
+      <div class="modal-label">
+        Seguimiento
+      </div>
+
+      <h2 class="modal-title">
+        Estado del pedido
+      </h2>
+
+      <div class="order-number"
+        id="status-number"></div>
+
+      <div class="timeline">
+
+        <div class="timeline-step done">
+
+          <div class="timeline-dot"></div>
+
+          <div>
+            <strong>Pedido recibido</strong>
+            <small>Tu pedido fue registrado.</small>
           </div>
 
-          <h3>
-            Pedido enviado
-          </h3>
+        </div>
 
-          <p>
-            Tu pedido fue registrado correctamente
-            en MESSA desde la Mesa 08.
-          </p>
+        <div class="timeline-step active">
+
+          <div class="timeline-dot"></div>
+
+          <div>
+            <strong>En preparación</strong>
+            <small>La cocina prepara tu pedido.</small>
+          </div>
+
+        </div>
+
+        <div class="timeline-step">
+
+          <div class="timeline-dot"></div>
+
+          <div>
+            <strong>Listo para servir</strong>
+            <small>Pronto llegará a tu mesa.</small>
+          </div>
+
+        </div>
+
+        <div class="timeline-step">
+
+          <div class="timeline-dot"></div>
+
+          <div>
+            <strong>Entregado</strong>
+            <small>Pedido entregado en Mesa 08.</small>
+          </div>
 
         </div>
 
@@ -1064,945 +1758,1684 @@
 
   </div>
 
+</div>
 
-  <script>
+<script>
 
-    /* =========================
-       CONEXIÓN SUPABASE
-       ========================= */
+/* MENÚ */
 
-    const SUPABASE_URL =
-      "https://eyhidlgkyzadddedcxuc.supabase.co";
+const menu = {
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_B5EvlQ2GdOOUoQH7PgKcXA_KSmnyan6";
-
-    const supabaseClient =
-      supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
-
-
-    /* =========================
-       MENÚ
-       ========================= */
-
-    const menu = {
-
-      brasa: {
-        title: "De la brasa",
-        products: [
-          {
-            id: "punta-anca",
-            name: "Punta de anca",
-            price: 48000,
-            description:
-              "Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."
-          },
-          {
-            id: "costillas",
-            name: "Costillas BRASA",
-            price: 52000,
-            description:
-              "Costillas cocinadas lentamente y terminadas sobre las brasas."
-          },
-          {
-            id: "pollo",
-            name: "Pollo al fuego",
-            price: 39000,
-            description:
-              "Pollo marinado con hierbas, limón y especias, asado al carbón."
-          }
-        ]
+  brasa: {
+    title: "De la brasa",
+    products: [
+      {
+        id: "punta-anca",
+        name: "Punta de anca",
+        price: 48000,
+        description:
+          "Corte a la parrilla acompañado de papas rústicas y vegetales al fuego."
       },
-
-      entradas: {
-        title: "Entradas",
-        products: [
-          {
-            id: "chorizo",
-            name: "Chorizo artesanal",
-            price: 22000,
-            description:
-              "Chorizo a la parrilla acompañado de chimichurri de la casa."
-          },
-          {
-            id: "provoleta",
-            name: "Provoleta al fuego",
-            price: 27000,
-            description:
-              "Queso provolone fundido al carbón con tomates asados y orégano."
-          },
-          {
-            id: "papas",
-            name: "Papas BRASA",
-            price: 18000,
-            description:
-              "Papas rústicas doradas con sal ahumada y salsa de la casa."
-          }
-        ]
+      {
+        id: "costillas",
+        name: "Costillas BRASA",
+        price: 52000,
+        description:
+          "Costillas cocinadas lentamente y terminadas sobre las brasas."
       },
-
-      fuertes: {
-        title: "Fuertes",
-        products: [
-          {
-            id: "salmon",
-            name: "Salmón a la parrilla",
-            price: 49000,
-            description:
-              "Salmón al fuego acompañado de vegetales asados y limón."
-          },
-          {
-            id: "arroz",
-            name: "Arroz de la casa",
-            price: 38000,
-            description:
-              "Arroz preparado al wok con vegetales, proteína y sabores ahumados."
-          },
-          {
-            id: "pasta",
-            name: "Pasta al fuego",
-            price: 36000,
-            description:
-              "Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."
-          }
-        ]
-      },
-
-      bebidas: {
-        title: "Bebidas",
-        products: [
-          {
-            id: "limonada",
-            name: "Limonada de hierbabuena",
-            price: 12000,
-            description:
-              "Limón fresco, hierbabuena y hielo."
-          },
-          {
-            id: "soda",
-            name: "Soda de frutos rojos",
-            price: 14000,
-            description:
-              "Soda artesanal con frutos rojos y cítricos."
-          },
-          {
-            id: "agua",
-            name: "Agua mineral",
-            price: 8000,
-            description:
-              "Agua mineral fría."
-          }
-        ]
+      {
+        id: "pollo",
+        name: "Pollo al fuego",
+        price: 39000,
+        description:
+          "Pollo marinado con hierbas, limón y especias, asado al carbón."
       }
+    ]
+  },
 
+  entradas: {
+    title: "Entradas",
+    products: [
+      {
+        id: "chorizo",
+        name: "Chorizo artesanal",
+        price: 22000,
+        description:
+          "Chorizo a la parrilla acompañado de chimichurri de la casa."
+      },
+      {
+        id: "provoleta",
+        name: "Provoleta al fuego",
+        price: 27000,
+        description:
+          "Queso provolone fundido al carbón con tomates asados y orégano."
+      },
+      {
+        id: "papas",
+        name: "Papas BRASA",
+        price: 18000,
+        description:
+          "Papas rústicas doradas con sal ahumada y salsa de la casa."
+      }
+    ]
+  },
+
+  fuertes: {
+    title: "Fuertes",
+    products: [
+      {
+        id: "salmon",
+        name: "Salmón a la parrilla",
+        price: 49000,
+        description:
+          "Salmón al fuego acompañado de vegetales asados y limón."
+      },
+      {
+        id: "arroz",
+        name: "Arroz de la casa",
+        price: 38000,
+        description:
+          "Arroz preparado al wok con vegetales, proteína y sabores ahumados."
+      },
+      {
+        id: "pasta",
+        name: "Pasta al fuego",
+        price: 36000,
+        description:
+          "Pasta cremosa con tomates rostizados, hierbas frescas y parmesano."
+      }
+    ]
+  },
+
+  bebidas: {
+    title: "Bebidas",
+    products: [
+      {
+        id: "limonada",
+        name: "Limonada de hierbabuena",
+        price: 12000,
+        description:
+          "Limón fresco, hierbabuena y hielo."
+      },
+      {
+        id: "soda",
+        name: "Soda de frutos rojos",
+        price: 14000,
+        description:
+          "Soda artesanal con frutos rojos y cítricos."
+      },
+      {
+        id: "agua",
+        name: "Agua mineral",
+        price: 8000,
+        description:
+          "Agua mineral fría."
+      }
+    ]
+  }
+
+};
+
+/* ESTADO DE LA APLICACIÓN */
+
+let currentGuest = "";
+
+let selectedProduct = null;
+
+let currentQuantity = 1;
+
+let order = [];
+
+let orderHistory = [];
+
+let orderCounter = 1;
+
+let latestOrderNumber = "";
+
+let consumptionView = "mine";
+
+let selectedSplit = null;
+
+let selectedPayment = null;
+
+let needsInvoice = null;
+
+let billRequested = false;
+
+let waiterLevel = 0;
+
+let waiterTimer = null;
+
+let waiterDeadline = 0;
+
+/*
+  DATOS DE DEMOSTRACIÓN.
+
+  Estos consumos permiten visualizar una mesa
+  con varios comensales.
+
+  Cuando se conecte la base de datos,
+  se reemplazarán por los pedidos reales
+  enviados desde los distintos celulares.
+*/
+
+const demoTableOrders = [
+
+  {
+    guest: "Vale",
+    items: [
+      {
+        id: "salmon",
+        name: "Salmón a la parrilla",
+        price: 49000,
+        quantity: 1
+      },
+      {
+        id: "soda",
+        name: "Soda de frutos rojos",
+        price: 14000,
+        quantity: 1
+      }
+    ]
+  },
+
+  {
+    guest: "Juan",
+    items: [
+      {
+        id: "costillas",
+        name: "Costillas BRASA",
+        price: 52000,
+        quantity: 1
+      },
+      {
+        id: "agua",
+        name: "Agua mineral",
+        price: 8000,
+        quantity: 1
+      }
+    ]
+  }
+
+];
+
+/* UTILIDADES */
+
+function money(value) {
+  return "$" + value.toLocaleString("es-CO");
+}
+
+function escapeHTML(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function openModal(id) {
+
+  hideServiceMenu();
+
+  document
+    .querySelectorAll(".modal")
+    .forEach(modal => {
+      modal.classList.remove("active");
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  document.body.classList.add("modal-open");
+
+}
+
+function closeModal(id) {
+
+  document
+    .getElementById(id)
+    .classList.remove("active");
+
+  document.body.classList.remove("modal-open");
+
+}
+
+function outside(event, id) {
+
+  if (event.target.id === id) {
+    closeModal(id);
+  }
+
+}
+
+/* REGISTRO */
+
+function registerGuest() {
+
+  const input = document.getElementById(
+    "guest-name-input"
+  );
+
+  const name = input.value.trim();
+
+  if (!name) {
+
+    document.getElementById(
+      "guest-error"
+    ).textContent = "Escribe tu nombre para continuar.";
+
+    return;
+
+  }
+
+  currentGuest = name;
+
+  sessionStorage.setItem(
+    "messaGuest",
+    name
+  );
+
+  document.getElementById(
+    "guest-display"
+  ).textContent = name;
+
+  document.getElementById(
+    "guest-gate"
+  ).style.display = "none";
+
+}
+
+function restoreGuest() {
+
+  const saved = sessionStorage.getItem(
+    "messaGuest"
+  );
+
+  if (saved) {
+
+    currentGuest = saved;
+
+    document.getElementById(
+      "guest-display"
+    ).textContent = saved;
+
+    document.getElementById(
+      "guest-gate"
+    ).style.display = "none";
+
+  }
+
+}
+
+document.getElementById(
+  "guest-name-input"
+).addEventListener("keydown", event => {
+
+  if (event.key === "Enter") {
+    registerGuest();
+  }
+
+});
+
+/* PRODUCTOS */
+
+function renderProducts(category) {
+
+  const data = menu[category];
+
+  document.getElementById(
+    "category-title"
+  ).textContent = data.title;
+
+  const container = document.getElementById(
+    "products"
+  );
+
+  container.innerHTML = "";
+
+  data.products.forEach(product => {
+
+    const element = document.createElement(
+      "article"
+    );
+
+    element.className = "dish";
+
+    element.innerHTML = `
+
+      <div class="dish-top">
+
+        <h4 class="dish-name">
+          ${escapeHTML(product.name)}
+        </h4>
+
+        <div class="dish-price">
+          ${money(product.price)}
+        </div>
+
+      </div>
+
+      <p class="dish-description">
+        ${escapeHTML(product.description)}
+      </p>
+
+      <div class="dish-hint">
+        VER EN 3D +
+      </div>
+
+    `;
+
+    element.onclick = () => openProduct(
+      product
+    );
+
+    container.appendChild(element);
+
+  });
+
+}
+
+function showCategory(category, button) {
+
+  document
+    .querySelectorAll(".category")
+    .forEach(item => {
+      item.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  renderProducts(category);
+
+}
+
+function openProduct(product) {
+
+  selectedProduct = product;
+
+  currentQuantity = 1;
+
+  document.getElementById(
+    "modal-name"
+  ).textContent = product.name;
+
+  document.getElementById(
+    "modal-description"
+  ).textContent = product.description;
+
+  document.getElementById(
+    "modal-price"
+  ).textContent = money(product.price);
+
+  document.getElementById(
+    "quantity"
+  ).textContent = 1;
+
+  document.getElementById(
+    "added-message"
+  ).classList.remove("active");
+
+  openModal("product-modal");
+
+}
+
+function changeProductQuantity(change) {
+
+  currentQuantity = Math.max(
+    1,
+    currentQuantity + change
+  );
+
+  document.getElementById(
+    "quantity"
+  ).textContent = currentQuantity;
+
+}
+
+/* CARRITO */
+
+function addToOrder() {
+
+  if (!selectedProduct) return;
+
+  const existing = order.find(
+    item => item.id === selectedProduct.id
+  );
+
+  if (existing) {
+
+    existing.quantity += currentQuantity;
+
+  } else {
+
+    order.push({
+
+      id: selectedProduct.id,
+
+      name: selectedProduct.name,
+
+      price: selectedProduct.price,
+
+      quantity: currentQuantity,
+
+      guest: currentGuest
+
+    });
+
+  }
+
+  updateCartBar();
+
+  document.getElementById(
+    "added-message"
+  ).classList.add("active");
+
+  setTimeout(() => {
+
+    closeModal("product-modal");
+
+  }, 600);
+
+}
+
+function cartQuantity() {
+
+  return order.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
+}
+
+function orderTotal(items) {
+
+  return items.reduce(
+    (sum, item) =>
+      sum + item.price * item.quantity,
+    0
+  );
+
+}
+
+function cartTotal() {
+
+  return orderTotal(order);
+
+}
+
+function updateCartBar() {
+
+  const bar = document.getElementById(
+    "cart-bar"
+  );
+
+  const service = document.getElementById(
+    "service-floating"
+  );
+
+  if (!order.length) {
+
+    bar.classList.remove("active");
+
+    service.classList.remove(
+      "cart-visible"
+    );
+
+    return;
+
+  }
+
+  bar.classList.add("active");
+
+  service.classList.add(
+    "cart-visible"
+  );
+
+  const count = cartQuantity();
+
+  document.getElementById(
+    "cart-count"
+  ).textContent = count === 1
+    ? "1 producto"
+    : count + " productos";
+
+  document.getElementById(
+    "cart-bar-total"
+  ).textContent = money(cartTotal());
+
+}
+
+function openCart() {
+
+  renderCart();
+
+  document.getElementById(
+    "cart-guest"
+  ).textContent = currentGuest;
+
+  document.getElementById(
+    "cart-view"
+  ).style.display = "block";
+
+  document.getElementById(
+    "order-success"
+  ).classList.remove("active");
+
+  openModal("cart-modal");
+
+}
+
+function renderCart() {
+
+  const container = document.getElementById(
+    "cart-items"
+  );
+
+  const summary = document.getElementById(
+    "cart-summary"
+  );
+
+  container.innerHTML = "";
+
+  if (!order.length) {
+
+    container.innerHTML = `
+      <p class="muted">
+        Todavía no has agregado productos.
+      </p>
+    `;
+
+    summary.style.display = "none";
+
+    return;
+
+  }
+
+  summary.style.display = "block";
+
+  order.forEach(item => {
+
+    const div = document.createElement(
+      "div"
+    );
+
+    div.className = "cart-item";
+
+    const name = document.createElement(
+      "strong"
+    );
+
+    name.textContent = item.name;
+
+    const top = document.createElement(
+      "div"
+    );
+
+    top.className = "cart-item-top";
+
+    const price = document.createElement(
+      "span"
+    );
+
+    price.className = "cart-item-price";
+
+    price.textContent = money(
+      item.price * item.quantity
+    );
+
+    top.append(name, price);
+
+    const bottom = document.createElement(
+      "div"
+    );
+
+    bottom.className = "cart-item-bottom";
+
+    const quantity = document.createElement(
+      "div"
+    );
+
+    quantity.className = "cart-quantity";
+
+    const minus = document.createElement(
+      "button"
+    );
+
+    minus.textContent = "−";
+
+    minus.onclick = () => {
+      changeCartQuantity(item.id, -1);
     };
 
+    const number = document.createElement(
+      "strong"
+    );
 
-    let currentQuantity = 1;
-    let selectedProduct = null;
-    let order = [];
+    number.textContent = item.quantity;
 
+    const plus = document.createElement(
+      "button"
+    );
 
-    function formatPrice(value) {
+    plus.textContent = "+";
 
-      return "$" +
-        value.toLocaleString("es-CO");
+    plus.onclick = () => {
+      changeCartQuantity(item.id, 1);
+    };
 
+    quantity.append(
+      minus,
+      number,
+      plus
+    );
+
+    const remove = document.createElement(
+      "button"
+    );
+
+    remove.className = "remove";
+
+    remove.textContent = "Eliminar";
+
+    remove.onclick = () => {
+      removeItem(item.id);
+    };
+
+    bottom.append(
+      quantity,
+      remove
+    );
+
+    div.append(
+      top,
+      bottom
+    );
+
+    container.appendChild(div);
+
+  });
+
+  const count = cartQuantity();
+
+  document.getElementById(
+    "summary-count"
+  ).textContent = count === 1
+    ? "1 producto"
+    : count + " productos";
+
+  document.getElementById(
+    "summary-total"
+  ).textContent = money(cartTotal());
+
+}
+
+function changeCartQuantity(id, change) {
+
+  const item = order.find(
+    item => item.id === id
+  );
+
+  if (!item) return;
+
+  item.quantity += change;
+
+  if (item.quantity <= 0) {
+
+    order = order.filter(
+      item => item.id !== id
+    );
+
+  }
+
+  updateCartBar();
+
+  renderCart();
+
+}
+
+function removeItem(id) {
+
+  order = order.filter(
+    item => item.id !== id
+  );
+
+  updateCartBar();
+
+  renderCart();
+
+}
+
+/* ENVÍO DEL PEDIDO */
+
+function confirmOrder() {
+
+  if (!order.length) return;
+
+  latestOrderNumber =
+    "#BR-" +
+    String(orderCounter).padStart(3, "0");
+
+  const snapshot = {
+
+    number: latestOrderNumber,
+
+    guest: currentGuest,
+
+    items: order.map(
+      item => ({ ...item })
+    ),
+
+    total: cartTotal(),
+
+    status: "En preparación"
+
+  };
+
+  orderHistory.push(snapshot);
+
+  orderCounter++;
+
+  document.getElementById(
+    "order-number"
+  ).textContent =
+    "PEDIDO " + latestOrderNumber;
+
+  document.getElementById(
+    "cart-view"
+  ).style.display = "none";
+
+  document.getElementById(
+    "order-success"
+  ).classList.add("active");
+
+  order = [];
+
+  updateCartBar();
+
+}
+
+function openOrderStatus() {
+
+  document.getElementById(
+    "status-number"
+  ).textContent =
+    "PEDIDO " +
+    latestOrderNumber +
+    " · " +
+    currentGuest;
+
+  openModal("status-modal");
+
+}
+
+/* CONSUMO POR PERSONA */
+
+function allTableOrders() {
+
+  return [
+    ...orderHistory,
+    ...demoTableOrders
+  ];
+
+}
+
+function aggregatePeople(groups) {
+
+  const people = {};
+
+  groups.forEach(group => {
+
+    if (!people[group.guest]) {
+      people[group.guest] = [];
     }
 
+    group.items.forEach(item => {
 
-    function renderProducts(category) {
+      const existing = people[
+        group.guest
+      ].find(
+        product => product.id === item.id
+      );
 
-      const data = menu[category];
+      if (existing) {
 
-      document
-        .getElementById("category-title")
-        .textContent = data.title;
-
-      const productsContainer =
-        document.getElementById("products");
-
-      productsContainer.innerHTML = "";
-
-
-      data.products.forEach(product => {
-
-        const dish =
-          document.createElement("article");
-
-        dish.className = "dish";
-
-        dish.innerHTML = `
-
-          <div class="dish-top">
-
-            <h4 class="dish-name">
-              ${product.name}
-            </h4>
-
-            <div class="dish-price">
-              ${formatPrice(product.price)}
-            </div>
-
-          </div>
-
-          <p class="dish-description">
-            ${product.description}
-          </p>
-
-          <div class="dish-hint">
-            VER EN 3D +
-          </div>
-
-        `;
-
-
-        dish.addEventListener(
-          "click",
-          function () {
-            openProduct(product);
-          }
-        );
-
-
-        productsContainer
-          .appendChild(dish);
-
-      });
-
-    }
-
-
-    function showCategory(
-      category,
-      button
-    ) {
-
-      document
-        .querySelectorAll(".category")
-        .forEach(item => {
-          item.classList.remove("active");
-        });
-
-      button.classList.add("active");
-
-      renderProducts(category);
-
-    }
-
-
-    function openProduct(product) {
-
-      selectedProduct = product;
-      currentQuantity = 1;
-
-      document
-        .getElementById("modal-name")
-        .textContent =
-          product.name;
-
-      document
-        .getElementById("modal-description")
-        .textContent =
-          product.description;
-
-      document
-        .getElementById("modal-price")
-        .textContent =
-          formatPrice(product.price);
-
-      document
-        .getElementById("quantity")
-        .textContent =
-          currentQuantity;
-
-      document
-        .getElementById("added-message")
-        .classList.remove("active");
-
-      document
-        .getElementById("product-modal")
-        .classList.add("active");
-
-      document.body
-        .classList.add("modal-open");
-
-    }
-
-
-    function closeProduct() {
-
-      document
-        .getElementById("product-modal")
-        .classList.remove("active");
-
-      document.body
-        .classList.remove("modal-open");
-
-    }
-
-
-    function closeProductOutside(event) {
-
-      if (
-        event.target.id ===
-        "product-modal"
-      ) {
-        closeProduct();
-      }
-
-    }
-
-
-    function changeProductQuantity(change) {
-
-      currentQuantity += change;
-
-      if (currentQuantity < 1) {
-        currentQuantity = 1;
-      }
-
-      document
-        .getElementById("quantity")
-        .textContent =
-          currentQuantity;
-
-    }
-
-
-    function addToOrder() {
-
-      if (!selectedProduct) return;
-
-      const existingItem =
-        order.find(
-          item =>
-            item.id ===
-            selectedProduct.id
-        );
-
-
-      if (existingItem) {
-
-        existingItem.quantity +=
-          currentQuantity;
+        existing.quantity += item.quantity;
 
       } else {
 
-        order.push({
-          id: selectedProduct.id,
-          name: selectedProduct.name,
-          price: selectedProduct.price,
-          quantity: currentQuantity
+        people[group.guest].push({
+          ...item
         });
 
       }
 
+    });
 
-      updateCartBar();
+  });
 
+  return people;
 
-      document
-        .getElementById("added-message")
-        .classList.add("active");
+}
 
+function getPeople() {
 
-      setTimeout(function () {
+  const people = aggregatePeople(
+    allTableOrders()
+  );
 
-        closeProduct();
+  if (!people[currentGuest]) {
 
-      }, 650);
+    people[currentGuest] = [];
 
-    }
+  }
 
+  return people;
 
-    function getTotalItems() {
+}
 
-      return order.reduce(
-        (total, item) =>
-          total + item.quantity,
-        0
-      );
+function myTotal() {
 
-    }
+  const people = getPeople();
 
+  return orderTotal(
+    people[currentGuest] || []
+  );
 
-    function getOrderTotal() {
+}
 
-      return order.reduce(
-        (total, item) =>
-          total +
-          (
-            item.price *
-            item.quantity
-          ),
-        0
-      );
+function tableTotal() {
 
-    }
+  const people = getPeople();
 
+  return Object.values(
+    people
+  ).reduce(
+    (sum, items) =>
+      sum + orderTotal(items),
+    0
+  );
 
-    function updateCartBar() {
+}
 
-      const cartBar =
-        document
-          .getElementById("cart-bar");
+function openConsumption() {
 
-      const totalItems =
-        getTotalItems();
+  document.getElementById(
+    "consumption-guest"
+  ).textContent = currentGuest;
 
-      const total =
-        getOrderTotal();
+  consumptionView = "mine";
 
+  renderConsumption();
 
-      if (totalItems === 0) {
+  openModal("consumption-modal");
 
-        cartBar
-          .classList
-          .remove("active");
+}
 
-        return;
+function setConsumptionView(view) {
 
-      }
+  consumptionView = view;
 
+  renderConsumption();
 
-      cartBar
-        .classList
-        .add("active");
+}
 
+function renderConsumption() {
 
-      document
-        .getElementById("cart-count")
-        .textContent =
-          totalItems === 1
-            ? "1 producto"
-            : totalItems +
-              " productos";
+  document.getElementById(
+    "tab-mine"
+  ).classList.toggle(
+    "active",
+    consumptionView === "mine"
+  );
 
+  document.getElementById(
+    "tab-table"
+  ).classList.toggle(
+    "active",
+    consumptionView === "table"
+  );
 
-      document
-        .getElementById(
-          "cart-bar-total"
-        )
-        .textContent =
-          formatPrice(total);
+  const people = getPeople();
 
-    }
+  const list = document.getElementById(
+    "consumption-list"
+  );
 
+  list.innerHTML = "";
 
-    function openCart() {
+  const names =
+    consumptionView === "mine"
+      ? [currentGuest]
+      : Object.keys(people);
 
-      renderCart();
+  let grandTotal = 0;
 
-      document
-        .getElementById("confirmation")
-        .classList.remove("active");
+  names.forEach(name => {
 
-      document
-        .getElementById("cart-view")
-        .style.display =
-          "block";
+    const items = people[name] || [];
 
-      document
-        .getElementById("cart-modal")
-        .classList.add("active");
+    const total = orderTotal(items);
 
-      document.body
-        .classList.add("modal-open");
+    grandTotal += total;
 
-    }
+    const card = document.createElement(
+      "div"
+    );
 
+    card.className = "person-card";
 
-    function closeCart() {
+    const lines = items.length
+      ? items.map(item => `
 
-      document
-        .getElementById("cart-modal")
-        .classList.remove("active");
+          <div class="consumption-line">
 
-      document.body
-        .classList.remove("modal-open");
+            <span>
+              ${item.quantity} ×
+              ${escapeHTML(item.name)}
+            </span>
 
-    }
-
-
-    function closeCartOutside(event) {
-
-      if (
-        event.target.id ===
-        "cart-modal"
-      ) {
-        closeCart();
-      }
-
-    }
-
-
-    function renderCart() {
-
-      const container =
-        document
-          .getElementById(
-            "cart-items"
-          );
-
-      const summary =
-        document
-          .getElementById(
-            "cart-summary"
-          );
-
-
-      container.innerHTML = "";
-
-
-      if (order.length === 0) {
-
-        container.innerHTML = `
-          <div class="empty-cart">
-            Todavía no has agregado productos.
-          </div>
-        `;
-
-        summary.style.display =
-          "none";
-
-        return;
-
-      }
-
-
-      summary.style.display =
-        "block";
-
-
-      order.forEach(item => {
-
-        const itemElement =
-          document
-            .createElement("div");
-
-        itemElement.className =
-          "cart-item";
-
-
-        itemElement.innerHTML = `
-
-          <div class="cart-item-top">
-
-            <h4 class="cart-item-name">
-              ${item.name}
-            </h4>
-
-            <div class="cart-item-price">
-              ${formatPrice(
-                item.price *
-                item.quantity
-              )}
-            </div>
+            <span>
+              ${money(item.price * item.quantity)}
+            </span>
 
           </div>
 
+        `).join("")
+      : `
 
-          <div class="cart-item-bottom">
-
-            <div class="cart-quantity">
-
-              <button
-                onclick="changeCartQuantity('${item.id}', -1)">
-                −
-              </button>
-
-              <span>
-                ${item.quantity}
-              </span>
-
-              <button
-                onclick="changeCartQuantity('${item.id}', 1)">
-                +
-              </button>
-
-            </div>
-
-
-            <button
-              class="remove-button"
-              onclick="removeFromCart('${item.id}')">
-              Eliminar
-            </button>
-
-          </div>
+          <p class="muted">
+            Aún no tienes pedidos enviados.
+          </p>
 
         `;
 
+    card.innerHTML = `
 
-        container
-          .appendChild(
-            itemElement
-          );
+      <div class="person-head">
+
+        <span>
+          ${escapeHTML(name)}
+          ${name === currentGuest ? "· Tú" : ""}
+        </span>
+
+        <strong>
+          ${money(total)}
+        </strong>
+
+      </div>
+
+      ${lines}
+
+    `;
+
+    list.appendChild(card);
+
+  });
+
+  document.getElementById(
+    "consumption-total"
+  ).innerHTML = `
+
+    <div class="grand-total">
+
+      <span>
+        ${
+          consumptionView === "mine"
+            ? "Mi total"
+            : "Total de la mesa"
+        }
+      </span>
+
+      <strong>
+        ${money(grandTotal)}
+      </strong>
+
+    </div>
+
+  `;
+
+}
+
+/* HISTORIAL */
+
+function openHistory() {
+
+  document.getElementById(
+    "history-total"
+  ).textContent = money(myTotal());
+
+  const list = document.getElementById(
+    "history-list"
+  );
+
+  list.innerHTML = "";
+
+  if (!orderHistory.length) {
+
+    list.innerHTML = `
+
+      <p class="muted">
+        Aún no has enviado ningún pedido.
+      </p>
+
+    `;
+
+  } else {
+
+    [...orderHistory]
+      .reverse()
+      .forEach(pedido => {
+
+        const card = document.createElement(
+          "div"
+        );
+
+        card.className = "history-card";
+
+        const products = pedido.items
+          .map(item => `
+            ${item.quantity} ×
+            ${escapeHTML(item.name)}
+          `)
+          .join("<br>");
+
+        card.innerHTML = `
+
+          <div class="history-head">
+
+            <strong>
+              Pedido ${pedido.number}
+            </strong>
+
+            <span class="history-status">
+              ${pedido.status}
+            </span>
+
+          </div>
+
+          <div class="history-products">
+            ${products}
+          </div>
+
+          <div class="history-total">
+
+            <span>Total</span>
+
+            <span>
+              ${money(pedido.total)}
+            </span>
+
+          </div>
+
+        `;
+
+        list.appendChild(card);
 
       });
 
+  }
 
-      const totalItems =
-        getTotalItems();
+  openModal("history-modal");
 
+}
 
-      document
-        .getElementById(
-          "summary-count"
-        )
-        .textContent =
-          totalItems === 1
-            ? "1 producto"
-            : totalItems +
-              " productos";
+/* SERVICIO FLOTANTE */
 
+function toggleServiceMenu() {
 
-      document
-        .getElementById(
-          "summary-total"
-        )
-        .textContent =
-          formatPrice(
-            getOrderTotal()
-          );
+  document.getElementById(
+    "service-menu"
+  ).classList.toggle("active");
+
+}
+
+function hideServiceMenu() {
+
+  document.getElementById(
+    "service-menu"
+  ).classList.remove("active");
+
+}
+
+/* LLAMADO AL MESERO */
+
+function openWaiter() {
+
+  updateWaiterDisplay();
+
+  openModal("waiter-modal");
+
+}
+
+function callWaiter() {
+
+  if (waiterLevel === 0) {
+
+    waiterLevel = 1;
+
+    startWaiterCountdown(60);
+
+  } else if (
+    waiterLevel === 1 &&
+    Date.now() >= waiterDeadline
+  ) {
+
+    waiterLevel = 2;
+
+    startWaiterCountdown(120);
+
+  }
+
+  updateWaiterDisplay();
+
+}
+
+function startWaiterCountdown(seconds) {
+
+  clearInterval(waiterTimer);
+
+  waiterDeadline =
+    Date.now() + seconds * 1000;
+
+  waiterTimer = setInterval(() => {
+
+    updateWaiterDisplay();
+
+  }, 1000);
+
+}
+
+function updateWaiterDisplay() {
+
+  const status = document.getElementById(
+    "waiter-status"
+  );
+
+  const description = document.getElementById(
+    "waiter-description"
+  );
+
+  const button = document.getElementById(
+    "waiter-button"
+  );
+
+  const countdown = document.getElementById(
+    "waiter-countdown"
+  );
+
+  const remaining = Math.max(
+    0,
+    Math.ceil(
+      (waiterDeadline - Date.now()) / 1000
+    )
+  );
+
+  status.className = "waiter-status";
+
+  if (waiterLevel === 0) {
+
+    status.textContent = "MESA 08";
+
+    description.textContent =
+      "¿Necesitas ayuda? Envía un llamado al equipo de servicio.";
+
+    button.disabled = false;
+
+    button.textContent =
+      "Llamar al mesero";
+
+    countdown.textContent = "";
+
+    return;
+
+  }
+
+  if (waiterLevel === 1) {
+
+    status.classList.add("green");
+
+    status.textContent =
+      "PRIMER LLAMADO · MESA 08";
+
+    description.textContent =
+      "Tu solicitud fue registrada.";
+
+    if (remaining > 0) {
+
+      button.disabled = true;
+
+      button.textContent =
+        "Llamado enviado";
+
+    } else {
+
+      clearInterval(waiterTimer);
+
+      button.disabled = false;
+
+      button.textContent =
+        "Volver a llamar";
 
     }
 
+  }
 
-    function changeCartQuantity(
-      id,
-      change
-    ) {
+  if (waiterLevel === 2) {
 
-      const item =
-        order.find(
-          item =>
-            item.id === id
-        );
+    status.classList.add("yellow");
 
+    status.textContent =
+      "SEGUNDO LLAMADO · MESA 08";
 
-      if (!item) return;
+    description.textContent =
+      "Se registró un segundo llamado.";
 
+    button.disabled = true;
 
-      item.quantity += change;
+    button.textContent =
+      "Segundo llamado enviado";
 
+    if (remaining === 0) {
 
-      if (item.quantity <= 0) {
+      clearInterval(waiterTimer);
 
-        order =
-          order.filter(
-            item =>
-              item.id !== id
-          );
+      waiterLevel = 3;
 
-      }
+      updateWaiterDisplay();
 
-
-      updateCartBar();
-      renderCart();
+      return;
 
     }
 
+  }
 
-    function removeFromCart(id) {
+  if (waiterLevel === 3) {
 
-      order =
-        order.filter(
-          item =>
-            item.id !== id
-        );
+    status.classList.add("red");
 
-      updateCartBar();
-      renderCart();
+    status.textContent =
+      "ATENCIÓN PRIORITARIA · MESA 08";
+
+    description.textContent =
+      "Tu solicitud tiene prioridad.";
+
+    button.disabled = true;
+
+    button.textContent =
+      "Llamado prioritario";
+
+    countdown.textContent =
+      "El equipo de servicio ha sido notificado.";
+
+    return;
+
+  }
+
+  if (remaining > 0) {
+
+    const minutes = Math.floor(
+      remaining / 60
+    );
+
+    const seconds = remaining % 60;
+
+    countdown.textContent =
+      "Tiempo restante: " +
+      minutes +
+      ":" +
+      String(seconds).padStart(2, "0");
+
+  } else if (waiterLevel === 1) {
+
+    countdown.textContent =
+      "Puedes realizar un segundo llamado.";
+
+  }
+
+}
+
+/* CUENTA */
+
+function openBill() {
+
+  selectedSplit = null;
+
+  selectedPayment = null;
+
+  needsInvoice = null;
+
+  document.getElementById(
+    "bill-total"
+  ).textContent = money(tableTotal());
+
+  document.getElementById(
+    "bill-error"
+  ).textContent = "";
+
+  document.getElementById(
+    "split-result"
+  ).innerHTML = "";
+
+  document.getElementById(
+    "bill-form"
+  ).style.display = billRequested
+    ? "none"
+    : "block";
+
+  document.getElementById(
+    "bill-success"
+  ).classList.toggle(
+    "active",
+    billRequested
+  );
+
+  document
+    .querySelectorAll(".bill-option")
+    .forEach(button => {
+      button.classList.remove("selected");
+    });
+
+  document
+    .querySelectorAll(".option")
+    .forEach(button => {
+      button.classList.remove("selected");
+    });
+
+  document.getElementById(
+    "invoice-yes"
+  ).classList.remove("selected");
+
+  document.getElementById(
+    "invoice-no"
+  ).classList.remove("selected");
+
+  document.getElementById(
+    "invoice-fields"
+  ).classList.remove("active");
+
+  openModal("bill-modal");
+
+}
+
+function selectSplit(type) {
+
+  selectedSplit = type;
+
+  document.getElementById(
+    "split-individual"
+  ).classList.toggle(
+    "selected",
+    type === "individual"
+  );
+
+  document.getElementById(
+    "split-equal"
+  ).classList.toggle(
+    "selected",
+    type === "equal"
+  );
+
+  const people = getPeople();
+
+  const names = Object.keys(people);
+
+  const total = tableTotal();
+
+  const result = document.getElementById(
+    "split-result"
+  );
+
+  if (type === "individual") {
+
+    result.innerHTML = `
+
+      <div class="split-result">
+
+        ${names.map(name => `
+
+          <div class="consumption-line">
+
+            <span>
+              ${escapeHTML(name)}
+            </span>
+
+            <strong>
+              ${money(orderTotal(people[name]))}
+            </strong>
+
+          </div>
+
+        `).join("")}
+
+        <div class="grand-total">
+
+          <span>Total</span>
+
+          <strong>
+            ${money(total)}
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+  } else {
+
+    const count = names.length;
+
+    const base = Math.floor(
+      total / count
+    );
+
+    const remainder =
+      total % count;
+
+    result.innerHTML = `
+
+      <div class="split-result">
+
+        <strong>
+          ${money(base)}
+        </strong>
+
+        por persona
+
+        <br>
+
+        ${count} comensales
+
+        <br>
+
+        ${
+          remainder
+            ? `Para cuadrar el total, ${remainder} persona(s) aportan $1 adicional.`
+            : ""
+        }
+
+        <br>
+
+        Total de la mesa:
+        ${money(total)}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+function selectPayment(method) {
+
+  selectedPayment = method;
+
+  document.getElementById(
+    "payment-card"
+  ).classList.toggle(
+    "selected",
+    method === "Datáfono"
+  );
+
+  document.getElementById(
+    "payment-cash"
+  ).classList.toggle(
+    "selected",
+    method === "Efectivo"
+  );
+
+}
+
+function selectInvoice(value) {
+
+  needsInvoice = value;
+
+  document.getElementById(
+    "invoice-yes"
+  ).classList.toggle(
+    "selected",
+    value === true
+  );
+
+  document.getElementById(
+    "invoice-no"
+  ).classList.toggle(
+    "selected",
+    value === false
+  );
+
+  document.getElementById(
+    "invoice-fields"
+  ).classList.toggle(
+    "active",
+    value === true
+  );
+
+}
+
+function requestBill() {
+
+  const error = document.getElementById(
+    "bill-error"
+  );
+
+  error.textContent = "";
+
+  if (!selectedSplit) {
+
+    error.textContent =
+      "Selecciona cómo deseas dividir la cuenta.";
+
+    return;
+
+  }
+
+  if (!selectedPayment) {
+
+    error.textContent =
+      "Selecciona datáfono o efectivo.";
+
+    return;
+
+  }
+
+  if (needsInvoice === null) {
+
+    error.textContent =
+      "Indica si necesitas factura electrónica.";
+
+    return;
+
+  }
+
+  if (needsInvoice) {
+
+    const name = document.getElementById(
+      "invoice-name"
+    ).value.trim();
+
+    const id = document.getElementById(
+      "invoice-id"
+    ).value.trim();
+
+    const email = document.getElementById(
+      "invoice-email"
+    ).value.trim();
+
+    if (!name || !id || !email) {
+
+      error.textContent =
+        "Completa los datos de facturación.";
+
+      return;
 
     }
 
+    if (!document.getElementById(
+      "invoice-email"
+    ).checkValidity()) {
 
-    /* =========================
-       ENVIAR PEDIDO A SUPABASE
-       ========================= */
+      error.textContent =
+        "Ingresa un correo electrónico válido.";
 
-    async function confirmOrder() {
-
-      if (order.length === 0) {
-        return;
-      }
-
-      const confirmButton =
-        document.querySelector(
-          ".confirm-button"
-        );
-
-      const originalButtonText =
-        confirmButton.textContent;
-
-      confirmButton.disabled = true;
-
-      confirmButton.textContent =
-        "Enviando pedido...";
-
-
-      try {
-
-        /*
-          1. BUSCAR BRASA
-        */
-
-        const {
-          data: restaurant,
-          error: restaurantError
-        } =
-          await supabaseClient
-            .from("restaurants")
-            .select("id")
-            .eq("slug", "brasa")
-            .single();
-
-
-        if (restaurantError) {
-          throw restaurantError;
-        }
-
-
-        /*
-          2. BUSCAR MESA 08
-        */
-
-        const {
-          data: table,
-          error: tableError
-        } =
-          await supabaseClient
-            .from("tables")
-            .select("id")
-            .eq(
-              "restaurant_id",
-              restaurant.id
-            )
-            .eq(
-              "table_number",
-              8
-            )
-            .single();
-
-
-        if (tableError) {
-          throw tableError;
-        }
-
-
-        /*
-          3. BUSCAR SESIÓN ABIERTA
-        */
-
-        const {
-          data: session,
-          error: sessionError
-        } =
-          await supabaseClient
-            .from("table_sessions")
-            .select("id")
-            .eq(
-              "table_id",
-              table.id
-            )
-            .eq(
-              "status",
-              "open"
-            )
-            .order(
-              "opened_at",
-              {
-                ascending: false
-              }
-            )
-            .limit(1)
-            .single();
-
-
-        if (sessionError) {
-          throw sessionError;
-        }
-
-
-        /*
-          4. BUSCAR A RAFAEL
-
-          Este es temporal para
-          nuestra primera prueba.
-          Después haremos que cada
-          persona escriba su nombre.
-        */
-
-        const {
-          data: participant,
-          error: participantError
-        } =
-          await supabaseClient
-            .from("participants")
-            .select("id")
-            .eq(
-              "session_id",
-              session.id
-            )
-            .eq(
-              "display_name",
-              "Rafael"
-            )
-            .limit(1)
-            .single();
-
-
-        if (participantError) {
-          throw participantError;
-        }
-
-
-        /*
-          5. CREAR PEDIDO
-        */
-
-        const {
-          data: createdOrder,
-          error: orderError
-        } =
-          await supabaseClient
-            .from("orders")
-            .insert({
-              session_id:
-                session.id,
-
-              participant_id:
-                participant.id,
-
-              status:
-                "sent"
-            })
-            .select("id")
-            .single();
-
-
-        if (orderError) {
-          throw orderError;
-        }
-
-
-        /*
-          6. PREPARAR PRODUCTOS
-        */
-
-        const itemsToInsert =
-          order.map(item => ({
-            order_id:
-              createdOrder.id,
-
-            product_id:
-              item.id,
-
-            product_name:
-              item.name,
-
-            qty:
-              item.quantity,
-
-            unit_price:
-              item.price,
-
-            status:
-              "sent"
-          }));
-
-
-        /*
-          7. GUARDAR PRODUCTOS
-        */
-
-        const {
-          error: itemsError
-        } =
-          await supabaseClient
-            .from("order_items")
-            .insert(
-              itemsToInsert
-            );
-
-
-        if (itemsError) {
-          throw itemsError;
-        }
-
-
-        /*
-          8. CONFIRMACIÓN
-        */
-
-        document
-          .getElementById(
-            "cart-view"
-          )
-          .style.display =
-            "none";
-
-
-        document
-          .getElementById(
-            "confirmation"
-          )
-          .classList
-          .add("active");
-
-
-        /*
-          9. VACIAR CARRITO
-          únicamente después de que
-          Supabase confirmó.
-        */
-
-        order = [];
-
-        updateCartBar();
-
-
-      } catch (error) {
-
-        console.error(
-          "Error al enviar pedido:",
-          error
-        );
-
-
-        alert(
-          "No pudimos guardar el pedido.\n\n" +
-          "Detalle: " +
-          (
-            error.message ||
-            "Error desconocido"
-          )
-        );
-
-
-      } finally {
-
-        confirmButton.disabled =
-          false;
-
-        confirmButton.textContent =
-          originalButtonText;
-
-      }
+      return;
 
     }
 
+  }
 
-    /* CARGA INICIAL */
+  billRequested = true;
 
-    renderProducts("brasa");
+  let message =
+    selectedSplit === "individual"
+      ? "La cuenta se solicitó según el consumo de cada persona. "
+      : "La cuenta se solicitó dividida en partes iguales. ";
 
-  </script>
+  if (selectedPayment === "Datáfono") {
+
+    message +=
+      "El mesero llevará el datáfono a la Mesa 08.";
+
+  } else {
+
+    message +=
+      "Se indicó que el pago será en efectivo.";
+
+  }
+
+  if (needsInvoice) {
+
+    message +=
+      " También se registraron los datos para la factura electrónica.";
+
+  }
+
+  document.getElementById(
+    "bill-message"
+  ).textContent = message;
+
+  document.getElementById(
+    "bill-form"
+  ).style.display = "none";
+
+  document.getElementById(
+    "bill-success"
+  ).classList.add("active");
+
+}
+
+/* INICIO */
+
+restoreGuest();
+
+renderProducts("brasa");
+
+updateCartBar();
+
+</script>
 
 </body>
 </html>
